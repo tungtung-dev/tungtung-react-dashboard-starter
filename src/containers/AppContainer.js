@@ -1,8 +1,8 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {ToastsContainer} from './components/index';
-import {addAlertToast} from '../actions/AlertAction';
+import {ToastsContainer} from './libs/index';
+import {addAlertToast} from '../redux/actions/AlertAction';
 
 class AppContainer extends Component {
     componentDidMount() {

@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {ALERT_TEXT} from '../../../constants/alertType';
-import {resetAlert} from '../../actions/AlertAction';
+import {ALERT_TEXT} from '../../constants/alertType';
+import {resetAlert} from '../../redux/actions/AlertAction';
 import {bindActionCreators} from 'redux';
 import Equal from 'deep-equal';
 

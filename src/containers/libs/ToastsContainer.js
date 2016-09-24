@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {ALERT_TOAST} from '../../../constants/alertType';
+import {ALERT_TOAST} from '../../constants/alertType';
 import Equal from 'deep-equal';
 
 var ReactToastr = require("react-toastr");

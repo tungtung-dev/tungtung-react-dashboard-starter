@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
-import {getUserInfo} from '../../actions/DefaultLoadAction';
-import {connect} from '../../../utils/reduxAwait';
+import {getUserInfo} from '../../redux/actions/DefaultLoadAction';
+import {connect} from '../../utils/reduxAwait';
 
 class UserInfoWrap extends Component {
     componentDidMount() {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logo from '../../assets/images/logo.svg';
-import '../../assets/scss/App.css';
+import logo from '../assets/images/logo.svg';
+import '../assets/scss/App.css';
 
 export default class HomeContainer extends Component {
     render() {

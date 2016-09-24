@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {connect} from '../../../utils/reduxAwait'
+import {connect} from '../../utils/reduxAwait'
 import {push} from 'react-router-redux';
 
 export default function requireAuth(ComponentChild) {
