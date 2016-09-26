@@ -1,31 +1,41 @@
 import React, {Component} from 'react';
 import {connect} from '../../utils/reduxAwait'
 import {push} from 'react-router-redux';
+import {addAlertText} from '../../redux/actions/AlertAction';
 
 export default function requireAuth(ComponentChild) {
     class AuthenticatedComponent extends Component {
+        redirect() {
+            let redirectAfterLogin = this.props.location.pathname;
+            localStorage.setItem('redirect_back', redirectAfterLogin);
+            this.props.dispatch(push(`/auth/login`));
+            this.props.dispatch(addAlertText('require_login', 'Yêu cầu', 'Vui lòng đăng nhập để sử dụng tính năng này', 'warning'));
+        }
+
         componentDidUpdate(prevProps) {
             const awaitStatuses = this.props.awaitStatuses;
             const prevAwaitStatuses = prevProps.awaitStatuses;
-            if (awaitStatuses.getUserFromToken !== prevAwaitStatuses.getUserFromToken) {
-                if (awaitStatuses.getUserFromToken && awaitStatuses.getUserFromToken !== 'pending') {
-                    if (!this.props.user.id) {
-                        let redirectAfterLogin = this.props.location.pathname;
-                        this.props.dispatch(push(`/login?next=${redirectAfterLogin}`));
-                        console.log('not auth');
+            if (awaitStatuses.getCurrentUser !== prevAwaitStatuses.getCurrentUser) {
+                if (awaitStatuses.getCurrentUser && awaitStatuses.getCurrentUser !== 'pending') {
+                    if (!this.props.token) {
+                        this.redirect();
                     }
                 }
             }
         }
 
+        componentDidMount(){
+            const awaitStatuses = this.props.awaitStatuses;
+            if (awaitStatuses.getCurrentUser !== 'pending') {
+                if (!this.props.token) {
+                    this.redirect();
+                }
+            }
+        }
+
         render() {
-            return (
-                <span>
-                    {this.props.user.id &&
-                    <ComponentChild {...this.props}/>
-                    }
-                </span>
-            )
+            if (this.props.token) return <ComponentChild {...this.props}/>;
+            else return <div></div>
         }
     }
     const mapStateToProps = (state) => ({

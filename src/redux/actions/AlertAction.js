@@ -20,7 +20,12 @@ export function addAlertText(id, title, content, status = 'success') {
 }
 
 export function addAlertToast(id, title, content, status = 'success') {
-    return dispatch => addAlert(dispatch, ALERT_TOAST, id, title, content, status);
+    return dispatch => {
+        addAlert(dispatch, ALERT_TOAST, id, title, content, status);
+        setTimeout(() => {
+            dispatch(removeAlert(id))
+        }, 100);
+    }
 }
 
 export function addAlertNotification(id, title, content, status = 'success') {
@@ -43,3 +48,5 @@ export function resetAlert() {
         })
     }
 }
+
+export default {addAlert, addAlertText, addAlertToast, addAlertNotification, removeAlert, resetAlert}

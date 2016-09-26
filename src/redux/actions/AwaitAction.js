@@ -8,3 +8,5 @@ export function resetAwait(items) {
         });
     }
 }
+
+export default {resetAwait}

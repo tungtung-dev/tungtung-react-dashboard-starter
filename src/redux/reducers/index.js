@@ -8,6 +8,8 @@ import users from './users';
 import authSocial from './authSocial';
 import alert from './alert';
 import defaultLoad from './defaultLoad';
+import bookLists from './bookLists';
+import book from './book';
 
 export default combineReducers({
     form: formReducer,
@@ -18,5 +20,7 @@ export default combineReducers({
     auth,
     users,
     authSocial,
+    bookLists,
+    book,
     alert
 })

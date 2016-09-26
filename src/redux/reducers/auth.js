@@ -1,10 +1,10 @@
-import {AUTH_SET_AUTHENTICATION, AUTH_GET_USER_FROM_TOKEN, AUTH_UPDATE_PROFILE, AUTH_LOGOUT, AUTH_UPDATE_AVATAR} from '../actions/AuthAction';
+import {AUTH_SET_AUTHENTICATION, AUTH_GET_USER, AUTH_UPDATE_PROFILE, AUTH_LOGOUT, AUTH_UPDATE_AVATAR} from '../actions/AuthAction';
 
 const getInitialState = () => {
     return {
-        token: localStorage.auth_token,
+        token: '',
         user: {
-            avatar: 'http://semantic-ui.com/images/avatar2/small/mark.png'
+            displayName: ''
         }
     }
 }
@@ -20,13 +20,13 @@ export default function createReducer(state = getInitialState(), action) {
                     ...action.user
                 }
             }
-        case AUTH_GET_USER_FROM_TOKEN:
+        case AUTH_GET_USER:
             return {
                 ...state,
-                token: action.payload.getUserFromToken._id ? state.token : null,
+                token: action.payload.getCurrentUser.token,
                 user: {
                     ...state.user,
-                    ...action.payload.getUserFromToken
+                    ...action.payload.getCurrentUser
                 }
             }
         case AUTH_UPDATE_PROFILE:

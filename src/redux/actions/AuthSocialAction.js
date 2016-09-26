@@ -30,3 +30,5 @@ export function resetAuthSocial(){
         })
     }
 }
+
+export default {setAuthSocialFacebook, setAuthSocialGoogle, resetAuthSocial}

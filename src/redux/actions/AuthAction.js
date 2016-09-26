@@ -1,8 +1,8 @@
-import {getUserMe} from '../../api/AuthApi';
+import {AuthApi} from '../../api/index';
 import {AWAIT_MARKER} from 'redux-await';
 
 export const AUTH_SET_AUTHENTICATION = 'AUTH/set-authentication';
-export const AUTH_GET_USER_FROM_TOKEN = 'AUTH/get-user-from-token';
+export const AUTH_GET_USER = 'AUTH/get-user';
 export const AUTH_LOGOUT = 'AUTH/logout';
 export const AUTH_UPDATE_PROFILE = 'AUTH/update-profile';
 export const AUTH_UPDATE_AVATAR = 'AUTH/update-avatar';
@@ -18,21 +18,21 @@ export function setAuthToken(token, user = {}) {
     }
 }
 
-export function getUserFromToken() {
+export function getCurrenUser() {
     return dispatch => {
         dispatch({
-            type: AUTH_GET_USER_FROM_TOKEN,
+            type: AUTH_GET_USER,
             AWAIT_MARKER,
             payload: {
-                getUserFromToken: getUserMe()
+                getCurrentUser: AuthApi.getCurrenUser()
             }
         })
     }
 }
 
 export function authLogout() {
+    AuthApi.logout();
     return dispatch => {
-        localStorage.removeItem('auth_token');
         dispatch({
             type: AUTH_LOGOUT
         })
@@ -58,3 +58,5 @@ export function updateAvatar(avatar, avatar_url) {
         })
     }
 }
+
+export default {setAuthToken, getCurrenUser,authLogout, updateProfile, updateAvatar}

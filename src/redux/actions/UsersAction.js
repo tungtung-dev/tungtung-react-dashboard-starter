@@ -1,4 +1,4 @@
-import AuthApi from '../../api/AuthApi';
+import AuthApi from '../../api/auth/index';
 import {AWAIT_MARKER} from 'redux-await';
 
 export const GET_USERS = 'USERS/get-users';
@@ -14,3 +14,5 @@ export function getUsers(){
         })
     }
 }
+
+export default {getUsers}
