@@ -1,11 +1,11 @@
 import firebase from 'firebase';
 
 var config = {
-    apiKey: "AIzaSyAMxf4nQ_LaQtz9iybuv5RaNNUUwsF4uLw",
-    authDomain: "tungtung-141004.firebaseapp.com",
-    databaseURL: "https://tungtung-141004.firebaseio.com",
-    storageBucket: "tungtung-141004.appspot.com",
-    messagingSenderId: "124852232304"
+    apiKey: "AIzaSyB8U6q2Hv-GG7LGMHS8tuGhsJEhfEcytkw",
+    authDomain: "checkit-dev-3cb9b.firebaseapp.com",
+    databaseURL: "https://checkit-dev-3cb9b.firebaseio.com",
+    storageBucket: "checkit-dev-3cb9b.appspot.com",
+    messagingSenderId: "360715996915"
 };
 
 firebase.initializeApp(config);

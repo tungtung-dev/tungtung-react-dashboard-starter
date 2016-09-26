@@ -37,8 +37,8 @@ class ChangePassword extends Component {
                             <div className="alert alert-success">Thay đổi mật khẩu thành công</div>
                             }
                             <form onSubmit={handleSubmit(this._handleChangePassword)}>
-                                <UIForm.InputText title="Mật khẩu cũ" {...old_password}/>
-                                <UIForm.InputText title="Mật khẩu mới" {...password}/>
+                                <UIForm.InputText title="Mật khẩu cũ" tyoe="password" {...old_password}/>
+                                <UIForm.InputText title="Mật khẩu mới" type="password" {...password}/>
                                 <button className="btn btn-primary btn-block" disabled={submitting}>
                                     Thay đổi
                                 </button>

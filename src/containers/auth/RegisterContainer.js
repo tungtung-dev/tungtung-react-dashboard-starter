@@ -41,7 +41,7 @@ class Register extends Component {
                             <form action="" onSubmit={handleSubmit(this._onRegister)}>
                                 <InputText title="Email" {...email} />
                                 <InputText title="Fullname" {...displayName} />
-                                <InputText title="Mật khẩu" {...password} />
+                                <InputText title="Mật khẩu" type="password" {...password} />
                                 <button className="btn btn-primary btn-block" disabled={submitting}>Đăng ký</button>
                             </form>
                             <div className="text-center margin-top-20">
