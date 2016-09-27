@@ -53,6 +53,7 @@ class BookReadContainer extends Component {
                             <Book.ChapterPagination onComplete={this._handleComplete} book_id={id} chapters={chapters}
                                                     current_index={currentChapter.index}/>
                         </div>}
+                        {id && <Book.ChapterTableContents book_id={id} current_index={currentChapter.index} chapters={chapters}/>}
                     </Col>
                 </Row>
             </div>

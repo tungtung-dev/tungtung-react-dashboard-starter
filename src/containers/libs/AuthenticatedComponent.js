@@ -26,7 +26,7 @@ export default function requireAuth(ComponentChild) {
 
         componentDidMount(){
             const awaitStatuses = this.props.awaitStatuses;
-            if (awaitStatuses.getCurrentUser !== 'pending') {
+            if (awaitStatuses.getCurrentUser === 'failure') {
                 if (!this.props.token) {
                     this.redirect();
                 }
