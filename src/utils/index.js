@@ -33,6 +33,13 @@ export function getColorFromText(text, charCodeAt = 1) {
     return colors[number];
 }
 
+export function checkExistsLoadMore(pagination) {
+    const {total_item, item_per_page, page} = pagination;
+    let max_page = parseInt(total_item / item_per_page);
+    if (total_item % item_per_page > 0) max_page++;
+    return page < max_page;
+}
+
 export function getDomainPublic(path) {
     return DOMAIN_PUBLIC + '/' + path;
 }

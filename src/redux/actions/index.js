@@ -4,8 +4,8 @@ import AuthSocialAction from './AuthSocialAction';
 import AwaitAction from './AwaitAction';
 import DefaultLoadAction from './DefaultLoadAction';
 import UserAction from './UsersAction';
-import BookListsAction from './BookListsAction';
-import BookAction from './BookAction';
+import QuizListsAction from './QuizListsAction';
+import QuizListFormAction from './QuizListFormAction';
 
-export {AlertAction, AuthAction, AuthSocialAction, AwaitAction, DefaultLoadAction, UserAction, BookListsAction, BookAction};
-export default {AlertAction, AuthAction, AuthSocialAction, AwaitAction, DefaultLoadAction, UserAction, BookListsAction, BookAction};
+export {AlertAction, AuthAction, AuthSocialAction, AwaitAction, DefaultLoadAction, UserAction, QuizListsAction, QuizListFormAction};
+export default {AlertAction, AuthAction, AuthSocialAction, AwaitAction, DefaultLoadAction, UserAction, QuizListsAction, QuizListFormAction};

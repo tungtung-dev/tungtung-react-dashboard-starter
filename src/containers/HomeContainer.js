@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router';
 import logo from '../assets/images/logo.svg';
-import '../assets/scss/App.css';
-import {getPosts} from '../api/TestApi';
 
 export default class HomeContainer extends Component {
-    componentDidMount() {
-        getPosts().then(data => {
-            console.log(data);
-        })
-    }
-
     render() {
         return (
             <div className="App">

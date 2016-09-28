@@ -2,8 +2,8 @@ import AppContainer from './AppContainer';
 import ProtectedPageContainer from './ProtectedPageContainer';
 import HomeContainer from './HomeContainer';
 import AuthContainer from './auth/index';
-import BookListsContainer from './book_lists/index';
-import BookContainer from './book/index';
+import QuizListManager from './quizlist_manager/QuizListManagerContainer';
+import UserManagerContainer from './user_manager/UserManagerContainer';
 
-export {AppContainer, HomeContainer, ProtectedPageContainer, AuthContainer, BookListsContainer, BookContainer}
-export default {AppContainer, HomeContainer, ProtectedPageContainer, AuthContainer, BookListsContainer, BookContainer}
+export {AppContainer, HomeContainer, ProtectedPageContainer, AuthContainer, QuizListManager, UserManagerContainer}
+export default {AppContainer, HomeContainer, ProtectedPageContainer, AuthContainer, UserManagerContainer}

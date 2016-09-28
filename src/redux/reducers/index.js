@@ -8,8 +8,8 @@ import users from './users';
 import authSocial from './authSocial';
 import alert from './alert';
 import defaultLoad from './defaultLoad';
-import bookLists from './bookLists';
-import book from './book';
+import quizListForm from './quizListForm';
+import quizLists from './quizLists';
 
 export default combineReducers({
     form: formReducer,
@@ -20,7 +20,7 @@ export default combineReducers({
     auth,
     users,
     authSocial,
-    bookLists,
-    book,
+    quizLists,
+    quizListForm,
     alert
 })

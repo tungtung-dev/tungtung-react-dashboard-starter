@@ -2,7 +2,7 @@
   "presets": ["react-app"],
   "env": {
       "development": {
-          "plugins": [["react-transform", {
+          "plugins": ["transform-runtime","transform-decorators-legacy","transform-class-properties",["react-transform", {
              "transforms": [{
                "transform": "react-transform-hmr",
                // if you use React Native, pass "react-native" instead:

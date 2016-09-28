@@ -1,0 +1,48 @@
+.text-green {
+  color: #27ae60
+}
+
+.text-green-darken {
+  color: #009688;
+}
+
+.text-blue {
+  color: #09aab9
+}
+
+.text-red {
+  color: #ef7260
+}
+
+.text-orange {
+  color: #e67e22
+}
+
+.text-yellow {
+  color: #f3cf3f
+}
+
+.text-purple {
+  color: #8e44ad
+}
+
+.text-white {
+  color: white !important;
+}
+
+.text-black-white {
+  color: #696969 !important;
+}
+
+.text-helper{
+  font-size: 10px;
+  color: #d4d4d4;
+}
+
+.text-tutorial {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+    @extend .text-yellow
+  }
+}

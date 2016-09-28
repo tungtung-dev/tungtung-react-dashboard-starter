@@ -1,5 +1,5 @@
-import AuthApi from './auth/index';
-import BookApi from './book/index';
+import AuthApi from './AuthApi';
+import QuizApi from './QuizApi';
 
-export {AuthApi, BookApi}
-export default {AuthApi, BookApi}
+export {AuthApi, QuizApi}
+export default {AuthApi, QuizApi}

@@ -1,29 +1,27 @@
 import React,{Component} from 'react';
 import {connect} from '../utils/reduxAwait';
-import {Container, Col} from 'reactstrap';
 import {bindActionCreators} from 'redux';
-import {Partials} from '../components/index';
+//import {Partials} from '../components/index';
+import AppWrapper from '../components/layouts/AppWrapper';
 import {ToastsContainer} from './libs/index';
+
 import {getCurrenUser} from '../redux/actions/AuthAction';
 
 class AppContainer extends Component {
     componentDidMount() {
-        this.props.getCurrenUser();
+        //this.props.getCurrenUser();
     }
 
     render() {
         const {auth, isAuthenticated, awaitStatuses} = this.props;
         const propsHeader = {
-            isAuthenticated, auth, isAuthChecking: awaitStatuses.getCurrentUser == 'pending'
+            isAuthenticated, auth, isAuthChecking: awaitStatuses.getCurrentUser === 'pending'
         };
         return (
-            <div>
-                <Partials.Header {...propsHeader}/>
+            <AppWrapper {...this.props}>
                 <ToastsContainer/>
-                <Container>
-                    {this.props.children}
-                </Container>
-            </div>
+                {this.props.children}
+            </AppWrapper>
         )
     }
 }
