@@ -3,14 +3,17 @@ import React from 'react';
 import {Route, IndexRoute} from 'react-router';
 
 // Import components
-import {AppContainer, AuthContainer, QuizListManager, UserManagerContainer} from './containers/index';
+import {AppContainer, AuthContainer, QuizListManager, UserManagerContainer, Layout, PostManager} from './containers/index';
 import {AuthenticatedComponent as requireAuth} from './containers/libs/index';
 
 export default () => {
     return (
         <Route path="/" component={AppContainer}>
-            <IndexRoute component={QuizListManager}/>
-            <Route path="/users" component={UserManagerContainer}/>
+            <Route component={requireAuth(Layout.LayoutAuthenticated)}>
+                <IndexRoute component={QuizListManager}/>
+                <Route path="/users" component={UserManagerContainer}/>
+                <Route path="/post" component={PostManager.PostForm}/>
+            </Route>
             <Route path="/auth">
                 <Route path="login" component={AuthContainer.Login}/>
                 <Route path="register" component={AuthContainer.Register}/>

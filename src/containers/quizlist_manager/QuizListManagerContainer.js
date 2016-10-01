@@ -1,68 +1,21 @@
-import React, {Component, PropTypes} from 'react';
-import Dimensions from 'react-dimensions';
+import React, {Component} from 'react';
 import {autobind} from 'core-decorators';
-import {connect} from 'react-redux';
-import {Table, Column, Cell} from 'fixed-data-table';
-import {activeQuiList, unActiveQuizList, deleteQuizList} from '../../api/QuizApi';
-import {Filters, Pagination, Cells} from '../../components/table/index';
-import {UserAvatar} from '../../components/other/index';
+import {push} from 'react-router-redux';
+import {Other, Table} from '../../components/index';
 import {getQuizLists} from '../../redux/actions/QuizListsAction';
-import {getDomainPublic} from  '../../utils/index';
+import {getDomainPublic, paginationQueryPage} from  '../../utils/index';
+import {connect} from  '../../utils/reduxAwait';
+import {GET_AS_NEW, GET_AS_OLD, GET_AS_REJECT, GET_NEED_REVIEW} from '../../constants/quizManagerActionType';
 import UserInfoWrap from '../libs/UserInfoWrap';
+import time_ago from 'time-ago';
 
-class CellQuizInfo extends Component {
-    getProperty(label, value) {
-        return <span><strong>{label} : </strong>{value}</span>
-    }
-
-    render() {
-        const {rowIndex, data} = this.props;
-        const {total_questions, time, access_count} = data[rowIndex];
-        return (
-            <Cells.CellFlexAlignCenter>
-                {this.getProperty('Số câu hỏi', total_questions)} | {this.getProperty('Thời gian', time)}
-                | {this.getProperty('Lượt thi', access_count)}
-            </Cells.CellFlexAlignCenter>
-        )
-    }
-}
-
-
-class CellUser extends Component {
-    render() {
-        const {rowIndex, data} = this.props;
-        var user_id = data[rowIndex].user_id;
-        return (
-            <Cells.CellFlexAlignCenter>
-                <UserInfoWrap component={UserAvatar} noPassPropUser user_id={user_id}/>
-            </Cells.CellFlexAlignCenter>
-        )
-    }
-}
-
-class CellQuizAction extends Component {
-    render() {
-        const {rowIndex, data} = this.props;
-        const quiz = data[rowIndex];
-        return (
-            <Cells.CellFlexAlignCenter>
-                {!quiz.active && <button className="btn btn-default" onClick={(e) => this.props.onActive(e, quiz._id)}>Active</button>}
-                {quiz.active && <button className="btn btn-default" onClick={(e) => this.props.onUnActive(e, quiz._id)}>Un active</button>} &nbsp;
-                <a href={getDomainPublic(`#/quizs/${quiz._id}`)} className="btn btn-purple" target="_blank">Xem</a> &nbsp;
-                <button onClick={(e) => this.props.onDelete(e, quiz._id)} className="btn btn-red">Xóa</button> &nbsp;
-            </Cells.CellFlexAlignCenter>
-        )
-    }
-}
-CellQuizAction.propTypes = {
-    onActive: PropTypes.func,
-    onUnActive: PropTypes.func,
-    onDelete: PropTypes.func
-}
+var timeago = time_ago();
 
 const filters = [
-    {text: 'Chưa active', icon: '', value: 'not_active'},
-    {text: 'Đã active', icon: 'icon-check', value: 'actived'},
+    {text: 'Chờ duyệt', color: '#3498db', icon: 'icon-options-vertical', value: GET_NEED_REVIEW},
+    {text: 'Dã duyệt', color: '#2ecc71', icon: 'icon-check', value: GET_AS_NEW},
+    {text: 'Bị từ chối', color: '#e74c3c', icon: 'icon-minus', value: GET_AS_REJECT},
+    {text: 'Cũ', color: '#9b59b6', icon: 'icon-event', value: GET_AS_OLD},
 ]
 
 const mapStateToProps = (state) => {
@@ -73,107 +26,96 @@ const mapStateToProps = (state) => {
 }
 
 @connect(mapStateToProps)
-class QuizListManagerContainer extends Component {
+export default class QuizListManagerContainer extends Component {
     constructor() {
         super(...arguments);
-        this.state = {
-            filter: 'all'
-        }
     }
 
     @autobind
     _handleChangeFilter(value) {
         this.setState({filter: value});
+        this.props.dispatch(push(`/?filter=${value}`));
+        //this.props.dispatch(getQuizLists(value, 1));
     }
 
     @autobind
     _handleUpdatePage(page) {
-        const {item_per_page} = this.props.pagination;
-        this.props.dispatch(getQuizLists(page, item_per_page));
+        this.props.dispatch(push(`/?filter=${this.getCurrentFilter()}&page=${page}`));
     }
 
     @autobind
-    _handleActiveQuiz(e, id){
-        e.preventDefault();
-        activeQuiList(id).then(() => this.reloadQuizLists());
-    }
-
-    @autobind
-    _handleUnActiveQuiz(e, id){
-        e.preventDefault();
-        unActiveQuizList(id).then(() => this.reloadQuizLists());
-    }
-
-    @autobind
-    _handleDeleteQuiz(e, id){
-        e.preventDefault();
-        var s_confirm = confirm('Bạn có chắc chắn xóa không');
-        if(s_confirm) deleteQuizList(id).then(() => this.reloadQuizLists());
-    }
-
-    reloadQuizLists(){
+    reloadQuizLists() {
         const {page, item_per_page} = this.props.pagination;
-        this.props.dispatch(getQuizLists(page, item_per_page));
+        this.props.dispatch(getQuizLists(this.getCurrentFilter(), page, item_per_page));
     }
 
     componentDidMount() {
-        this.props.dispatch(getQuizLists(1, 10));
+        const {page} = this.props.location.query;
+        this.props.dispatch(getQuizLists(this.getCurrentFilter(), page, 10));
+        this.refs.table_pagination.reset();
+    }
+
+    componentDidUpdate(prevProps) {
+        paginationQueryPage(prevProps, this.props, (page) => {
+            this.props.dispatch(getQuizLists(this.getCurrentFilter(), page, 10));
+            if (page === 1) {
+                this.refs.table_pagination.reset();
+            }
+        })
+        if (this.getCurrentFilter() != this.getCurrentFilter(prevProps)) {
+            this.props.dispatch(getQuizLists(this.getCurrentFilter(), 1, 10));
+            this.refs.table_pagination.reset();
+        }
+    }
+
+    getCurrentFilter(props) {
+        const {query:{filter}} = props ? props.location : this.props.location;
+        return filter ? filter : 'all';
     }
 
     render() {
-        const {pagination, quiz_lists} = this.props;
+        const {pagination, quiz_lists, awaitStatuses} = this.props;
         return (
             <div>
-                <Filters filters={filters} value={this.state.filter} onChange={this._handleChangeFilter}/>
-                <Pagination {...pagination} onChange={this._handleUpdatePage}/>
-                <div>
-                    <Table
-                        rowsCount={quiz_lists.length}
-                        rowHeight={60}
-                        headerHeight={30}
-                        width={this.props.width}
-                        height={this.props.height -100}
-                    >
-                        <Column
-                            header={<Cell>Tên đề thi</Cell>}
-                            cell={<Cells.CellText data={quiz_lists} field="title"/>}
-                            width={300}
-                        />
-                        <Column
-                            header={<Cell>Thông tin</Cell>}
-                            cell={<CellQuizInfo data={quiz_lists}/>}
-                            width={350}
-                        />
-                        <Column
-                            header={<Cell>Người tạo</Cell>}
-                            cell={<CellUser data={quiz_lists}/>}
-                            width={160}
-                        />
-                        <Column
-                            header={<Cell>Hành động</Cell>}
-                            cell={
-                                <CellQuizAction data={quiz_lists} onActive={this._handleActiveQuiz}
-                                    onUnActive={this._handleUnActiveQuiz} onDelete={this._handleDeleteQuiz}/>
-                            }
-                            width={200}
-                        />
-                    </Table>
-                </div>
+                <Table.Filters filters={filters} value={this.getCurrentFilter()} onChange={this._handleChangeFilter}/>
+                <Table.Pagination ref="table_pagination" {...pagination} location={this.props.location}
+                                  onChange={this._handleUpdatePage}/>
+                <Table.TableCustom.Table data={quiz_lists} isLoading={awaitStatuses.getQuizLists === 'pending'}
+                                         showLoading>
+                    <Table.TableCustom.Column
+                        header={() => "#"}
+                        showIndex
+                        pagination={pagination}
+                    />
+                    <Table.TableCustom.Column
+                        header={() => "Tên đề thi"}
+                        cell={(quiz_list)=> <div>
+                            <a href={getDomainPublic(`#/quizs/${quiz_list.id}`)} target="_blank">{quiz_list.title}</a>
+                            <div className="text-helper">
+                                Ngày tạo: {timeago.ago(quiz_list.created_at)}
+                            </div>
+                        </div>}
+                    />
+                    <Table.TableCustom.Column
+                        header={() => "Thông tin"}
+                        cell={(quiz_list)=> <div>
+                            {quiz_list.total_questions} câu | {quiz_list.time} phút | {quiz_list.access_count} lượt thi
+                        </div>}
+                    />
+                    <Table.TableCustom.Column
+                        header={() => "Người tạo"}
+                        cell={(quiz_list)=> <UserInfoWrap component={Other.UserAvatar} noPassPropUser user_id={quiz_list.user_id}/>}
+                    />
+                    <Table.TableCustom.Column
+                        header={() => "Hành động"}
+                        cell={(quiz_list)=>  <div>
+                            <Other.QuizListActions id={quiz_list.id} value={quiz_list.status_type} onChange={this.reloadQuizLists}/>
+                        </div>}
+                    />
+                </Table.TableCustom.Table>
             </div>
         )
     }
 }
 
 QuizListManagerContainer.propTypes = {}
-
-@Dimensions()
-export default class OuterTableResponsive extends Component {
-    resetTablePagination() {
-        this.refs.table.resetTablePagination();
-    }
-
-    render() {
-        return <QuizListManagerContainer ref="table" width={this.props.containerWidth}
-                                         height={this.props.containerHeight} {...this.props}/>
-    }
-}

@@ -1,0 +1,14 @@
+.header {
+  .navbar-brand {
+    font-size: 16px;
+  }
+  .dropdown-transparent {
+    padding: 0;
+    background: transparent;
+    border: 0px;
+    &:focus{
+      outline: none;
+      background: transparent;
+    }
+  }
+}

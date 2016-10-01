@@ -75,3 +75,5 @@ export function updateUserInfo(user_id, user) {
         })
     }
 }
+
+export default {getUsers, loadCategoriesQuizList, loadTagsQuizList, addTagQuizList, getUserInfo, updateUserInfo}

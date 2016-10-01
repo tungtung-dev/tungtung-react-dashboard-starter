@@ -1,4 +1,5 @@
 import InputText from './InputText';
+import MDEditor from './MDEditor';
 
-export {InputText}
-export default {InputText}
+export {InputText, MDEditor}
+export default {InputText, MDEditor}

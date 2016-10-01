@@ -1,5 +1,5 @@
 {
-  "presets": ["react-app"],
+  "presets": ["react-app","stage-1"],
   "env": {
       "development": {
           "plugins": ["transform-runtime","transform-decorators-legacy","transform-class-properties",["react-transform", {
@@ -13,6 +13,9 @@
              // note: you can put more transforms into array
              // this is just one of them!
            }]]
+      },
+      "production": {
+            "plugins": ["transform-runtime","transform-decorators-legacy","transform-class-properties"]
       }
   }
 }

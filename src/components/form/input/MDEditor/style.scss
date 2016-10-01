@@ -1,0 +1,27 @@
+.MDEditor {
+  border: 1px solid #d4d4d4;
+  .MDEditor_toolbar {
+    background-color: lighten(#d4d4d4, 10);
+    margin-top: 0px;
+    margin-bottom: 0px;
+    .MDEditor_toolbarButton {
+      padding: 7px;
+      border-radius: 0px;
+      margin-right: 0;
+      &.MDEditor_toolbarButton:active, &.MDEditor_toolbarButton--pressed{
+        background-color: rgba(0, 0, 0, 0.05);
+        box-shadow: none !important;
+        border-color: transparent;;
+      }
+      .MDEditor_toolbarButton_icon{
+        position: relative;
+        top: 1px;
+      }
+    }
+  }
+  .MDEditor_editor {
+    border: 0px;
+    border-radius: 0px;
+    font-size: 16px;
+  }
+}

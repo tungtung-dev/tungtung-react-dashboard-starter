@@ -24,14 +24,14 @@ export function getCurrenUser() {
             type: AUTH_GET_USER,
             AWAIT_MARKER,
             payload: {
-                getCurrentUser: AuthApi.getCurrenUser()
+                getCurrentUser: AuthApi.getUserMe()
             }
         })
     }
 }
 
 export function authLogout() {
-    AuthApi.logout();
+    localStorage.removeItem('auth_token');
     return dispatch => {
         dispatch({
             type: AUTH_LOGOUT
@@ -59,4 +59,4 @@ export function updateAvatar(avatar, avatar_url) {
     }
 }
 
-export default {setAuthToken, getCurrenUser,authLogout, updateProfile, updateAvatar}
+export default {setAuthToken, getCurrenUser, authLogout, updateProfile, updateAvatar}

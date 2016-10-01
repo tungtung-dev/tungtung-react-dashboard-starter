@@ -4,10 +4,10 @@ const getHeaders = () => {
     var headers = {
         'Accept': 'application/json',
     }
-    if (localStorage.auth_token) {
+    if (localStorage.getItem('auth_token')) {
         headers = {
             ...headers,
-            'Authorization': 'JWT ' + localStorage.auth_token
+            'Authorization': 'JWT ' + localStorage.getItem('auth_token')
         }
     }
     return headers;
@@ -18,6 +18,8 @@ export function postFetch(url, data, props) {
         cache: true,
         headers: getHeaders()
     }, props);
+
+    console.log(data);
 
     return qwest.post(url, data, attributes).then((xhr, res) => {
         return new Promise((resolve, reject) => {

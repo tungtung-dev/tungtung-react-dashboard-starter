@@ -1,27 +1,21 @@
 import React,{Component} from 'react';
 import {connect} from '../utils/reduxAwait';
 import {bindActionCreators} from 'redux';
-//import {Partials} from '../components/index';
-import AppWrapper from '../components/layouts/AppWrapper';
 import {ToastsContainer} from './libs/index';
 
 import {getCurrenUser} from '../redux/actions/AuthAction';
 
 class AppContainer extends Component {
     componentDidMount() {
-        //this.props.getCurrenUser();
+        this.props.getCurrenUser();
     }
 
     render() {
-        const {auth, isAuthenticated, awaitStatuses} = this.props;
-        const propsHeader = {
-            isAuthenticated, auth, isAuthChecking: awaitStatuses.getCurrentUser === 'pending'
-        };
         return (
-            <AppWrapper {...this.props}>
+            <div style={{height: '100%'}}>
                 <ToastsContainer/>
                 {this.props.children}
-            </AppWrapper>
+            </div>
         )
     }
 }

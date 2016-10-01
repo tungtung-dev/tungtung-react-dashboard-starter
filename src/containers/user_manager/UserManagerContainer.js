@@ -1,40 +1,12 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {push} from 'react-router-redux';
 import {autobind} from 'core-decorators';
-import Dimensions from 'react-dimensions';
-import {Table, Column, Cell} from 'fixed-data-table';
-import {Pagination, Cells} from '../../components/table/index';
-import {UserAvatar} from '../../components/other/index';
+import {Other, Table} from '../../components/index';
 import {getUsers} from '../../redux/actions/UsersAction';
-import {getDomainPublic} from '../../utils/index';
+import {getDomainPublic, paginationQueryPage} from '../../utils/index';
+import {connect} from '../../utils/reduxAwait';
 import {deleteUser} from '../../api/AuthApi';
-
-class CellUserAvatar extends Component {
-    render() {
-        const {data, rowIndex} = this.props;
-        return (
-            <Cells.CellFlexAlignCenter>
-                <UserAvatar {...data[rowIndex]}/>
-            </Cells.CellFlexAlignCenter>
-        )
-    }
-}
-
-class CellActions extends Component {
-    render() {
-        const {rowIndex, data} = this.props;
-        const user = data[rowIndex];
-        return (
-            <Cells.CellFlexAlignCenter>
-                <a href={getDomainPublic(`#/user/${user.username}`)} className="btn btn-purple" target="_blank">Xem
-                    trang cá nhân</a> &nbsp;
-                <button onClick={(e) => this.props.onDelete(e, user._id)} className="btn btn-red">Xóa</button>
-                &nbsp;
-            </Cells.CellFlexAlignCenter>
-        )
-    }
-}
 
 const mapStateToProps = (state) => {
     const {data, pagination} = state.users;
@@ -46,20 +18,25 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({getUsers}, dispatch);
+    return bindActionCreators({getUsers, push}, dispatch);
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
-class UserManagerContainer extends Component {
+export default class UserManagerContainer extends Component {
     componentDidMount() {
-        this.props.getUsers(1, 10);
+        const {page} = this.props.location.query;
+        this.props.getUsers(page);
+    }
+
+    componentDidUpdate(prevProps){
+        paginationQueryPage(prevProps, this.props, (page) => {
+             this.props.getUsers(page);
+        });
     }
 
     @autobind
     _handleUpdatePage(page) {
-        const {item_per_page} = this.props.pagination;
-        console.log(page);
-        this.props.getUsers(page, item_per_page);
+        this.props.push(`/users?page=${page}`);
     }
 
     @autobind
@@ -79,53 +56,40 @@ class UserManagerContainer extends Component {
     }
 
     render() {
-        const {users} = this.props;
+        const {users, pagination, awaitStatuses} = this.props;
+
         return (
             <div>
-                <Pagination {...this.props.pagination} onChange={this._handleUpdatePage}/>
-                <Table
-                    rowsCount={users.length}
-                    rowHeight={60}
-                    headerHeight={30}
-                    width={this.props.width}
-                    height={this.props.height -100}
-                >
-                    <Column
-                        header={<Cell>Thành viên</Cell>}
-                        cell={<CellUserAvatar data={users}/>}
-                        width={200}
+                <Table.Pagination {...pagination} location={this.props.location} onChange={this._handleUpdatePage}/>
+                <Table.TableCustom.Table data={users} isLoading={awaitStatuses.getUsers === 'pending'}>
+                    <Table.TableCustom.Column
+                        header={() => '#'}
+                        showIndex
+                        pagination={pagination}
                     />
-                    <Column
-                        header={<Cell>Họ và tên</Cell>}
-                        cell={<Cells.CellText data={users} field="fullname"/>}
-                        width={180}
+                    <Table.TableCustom.Column
+                        header={() => 'Thành viên'}
+                        cell={(user, rowIndex) =>  <Other.UserAvatar {...user}/>}
                     />
-                    <Column
-                        header={<Cell>Email</Cell>}
-                        cell={<Cells.CellText data={users} field="email"/>}
-                        width={180}
+                    <Table.TableCustom.Column
+                        header={() => 'Họ và tên'}
+                        cell={(user, rowIndex) => user.fullname}
                     />
-                    <Column
-                        header={<Cell>Actions</Cell>}
-                        cell={<CellActions data={users} onDelete={this._handleDelete}/>}
-                        width={200}
+                    <Table.TableCustom.Column
+                        header={() => 'Email'}
+                        cell={(user, rowIndex) => user.email}
                     />
-                </Table>
+                    <Table.TableCustom.Column
+                        header={() => 'Hành động'}
+                        cell={(user, rowIndex) => <div>
+                        <a href={getDomainPublic(`#/user/${user.username}`)} className="btn btn-purple" target="_blank">Xem trang cá nhân</a>{' '}
+                            <button onClick={(e) => this._handleDelete(e, user._id)} className="btn btn-red">Xóa</button>
+                        </div>}
+                    />
+                </Table.TableCustom.Table>
             </div>
         )
     }
 }
 
 UserManagerContainer.propTypes = {}
-
-@Dimensions()
-export default class OuterTableResponsive extends Component {
-    resetTablePagination() {
-        this.refs.table.resetTablePagination();
-    }
-
-    render() {
-        return <UserManagerContainer ref="table" width={this.props.containerWidth}
-                                     height={this.props.containerHeight} {...this.props}/>
-    }
-}

@@ -44,6 +44,13 @@ export function getDomainPublic(path) {
     return DOMAIN_PUBLIC + '/' + path;
 }
 
+export function paginationQueryPage(prevProps, props, callback){
+    const {page} = props.location.query;
+    const prevPage = prevProps.location.query.page;
+    if(page !== prevPage) callback(page ? page : 1);
+    else return true;
+}
+
 export {
     reduxAwait
 }

@@ -7,7 +7,7 @@ export default class ValidateWrapControl extends Component {
         const status = (touched && error) ? 'danger' : null;
 
         return <FormGroup className={`has-${status}`}>
-            {title && <Label className="col-form-label">
+            {title && <Label className="label" style={{fontWeight: 600}}>
                 {this.props.icon && <span><i className={this.props.icon}></i>{' '}</span>}{title}
             </Label>}
             {React.cloneElement(this.props.children, {className: `form-control-${status}`})}

@@ -19,18 +19,22 @@ class Login extends Component {
         this._onLogin = (values, dispatch) => {
             const {email, password} = values;
             return new Promise((resolve, reject) => {
-                AuthApi.loginUser(email, password).then(user => {
-                    dispatch(setAuthToken(user.token, user));
-                    dispatch(addAlertToast('login_success', 'Thông báo', 'Đăng nhập thành công', 'success'));
-                    if (localStorage.getItem('redirect_back')) {
-                        dispatch(push(localStorage.getItem('redirect_back')));
-                        localStorage.removeItem('redirect_back');
+                AuthApi.authLogin({email, password}).then(data => {
+                    if (data.success) {
+                        const {token, user} = data;
+                        dispatch(setAuthToken(token, user));
+                        dispatch(addAlertToast('login_success', 'Thông báo', 'Đăng nhập thành công', 'success'));
+                        if (localStorage.getItem('redirect_back')) {
+                            dispatch(push(localStorage.getItem('redirect_back')));
+                            localStorage.removeItem('redirect_back');
+                        }
+                        else dispatch(push('/'));
+                        resolve(user);
                     }
-                    else dispatch(push('/'));
-                    resolve(user);
-                }).catch(errors => {
-                    reject(errors);
-                });
+                    else {
+                        reject(data.errors);
+                    }
+                })
             })
         }
     }

@@ -8,7 +8,7 @@ class Logout extends Component {
     componentDidMount() {
         this.props.authLogout();
         this.props.addAlertToast('logout_success', 'Đăng xuất', 'Đăng xuất thành công', 'success');
-        this.props.push('/');
+        this.props.push('/auth/login');
     }
 
     render() {

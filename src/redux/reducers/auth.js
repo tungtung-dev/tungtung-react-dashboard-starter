@@ -2,7 +2,7 @@ import {AUTH_SET_AUTHENTICATION, AUTH_GET_USER, AUTH_UPDATE_PROFILE, AUTH_LOGOUT
 
 const getInitialState = () => {
     return {
-        token: '',
+        token: localStorage.getItem('auth_token'),
         user: {
             displayName: ''
         }
@@ -23,7 +23,7 @@ export default function createReducer(state = getInitialState(), action) {
         case AUTH_GET_USER:
             return {
                 ...state,
-                token: action.payload.getCurrentUser.token,
+                token: action.payload.getCurrentUser._id ? state.token : null,
                 user: {
                     ...state.user,
                     ...action.payload.getCurrentUser

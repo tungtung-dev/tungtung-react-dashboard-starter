@@ -35,7 +35,9 @@ export default function requireAuth(ComponentChild) {
 
         render() {
             if (this.props.token) return <ComponentChild {...this.props}/>;
-            else return <div></div>
+            else return <div>
+                <center className="margin-top-30">Đang tải ...</center>
+            </div>
         }
     }
     const mapStateToProps = (state) => ({

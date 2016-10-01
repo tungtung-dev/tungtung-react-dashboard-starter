@@ -1,4 +1,5 @@
 import Select from './Select';
+import SelectDropDown from './SelectDropDown/index';
 
-export {Select}
-export default {Select}
+export {Select, SelectDropDown}
+export default {Select, SelectDropDown}

@@ -5,8 +5,16 @@ import './style.scss';
 export default class Pagination extends Component {
     constructor() {
         super(...arguments);
+        var page = 1;
+        if (this.props.location && this.props.location.query.page) {
+            page = this.props.location.query.page;
+        }
+        else if (this.props.page) {
+            page = this.props.page
+        }
+
         this.state = {
-            page: 1
+            page
         }
     }
 
@@ -69,10 +77,10 @@ export default class Pagination extends Component {
     }
 
     @autobind
-    getMaxPage(){
+    getMaxPage() {
         const {item_per_page, total_item} = this.props;
         var max_page = parseInt(total_item / item_per_page, 10);
-        if(total_item % item_per_page > 0) max_page++;
+        if (total_item % item_per_page > 0) max_page++;
         return max_page;
     }
 

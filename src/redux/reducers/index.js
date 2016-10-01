@@ -8,7 +8,6 @@ import users from './users';
 import authSocial from './authSocial';
 import alert from './alert';
 import defaultLoad from './defaultLoad';
-import quizListForm from './quizListForm';
 import quizLists from './quizLists';
 
 export default combineReducers({
@@ -21,6 +20,5 @@ export default combineReducers({
     users,
     authSocial,
     quizLists,
-    quizListForm,
     alert
 })

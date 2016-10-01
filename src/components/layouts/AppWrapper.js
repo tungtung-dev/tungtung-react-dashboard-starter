@@ -3,6 +3,7 @@ import React,{Component} from 'react';
 import {Col} from 'reactstrap';
 import Sidebar from './sidebar/index';
 import MenuBar  from './menubar/index';
+import Header  from './header/index';
 import classnames from 'classnames';
 import './style.scss';
 
@@ -27,14 +28,18 @@ export default class AppWrapper extends Component {
     }
 
     render() {
+        const {isAuthenticated, auth} = this.props;
         return (
             <div className={classnames('dashboard-container', {'show-sidebar': this.state.showSidebar})}>
-                <Sidebar currentPath={this.props.location.pathname} showSidebar={this.state.showSidebar}/>
-                <div className="wrapper">
-                    <Col md={12} style={{height: '100%'}}>
-                        <MenuBar onClick={this.toggleSidebar} showSidebar={this.state.showSidebar}/>
-                        {this.props.children}
-                    </Col>
+                <Header isAuthenticated={isAuthenticated} auth={auth}/>
+                <div style={{height: '95%'}}>
+                    <Sidebar currentPath={this.props.location.pathname} showSidebar={this.state.showSidebar}/>
+                    <div className="wrapper">
+                        <Col md={12} style={{height: '100%'}}>
+                            <MenuBar onClick={this.toggleSidebar} showSidebar={this.state.showSidebar}/>
+                            {this.props.children}
+                        </Col>
+                    </div>
                 </div>
             </div>
         )

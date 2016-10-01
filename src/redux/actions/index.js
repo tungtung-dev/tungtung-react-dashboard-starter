@@ -5,7 +5,6 @@ import AwaitAction from './AwaitAction';
 import DefaultLoadAction from './DefaultLoadAction';
 import UserAction from './UsersAction';
 import QuizListsAction from './QuizListsAction';
-import QuizListFormAction from './QuizListFormAction';
 
-export {AlertAction, AuthAction, AuthSocialAction, AwaitAction, DefaultLoadAction, UserAction, QuizListsAction, QuizListFormAction};
-export default {AlertAction, AuthAction, AuthSocialAction, AwaitAction, DefaultLoadAction, UserAction, QuizListsAction, QuizListFormAction};
+export {AlertAction, AuthAction, AuthSocialAction, AwaitAction, DefaultLoadAction, UserAction, QuizListsAction};
+export default {AlertAction, AuthAction, AuthSocialAction, AwaitAction, DefaultLoadAction, UserAction, QuizListsAction};

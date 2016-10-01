@@ -6,6 +6,13 @@ import {connect} from '../../utils/reduxAwait';
 class UserInfoWrap extends Component {
     componentDidMount() {
         if (!this.props.user._id) {
+            console.log('get user ' + this.props.user_id);
+            this.props.getUserInfo(this.props.user_id);
+        }
+    }
+
+    componentDidUpdate(prevProps){
+        if(this.props.user._id != prevProps.user._id){
             this.props.getUserInfo(this.props.user_id);
         }
     }
@@ -37,7 +44,7 @@ const mapStateToProps = (state, ownProps) => {
     if (!ownProps.user_id.match(/^[0-9a-fA-F]{24}$/)) {
         keySearch = "username";
     }
-    user = state.defaultLoad.users.find(u => u[keySearch] === ownProps.user_id);
+    user = state.defaultLoad.users.find(u => u[keySearch] == ownProps.user_id);
     if (!user) user = {};
     return {
         user
