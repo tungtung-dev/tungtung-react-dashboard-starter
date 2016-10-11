@@ -31,7 +31,7 @@ export function getCategoriesQuizList() {
 }
 
 export function getQuizLists(status_type = '', page = 1, item_per_page = 5) {
-    return getFetch(getUrl(`quiz-list-manager/?page=${page}&item_per_page=${item_per_page}&status_type=${status_type}&order_by_type=${orderType.common.CREATED_AT_DESC}`));
+    return getFetch(getUrl(`admin/quiz-lists/?page=${page}&item_per_page=${item_per_page}&status_type=${status_type}&order_by_type=${orderType.common.CREATED_AT_DESC}`));
 }
 
 export function getQuizListsByTag(tag_name = '', page = 1, item_per_page = 5) {
@@ -45,7 +45,7 @@ export function getQuizListsBySearch(search = '', tags_id = '', page = 1, item_p
 }
 
 export function markQuizAsType(id, type) {
-    return getFetch(getUrl(`quiz-list-manager/${id}/${type}`));
+    return getFetch(getUrl(`admin/quiz-lists/${id}/${type}`));
 }
 
 export function markQuizAsNew(id) {
