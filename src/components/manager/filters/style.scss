@@ -1,0 +1,22 @@
+.navbar-statuses-filter {
+  padding-left: 0px;
+  li {
+    list-style: none;
+    float: left;
+    margin-bottom: 5px;
+    padding-right: 5px;
+    font-weight: 600;
+    &.active a, a:hover {
+      text-decoration: none;
+      background: #eeeeee;
+      cursor: pointer;
+    }
+    a {
+      display: block;
+      padding: 5px 15px;
+      border: 1px solid #eeeeee;
+      border-radius: 2px;
+      color: #333333;
+    }
+  }
+}

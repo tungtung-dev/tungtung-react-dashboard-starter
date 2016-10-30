@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {SelectDropDown} from '../../form/select/index';
+import {SelectDropdown} from '../../form/index';
 import {autobind} from 'core-decorators';
 import {MARK_AS_NEW, MARK_AS_OLD, MARK_AS_NEED_REVIEW, MARK_AS_REJECT} from '../../../constants/quizManagerActionType';
 import {markQuizAsNew, markQuizAsOld, markQuizAsNeedReview, markQuizAsReject, deleteQuizList} from '../../../api/QuizApi'
@@ -47,7 +47,7 @@ export default class QuizListActions extends Component {
     render() {
         console.log(this.props.value);
         return (
-            <SelectDropDown value={this.props.value} items={items} onChange={this._handleChange} onEdit={this._handleEdit} onDelete={this._handleDelete}/>
+            <SelectDropdown value={this.props.value} items={items} onChange={this._handleChange} onEdit={this._handleEdit} onDelete={this._handleDelete}/>
         )
     }
 }

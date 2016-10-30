@@ -48,7 +48,9 @@ export default class Header extends Component {
         const {isAuthenticated, isAuthChecking, auth} = this.props;
         return (
             <Navbar className="header" color="faded" light>
-                <Link to="/" className="navbar-brand"><i className="icon-menu"/> React dashboard</Link>
+                <Link to="/" className="navbar-brand">
+                    <img src="http://tungtung.vn/images/logo.png" alt="" style={{height: 18}}/>
+                </Link>
                 {!isAuthChecking && <Nav className="pull-xs-right" navbar>
                     {!isAuthenticated && <NavItem>
                         <Link className="nav-link" to="auth/login">Login</Link>

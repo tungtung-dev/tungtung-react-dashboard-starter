@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {autobind} from 'core-decorators';
 import {push} from 'react-router-redux';
-import {Other, Table} from '../../components/index';
+import {Other} from '../../components/index';
+import {Table, Column, Filters, Pagination} from '../../components/manager/index';
 import {getQuizLists} from '../../redux/actions/QuizListsAction';
 import {getDomainPublic, paginationQueryPage} from  '../../utils/index';
 import {connect} from  '../../utils/reduxAwait';
@@ -77,45 +78,69 @@ export default class QuizListManagerContainer extends Component {
         const {pagination, quiz_lists, awaitStatuses} = this.props;
         return (
             <div>
-                <Table.Filters filters={filters} value={this.getCurrentFilter()} onChange={this._handleChangeFilter}/>
-                <Table.Pagination ref="table_pagination" {...pagination} location={this.props.location}
+                <Filters filters={filters} value={this.getCurrentFilter()} onChange={this._handleChangeFilter}/>
+                <Pagination ref="table_pagination" {...pagination} location={this.props.location}
                                   onChange={this._handleUpdatePage}/>
-                <Table.TableCustom.Table data={quiz_lists} isLoading={awaitStatuses.getQuizLists === 'pending'}
+                <Table data={quiz_lists} isLoading={awaitStatuses.getQuizLists === 'pending'}
                                          showLoading>
-                    <Table.TableCustom.Column
+                    <Column
                         header={() => "#"}
                         showIndex
                         pagination={pagination}
                     />
-                    <Table.TableCustom.Column
+                    <Column
                         header={() => "Tên đề thi"}
                         cell={(quiz_list)=> <div>
-                            <a href={getDomainPublic(`#/quizs/${quiz_list.id}`)} target="_blank">{quiz_list.title}</a>
-                            <div className="text-helper">
-                                Ngày tạo: {timeago.ago(quiz_list.created_at)}
-                            </div>
-                        </div>}
-                    />
-                    <Table.TableCustom.Column
+                             <a href={getDomainPublic(`#/quizs/${quiz_list.id}`)} target="_blank">{quiz_list.title}</a>
+                             <div className="text-helper">Ngày tạo: {timeago.ago(quiz_list.created_at)}</div>
+                             </div>}/>
+                    <Column
                         header={() => "Thông tin"}
                         cell={(quiz_list)=> <div>
-                            {quiz_list.total_questions} câu | {quiz_list.time} phút | {quiz_list.access_count} lượt thi
+                         {quiz_list.total_questions} câu | {quiz_list.time} phút | {quiz_list.access_count} lượt thi
                         </div>}
-                    />
-                    <Table.TableCustom.Column
+                        />
+                    <Column
                         header={() => "Người tạo"}
                         cell={(quiz_list)=> <UserInfoWrap component={Other.UserAvatar} noPassPropUser user_id={quiz_list.user_id}/>}
-                    />
-                    <Table.TableCustom.Column
+                        />
+                    <Column
                         header={() => "Hành động"}
                         cell={(quiz_list)=>  <div>
                             <Other.QuizListActions id={quiz_list.id} value={quiz_list.status_type} onChange={this.reloadQuizLists}/>
                         </div>}
                     />
-                </Table.TableCustom.Table>
+                </Table>
             </div>
         )
     }
 }
 
+/*
+ <Column
+ header={() => "Tên đề thi"}
+ cell={(quiz_list)=> <div>
+ <a href={getDomainPublic(`#/quizs/${quiz_list.id}`)} target="_blank">{quiz_list.title}</a>
+ <div className="text-helper">
+ Ngày tạo: {timeago.ago(quiz_list.created_at)}
+ </div>
+ </div>}
+ />
+ <Column
+ header={() => "Thông tin"}
+ cell={(quiz_list)=> <div>
+ {quiz_list.total_questions} câu | {quiz_list.time} phút | {quiz_list.access_count} lượt thi
+ </div>}
+ />
+ <Column
+ header={() => "Người tạo"}
+ cell={(quiz_list)=> <UserInfoWrap component={Other.UserAvatar} noPassPropUser user_id={quiz_list.user_id}/>}
+ />
+ <Column
+ header={() => "Hành động"}
+ cell={(quiz_list)=>  <div>
+ <Other.QuizListActions id={quiz_list.id} value={quiz_list.status_type} onChange={this.reloadQuizLists}/>
+ </div>}
+ />
+ */
 QuizListManagerContainer.propTypes = {}

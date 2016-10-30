@@ -32,7 +32,7 @@ export default class AppWrapper extends Component {
         return (
             <div className={classnames('dashboard-container', {'show-sidebar': this.state.showSidebar})}>
                 <Header isAuthenticated={isAuthenticated} auth={auth}/>
-                <div style={{height: '95%'}}>
+                <div style={{height: 'calc(100% - 48px)'}}>
                     <Sidebar currentPath={this.props.location.pathname} showSidebar={this.state.showSidebar}/>
                     <div className="wrapper">
                         <Col md={12} style={{height: '100%'}}>
