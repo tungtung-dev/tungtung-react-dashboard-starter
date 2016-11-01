@@ -27,8 +27,8 @@ export default class NavbarFilter extends Component {
     render() {
         const {value, filters} = this.props;
         return (
-            <ul className="navbar-statuses-filter clearfix" style={{marginBottom: 0}}>
-                <li className={classname({'active': '' === value})}>
+            <ul className="navbar-statuses-filter clearfix">
+                <li className={classname({'active': '' === value || 'all' === value})}>
                     <a onClick={e => this.onClick(e, '')}>
                         <span><i className="fa fa-circle" style={{color: '#d35400'}}/> All</span>
                     </a>
@@ -40,6 +40,7 @@ export default class NavbarFilter extends Component {
                         </a>
                     </li>
                 )}
+                {this.props.children}
             </ul>
         )
     }
@@ -53,5 +54,6 @@ NavbarFilter.propTypes = {
         color: PropTypes.string
     })),
     value: PropTypes.string,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    rightComponent: PropTypes.func
 }

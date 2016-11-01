@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
 import {autobind} from 'core-decorators';
-import {Other, Table} from '../../components/index';
 import {getUsers} from '../../redux/actions/UsersAction';
 import {getDomainPublic, paginationQueryPage} from '../../utils/index';
 import {connect} from '../../utils/reduxAwait';
 import {deleteUser} from '../../api/AuthApi';
+import {Table, Column, Pagination} from '../../components/manager/index';
+import {UserAvatar} from '../../components/partials/index';
+
 
 const mapStateToProps = (state) => {
     const {data, pagination} = state.users;
@@ -60,33 +62,33 @@ export default class UserManagerContainer extends Component {
 
         return (
             <div>
-                <Table.Pagination {...pagination} location={this.props.location} onChange={this._handleUpdatePage}/>
-                <Table.TableCustom.Table data={users} isLoading={awaitStatuses.getUsers === 'pending'}>
-                    <Table.TableCustom.Column
+                <Pagination {...pagination} location={this.props.location} onChange={this._handleUpdatePage}/>
+                <Table data={users} isLoading={awaitStatuses.getUsers === 'pending'}>
+                    <Column
                         header={() => '#'}
                         showIndex
                         pagination={pagination}
                     />
-                    <Table.TableCustom.Column
+                    <Column
                         header={() => 'Thành viên'}
-                        cell={(user, rowIndex) =>  <Other.UserAvatar {...user}/>}
+                        cell={(user, rowIndex) =>  <UserAvatar {...user}/>}
                     />
-                    <Table.TableCustom.Column
+                    <Column
                         header={() => 'Họ và tên'}
                         cell={(user, rowIndex) => user.fullname}
                     />
-                    <Table.TableCustom.Column
+                    <Column
                         header={() => 'Email'}
                         cell={(user, rowIndex) => user.email}
                     />
-                    <Table.TableCustom.Column
+                    <Column
                         header={() => 'Hành động'}
                         cell={(user, rowIndex) => <div>
                         <a href={getDomainPublic(`#/user/${user.username}`)} className="btn btn-purple" target="_blank">Xem trang cá nhân</a>{' '}
                             <button onClick={(e) => this._handleDelete(e, user._id)} className="btn btn-red">Xóa</button>
                         </div>}
                     />
-                </Table.TableCustom.Table>
+                </Table>
             </div>
         )
     }

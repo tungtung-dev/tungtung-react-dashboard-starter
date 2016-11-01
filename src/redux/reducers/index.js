@@ -9,12 +9,14 @@ import authSocial from './authSocial';
 import alert from './alert';
 import defaultLoad from './defaultLoad';
 import quizLists from './quizLists';
+import media from './media';
 
 export default combineReducers({
     form: formReducer,
     i18n: i18nReducer,
     routing: routerReducer,
     await,
+    media,
     defaultLoad,
     auth,
     users,

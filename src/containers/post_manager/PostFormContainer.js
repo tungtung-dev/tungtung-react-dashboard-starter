@@ -19,4 +19,15 @@ const form = {
     fields
 }
 
-export default reduxForm(form)(PostFormContainer)
+const mapStateToProps = () => {
+    return {
+        initialValues: {
+            title: 'Good job man',
+            description: 'Mọi người làm việc tốt lắm :smile: \n good job man',
+            content: `Cool, we can have all sorts of Emojis here. 🙌
+🌿☃️🎉🙈 aaaand maybe a few more here 🐲☀️🗻 Quite fun!`
+        }
+    }
+}
+
+export default reduxForm(form, mapStateToProps)(PostFormContainer)

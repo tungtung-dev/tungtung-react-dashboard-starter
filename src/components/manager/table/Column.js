@@ -4,10 +4,9 @@ export default class Column extends Component {
     shouldComponentUpdate(prevProps){
         return !Equal(this.props, prevProps);
     }
-    render() {
-        return <div>
 
-        </div>
+    render() {
+        return <div></div>
     }
 }
 

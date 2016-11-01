@@ -1,8 +1,7 @@
+@import "base";
 @import "./variables";
 @import "./mixins";
 @import "./partials/index";
-@import "./layouts/index";
-@import "./pages/index";
 
 $font-size: 14px;
 
@@ -35,7 +34,7 @@ html {
 }
 
 body {
-  font-family: "Open Sans", "Myriad Set Pro", "Lucida Grande", "Helvetica Neue", "Helvetica", "Arial", "Verdana", "sans-serif";
+  font-family: "Myriad Set Pro", "Lucida Grande", "Helvetica Neue", "Helvetica", "Arial", "Verdana", "sans-serif";
   font-size: $font-size;
   font-weight: 400;
   color: #333333;
@@ -43,12 +42,19 @@ body {
   height: 100%;
 }
 
+body, input, select, textarea, button {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-font-feature-settings: "liga", "kern";
+}
+
 #root {
   background: #FFFFFF;
   height: 100%;
 }
 
-.dashboard-container{
+.dashboard-container {
   height: 100%;
 }
 
@@ -57,3 +63,5 @@ a.null {
     text-decoration: none;
   }
 }
+
+@include placeholder('.form-control', lighten(#c7c7c7, 10));

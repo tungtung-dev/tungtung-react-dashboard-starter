@@ -88,17 +88,20 @@ export default class Pagination extends Component {
     render() {
         const {total_item} = this.props;
         return (
-            <div className="table-pagination clearfix">
-                <button className="btn btn-default" onClick={this.onPrev} disabled={this.checkDisablePrev()}><i
-                    className="fa fa-chevron-left"></i></button>
-                <input type="text" className="form-control" value={this.state.page}
-                       onKeyDown={this.onChangeInputKeyDown} onChange={this.onChangeInput}/>
-                <button className="btn btn-default" onClick={this.onNext} disabled={this.checkDisableNext()}><i
-                    className="fa fa-chevron-right"></i></button>
-                <div className="pull-left" style={{marginTop: 4}}>
-                    &nbsp;&nbsp;<span>{this.getMaxPage().toString()} trang</span> |
-                    <span>{total_item.toString()} items được tìm thấy </span>
+            <div className="flex align-center justify-space-between">
+                <div className="table-pagination clearfix">
+                    <button className="btn btn-default" onClick={this.onPrev} disabled={this.checkDisablePrev()}><i
+                        className="fa fa-chevron-left"></i></button>
+                    <input type="text" className="form-control" value={this.state.page}
+                           onKeyDown={this.onChangeInputKeyDown} onChange={this.onChangeInput}/>
+                    <button className="btn btn-default" onClick={this.onNext} disabled={this.checkDisableNext()}><i
+                        className="fa fa-chevron-right"></i></button>
+                    <div className="pull-left" style={{marginTop: 4}}>
+                        &nbsp;&nbsp;<span>{this.getMaxPage().toString()} trang</span> |
+                        <span>{total_item.toString()} items được tìm thấy </span>
+                    </div>
                 </div>
+                {this.props.children}
             </div>
         )
     }

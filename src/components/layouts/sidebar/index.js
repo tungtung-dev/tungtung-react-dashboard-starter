@@ -1,75 +1,24 @@
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 import classnames from 'classnames';
+import MenuItem from './menu_item';
+import MenuOption from './menu_option';
 import './style.scss';
-
-function checkPath(currentPath, path) {
-    let hasStar = false;
-    if (path.replace('/**', '') !== path) {
-        hasStar = true;
-        path = path.replace('/**', '');
-    }
-
-    if (currentPath === path || ( hasStar && currentPath.replace(path, '') !== currentPath)) {
-        return true;
-    }
-    else return false;
-}
-
-class MenuItem extends Component {
-    render() {
-        const {path, currentPath} = this.props;
-        var activePath = [...this.props.activePath, path];
-        let classNameActive = '';
-        if (typeof activePath === 'object') {
-            let active = activePath.find((p) => checkPath(currentPath, p));
-            classNameActive = classnames({'active': active})
-        }
-        return (
-            <li className={classNameActive}>
-                <Link to={this.props.path}>{this.props.icon &&
-                <i className={this.props.icon}></i>} {this.props.text}</Link>
-            </li>
-        )
-    }
-}
-
-MenuItem.defaultProps = {
-    activePath: []
-}
-
-MenuItem.propTypes = {
-    activePath: PropTypes.array,
-    path: PropTypes.string,
-    icon: PropTypes.string,
-    text: PropTypes.string
-}
-
-class MenuOption extends Component {
-    render() {
-        return (
-            <ul className="menu-option">
-                {this.props.children.map((children, index) => {
-                    if(children.type === 'hr') return children;
-                    return React.cloneElement(children, {
-                        currentPath: this.props.currentPath,
-                        key: index
-                    });
-                })}
-            </ul>
-        )
-    }
-}
 
 export default class Sidebar extends Component {
     render() {
         return (
             <div className={classnames('wrapper-sidebar',{'show-sidebar': this.props.showSidebar})}>
-                <MenuOption currentPath={this.props.currentPath}>
-                    <MenuItem path='/' activePath={['/orders/edit/**','/']} icon="icon-notebook" text="Đề thi"/>
+                <MenuOption currentPath={this.props.currentPath} name="Đề thi quản lý">
+                    <MenuItem path='/' activePath={['/orders/edit/**','/']} icon="icon-notebook" text="Đề thi quản lý"/>
                     <MenuItem path="/users" icon="icon-user" text="Users"/>
                 </MenuOption>
-
+                <MenuOption currentPath={this.props.currentPath} name="Bài viết">
+                    <MenuItem path='/post' activePath={['/post']} icon="icon-plus" text="Bài viết mới"/>
+                </MenuOption>
+                <MenuOption currentPath={this.props.currentPath} name="Media">
+                    <MenuItem path='/media' activePath={['/media']} icon="icon-file-image" text="Photos"/>
+                </MenuOption>
             </div>
         )
     }
@@ -80,5 +29,6 @@ Sidebar.defaultProps = {
 }
 
 Sidebar.propTypes = {
-    showSidebar: PropTypes.bool
+    showSidebar: PropTypes.bool,
+    currentPath: PropTypes.string
 }

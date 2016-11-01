@@ -11,11 +11,15 @@ export default class Row extends Component {
         }))
     }
 
-    render(){
+    shouldComponentUpdate(prevProps) {
+        return !Equal(this.props.cells, prevProps.cells);
+    }
+
+    render() {
         const {cells} = this.props;
         return <tr>
             {cells.map((cell, index) => {
-                if(cell.showIndex)
+                if (cell.showIndex)
                     return <th scope="row" key={index}>{cell.component}</th>;
                 else return <td key={index}>{cell.component}</td>;
             })}

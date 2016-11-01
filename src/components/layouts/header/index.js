@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 import {Navbar,Nav, NavItem, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
-import {UserAvatar} from '../../other/index';
+import {UserAvatar} from '../../partials/index';
 import './style.scss';
 
 class UserItem extends Component {

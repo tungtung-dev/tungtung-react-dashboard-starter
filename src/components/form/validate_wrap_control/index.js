@@ -3,14 +3,17 @@ import {FormGroup, Col, Label} from 'reactstrap';
 
 export default class ValidateWrapControl extends Component {
     renderControl() {
-        const {title, touched, error} = this.props;
+        const {title, rightComponent, touched, error} = this.props;
         const status = (touched && error) ? 'danger' : null;
 
         return <FormGroup className={`has-${status}`}>
-            {title && <Label className="label" style={{fontWeight: 600}}>
-                {this.props.icon && <span><i className={this.props.icon}></i>{' '}</span>}{title}
-            </Label>}
-            {React.cloneElement(this.props.children, {className: `form-control-${status}`})}
+            <div className="flex align-center justify-space-between">
+                {title && <Label className="label" style={{fontWeight: 600}}>
+                    {this.props.icon && <span><i className={this.props.icon}></i>{' '}</span>}{title}
+                </Label>}
+                {rightComponent && <span>{rightComponent}</span>}
+            </div>
+            {React.cloneElement(this.props.children, {className: this.props.children.props.className + ` form-control-${status}`})}
             {touched && error && <div className="form-control-feedback">{error}</div>}
         </FormGroup>
     }
@@ -24,5 +27,6 @@ export default class ValidateWrapControl extends Component {
 ValidateWrapControl.propTypes = {
     title: PropTypes.any,
     touched: PropTypes.bool,
-    error: PropTypes.string
+    error: PropTypes.string,
+    rightComponent: PropTypes.func
 }

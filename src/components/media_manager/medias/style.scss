@@ -1,0 +1,121 @@
+.media-lists-manager {
+  margin-left: 200px;
+  height: 100%;
+}
+
+.dropzone-manager {
+  width: 100%;
+  height: calc(100% - 44.4px);
+  .dropzone {
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+  }
+}
+
+.media-lists {
+  display: flex;
+  flex-wrap: wrap;
+  .media-item {
+    width: 155px;
+    height: 155px;
+    padding: 10px;
+    .media-item-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+      overflow: hidden;
+      &:hover > .overlay {
+        opacity: 1;
+      }
+      .overlay {
+        opacity: 0;
+        position: absolute;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .5);
+        -webkit-transition: all .3s linear;
+        -moz-transition: all .3s linear;
+        -ms-transition: all .3s linear;
+        -o-transition: all .3s linear;
+        transition: all .3s linear;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .name {
+          color: #ffffff;
+          padding: 0px 10px;
+          word-break: break-all;
+          font-size: 12px;
+          line-height: 1em;
+          text-align: center;
+        }
+        .actions {
+          position: absolute;
+          width: 100%;
+          bottom: 0px;
+          display: flex;
+          justify-content: space-between;
+          .btn {
+            background: transparent;
+            border: 0px;
+            padding: 5px 0px;
+            font-size: 14px;
+            color: #ffffff;
+            width: 25%;
+            &:focus {
+              outline: none;
+            }
+          }
+        }
+      }
+      .thumbnail {
+        img {
+          width: 100%;
+        }
+      }
+      .thumbnail-icon {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .display {
+          text-align: center;
+          padding: 0px 15px;
+          .icon {
+            font-size: 25px;
+            color: #ffffff
+          }
+          .name {
+            word-break: break-all;
+            color: #ffffff;
+            display: block;
+          }
+        }
+      }
+      .progress-container {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        width: 100%;
+        height: 16px;
+        .progress {
+          margin-bottom: 0px;
+        }
+      }
+    }
+  }
+}
+
+.media-toolbar {
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .actions {
+
+  }
+}

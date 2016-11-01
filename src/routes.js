@@ -4,6 +4,7 @@ import {Route, IndexRoute} from 'react-router';
 
 // Import components
 import {AppContainer, AuthContainer, QuizListManager, UserManagerContainer, Layout, PostManager} from './containers/index';
+import MediaManager from './components/media_manager/index'
 import {AuthenticatedComponent as requireAuth} from './containers/libs/index';
 
 export default () => {
@@ -13,6 +14,7 @@ export default () => {
                 <IndexRoute component={QuizListManager}/>
                 <Route path="/users" component={UserManagerContainer}/>
                 <Route path="/post" component={PostManager.PostForm}/>
+                <Route path="/media" component={MediaManager}></Route>
             </Route>
             <Route path="/auth">
                 <Route path="login" component={AuthContainer.Login}/>

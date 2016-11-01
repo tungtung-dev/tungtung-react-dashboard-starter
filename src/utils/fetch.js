@@ -13,7 +13,7 @@ const getHeaders = () => {
     return headers;
 }
 
-export function postFetch(url, data, props) {
+export function postFetch(url, data, props,  callback = () => {}) {
     let attributes = Object.assign({
         cache: true,
         headers: getHeaders()
@@ -21,10 +21,10 @@ export function postFetch(url, data, props) {
 
     console.log(data);
 
-    return qwest.post(url, data, attributes).then((xhr, res) => {
+    return qwest.post(url, data, attributes, callback).then((xhr, res) => {
         return new Promise((resolve, reject) => {
             try {
-                resolve(res);
+                resolve(res, xhr);
             }
             catch (e) {
                 reject(e.getMessage());

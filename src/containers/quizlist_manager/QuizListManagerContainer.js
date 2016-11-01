@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {autobind} from 'core-decorators';
 import {push} from 'react-router-redux';
-import {Other} from '../../components/index';
+import {SelectActions} from '../../components/quiz_lists/index';
+import {UserAvatar} from '../../components/partials/index';
+import {InputText} from '../../components/form/index';
 import {Table, Column, Filters, Pagination} from '../../components/manager/index';
 import {getQuizLists} from '../../redux/actions/QuizListsAction';
 import {getDomainPublic, paginationQueryPage} from  '../../utils/index';
@@ -78,11 +80,16 @@ export default class QuizListManagerContainer extends Component {
         const {pagination, quiz_lists, awaitStatuses} = this.props;
         return (
             <div>
-                <Filters filters={filters} value={this.getCurrentFilter()} onChange={this._handleChangeFilter}/>
-                <Pagination ref="table_pagination" {...pagination} location={this.props.location}
-                                  onChange={this._handleUpdatePage}/>
+                <Filters filters={filters} value={this.getCurrentFilter()} onChange={this._handleChangeFilter}>
+                    <li className="pull-right">
+                        <a href="#">Create new quiz</a>
+                    </li>
+                </Filters>
+                <Pagination ref="table_pagination" {...pagination} location={this.props.location} onChange={this._handleUpdatePage}>
+                    <InputText placeholder="Tìm kiếm"/>
+                </Pagination>
                 <Table data={quiz_lists} isLoading={awaitStatuses.getQuizLists === 'pending'}
-                                         showLoading>
+                       showLoading>
                     <Column
                         header={() => "#"}
                         showIndex
@@ -91,7 +98,7 @@ export default class QuizListManagerContainer extends Component {
                     <Column
                         header={() => "Tên đề thi"}
                         cell={(quiz_list)=> <div>
-                             <a href={getDomainPublic(`#/quizs/${quiz_list.id}`)} target="_blank">{quiz_list.title}</a>
+                             <a href={getDomainPublic(`#/quizs/${quiz_list.id}`)} className="black" target="_blank">{quiz_list.title}</a>
                              <div className="text-helper">Ngày tạo: {timeago.ago(quiz_list.created_at)}</div>
                              </div>}/>
                     <Column
@@ -99,15 +106,15 @@ export default class QuizListManagerContainer extends Component {
                         cell={(quiz_list)=> <div>
                          {quiz_list.total_questions} câu | {quiz_list.time} phút | {quiz_list.access_count} lượt thi
                         </div>}
-                        />
+                    />
                     <Column
                         header={() => "Người tạo"}
-                        cell={(quiz_list)=> <UserInfoWrap component={Other.UserAvatar} noPassPropUser user_id={quiz_list.user_id}/>}
-                        />
+                        cell={(quiz_list)=> <UserInfoWrap component={UserAvatar} noPassPropUser user_id={quiz_list.user_id}/>}
+                    />
                     <Column
                         header={() => "Hành động"}
                         cell={(quiz_list)=>  <div>
-                            <Other.QuizListActions id={quiz_list.id} value={quiz_list.status_type} onChange={this.reloadQuizLists}/>
+                            <SelectActions id={quiz_list.id} value={quiz_list.status_type} onChange={this.reloadQuizLists}/>
                         </div>}
                     />
                 </Table>
