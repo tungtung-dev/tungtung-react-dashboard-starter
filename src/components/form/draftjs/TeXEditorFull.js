@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import ValidateWrapControl from '../validate_wrap_control/index';
 import TeXEditor from './TeXEditor';
 import TeXEditorShow from './TeXEditorShow';
-import request from 'superagent';
+import ReactTooltip from 'react-tooltip'
 import "./style.scss"
 
 export default class TeXEditorFull extends Component {
@@ -23,6 +23,18 @@ export default class TeXEditorFull extends Component {
             if (this.props.onBlur)
                 this.props.onBlur(e);
         }
+        this._insertCodeEditor = (e) => {
+            e.preventDefault();
+            this.refs.editor.insertCodeEditor();
+        }
+        this._insertTeXEditor = (e) => {
+            e.preventDefault();
+            this.refs.editor.insertTeXEditor();
+        }
+        this._insertImage = (e) => {
+            e.preventDefault();
+            this.refs.editor.insertImage();
+        }
     };
 
     _onToggleRead(e) {
@@ -30,65 +42,48 @@ export default class TeXEditorFull extends Component {
         this.setState({haveRead: !this.state.haveRead});
     }
 
-    upload = (data, success, failed, progress) => {
-        data.formData.append('image', data.formData.get('files'));
-        request.post('http://188.166.255.80:1206/upload-image')
-            .accept('application/json')
-            .send(data.formData)
-            .on('progress', ({ percent }) => {
-                progress(percent);
-            })
-            .end((err, res) => {
-                if (err) {
-                    return failed(err);
-                }
-                const {file} = res.body;
-                success([
-                    {
-                        encoding: '7bit',
-                        filename: file,
-                        mimetype: 'image/jpeg',
-                        originalname: file,
-                        size: file,
-                        url: `/${file}`
-                    }
-                ], 'image');
-            });
-    }
-
-    defaultData = (blockType) => {
-        if (blockType === 'block-image') {
-            return {
-                url: '/whoa.jpg',
-            }
-        }
-        return {};
+    renderToolbarItem(onClick, icon, id, description){
+        return <div className="item">
+            <a href="#" data-tip data-for={`toolbar-item-${id}`} tabIndex="-1" onClick={onClick}>
+                <i className={icon}></i>
+            </a>
+            <ReactTooltip place="left" id={`toolbar-item-${id}`} type='warning' effect='solid'>
+                <span>{description}</span>
+            </ReactTooltip>
+        </div>
     }
 
     render() {
         const {isBorder} = this.props;
+        const isShowRead = this.props.readOnly || this.state.haveRead;
         return (
             <ValidateWrapControl {...this.props}>
-                <div className={classnames('TeXEditor-full',{'haveRead':(this.state.haveRead || this.props.readOnly), 'border': isBorder})}>
+                <div className={classnames('TeXEditor-full',{'haveRead':isShowRead, 'border': isBorder})}>
                     {!this.props.readOnly && <div className="write">
                         <TeXEditor
-                            {...this.props} onFocus={this._handleFocus} onBlur={this._handleBlur}
-                                            handleUpload={this.upload} handleDefaultData={this.defaultData}
+                            {...this.props}
+                            onFocus={this._handleFocus} onBlur={this._handleBlur}
+                            ref="editor"
                         />
                     </div>
                     }
-
-                    {!this.props.readOnly &&
-                    <div className='readIcon'>
-                        <a href="#" tabIndex="-1" onClick={this._onToggleRead}><i className="icon-note"></i></a>
+                    <div className="read">
+                        <TeXEditorShow {...this.props} onChange={() => {}} onFocus={()=>{}}/>
                     </div>
+                    {!this.props.readOnly &&
+                        <div className={`toolbar ${this.props.toolbarPosition}`}>
+                            {this.renderToolbarItem(this._insertCodeEditor, 'fa fa-code','code', 'Nhúng code editor')}
+                            {this.renderToolbarItem(this._insertTeXEditor, 'icon-calculator','katex', 'Nhúng mã toán học')}
+                            {this.renderToolbarItem(this._insertImage, 'icon-camera','camera', 'Nhúng ảnh')}
+                            <a href="#" className={isShowRead ? 'active': ''} tabIndex="-1" onClick={this._onToggleRead}><i className="icon-eye"></i></a>
+                        </div>
                     }
                 </div>
             </ValidateWrapControl>
         )
     }
 }
-//                    <TeXEditorShow {...this.props} onChange={() => {}} onFocus={()=>{}}/>
+//
 
 /*
  {this.state.isFocus &&
@@ -109,7 +104,12 @@ export default class TeXEditorFull extends Component {
  }
  */
 
+TeXEditorFull.defaultProps = {
+    toolbarPosition: ''
+}
+
 TeXEditorFull.propTypes = {
     readOnly: PropTypes.bool,
-    isBorder: PropTypes.bool
+    isBorder: PropTypes.bool,
+    toolbarPosition: PropTypes.string
 }

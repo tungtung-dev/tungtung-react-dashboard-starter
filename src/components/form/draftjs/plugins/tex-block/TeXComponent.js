@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 /**
  * Copyright (c) 2013-present, Facebook, Inc. All rights reserved.
  *
@@ -19,7 +17,6 @@
 import katex from 'katex';
 import React from 'react';
 import {Entity} from 'draft-js';
-import MathInput from '../katex/MathInput';
 
 class KatexOutput extends React.Component {
     constructor(props) {
@@ -57,7 +54,7 @@ class KatexOutput extends React.Component {
     }
 
     render() {
-        return <div ref="container" onClick={this.props.onClick}/>;
+        return <div ref="container" onClick={this.props.onClick} />;
     }
 }
 
@@ -80,10 +77,7 @@ export default class TeXBlock extends React.Component {
         };
 
         this._onValueChange = evt => {
-            if (typeof evt == 'object') {
-                var value = evt.target.value;
-            }
-            else var value = evt;
+            var value = evt.target.value;
             var invalid = false;
             try {
                 katex.__parse(value);
@@ -143,31 +137,39 @@ export default class TeXBlock extends React.Component {
 
         var editPanel = null;
         if (this.state.editMode) {
-            var buttonClass = 'TeXEditor-saveButton';
+            var buttonClass = 'btn btn-blue btn-sm';
             if (this.state.invalidTeX) {
                 buttonClass += ' TeXEditor-invalidButton';
             }
 
             editPanel =
-                <div className="TeXEditor-panel">
-                    <MathInput onChange={this._onValueChange} defaultValue={this.state.texValue}/>
-                    <div className="TeXEditor-buttons">
-                        <button
-                            className={buttonClass}
-                            disabled={this.state.invalidTeX}
-                            onClick={this._save}>
-                            {this.state.invalidTeX ? 'Invalid TeX' : 'Done'}
-                        </button>
-                        <button className="TeXEditor-removeButton" onClick={this._remove}>
-                            Remove
-                        </button>
+                    <div className="TeXEditor-panel">
+                  <textarea
+                      className="TeXEditor-texValue"
+                      onChange={this._onValueChange}
+                      ref="textarea"
+                      value={this.state.texValue}
+                  />
+                        <div className="TeXEditor-buttons">
+                            <button
+                                className={buttonClass}
+                                disabled={this.state.invalidTeX}
+                                onClick={this._save}>
+                                {this.state.invalidTeX ? 'Latex không đúng' : 'Xong'}
+                            </button>
+                            &nbsp;
+                            <button className="btn btn-red btn-sm" onClick={this._remove}>
+                                Xóa
+                            </button>
+                        </div>
                     </div>
-                </div>;
         }
+
+        const onClick = !this.props.readOnly ? this._onClick : () => {};
 
         return (
             <div className={className}>
-                <KatexOutput content={texContent} onClick={this._onClick}/>
+                <KatexOutput content={texContent} onClick={onClick} />
                 {editPanel}
             </div>
         );

@@ -19,13 +19,63 @@ const form = {
     fields
 }
 
+var rawContent = {
+    blocks: [
+        {
+            text: 'This is a Draft-based editor that supports TeX rendering.',
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: (
+                'Each TeX block below is represented as a DraftEntity object and ' +
+                'rendered using Khan Academy\'s KaTeX library.'
+            ),
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: 'Click any TeX block to edit.',
+            type: 'unstyled',
+        },
+        {
+            text: ' ',
+            type: 'atomic',
+            entityRanges: [{offset: 0, length: 1, key: 'first'}],
+        },
+        {
+            text: 'You can also insert a new TeX block at the cursor location.',
+            type: 'unstyled',
+        },
+    ],
+
+    entityMap: {
+        first: {
+            type: 'TOKEN',
+            mutability: 'IMMUTABLE',
+            data: {
+                filename: 'hello',
+                mode: 'php',
+                content: `$n = 100`,
+            },
+        },
+    },
+}
+
+var rawContent = '';
+
 const mapStateToProps = () => {
     return {
         initialValues: {
             title: 'Good job man',
-            description: 'Mọi người làm việc tốt lắm :smile: \n good job man',
-            content: `Cool, we can have all sorts of Emojis here. 🙌
-🌿☃️🎉🙈 aaaand maybe a few more here 🐲☀️🗻 Quite fun!`
+            description: 'var tung = "G',
+            content: rawContent
         }
     }
 }

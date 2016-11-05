@@ -49,7 +49,7 @@ export default class Header extends Component {
         return (
             <Navbar className="header" color="faded" light>
                 <Link to="/" className="navbar-brand">
-                    <img src="http://tungtung.vn/images/logo.png" alt="" style={{height: 18}}/>
+                    <img src="http://tungtung.vn/images/logo.png" alt="" style={{height: 20}}/>
                 </Link>
                 {!isAuthChecking && <Nav className="pull-xs-right" navbar>
                     {!isAuthenticated && <NavItem>

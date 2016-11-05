@@ -13,7 +13,6 @@ export default class SelectTag extends Component {
     }
     getValue() {
         if (Array.isArray(this.props.value)) {
-            console.log(this.props.value.map(v => v.value).join(','));
             return this.props.value.map(v => v.value).join(',')
         }
         return this.props.value;

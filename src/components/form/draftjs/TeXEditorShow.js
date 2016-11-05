@@ -17,17 +17,17 @@
 'use strict';
 
 import Draft from 'draft-js';
-import {Map} from 'immutable';
 import React, {PropTypes} from 'react';
 import TeXEditor from './TeXEditor';
-import Editor, {createEditorStateWithText} from 'draft-js-plugins-editor';
-//import plugins from './plugins';
-import request from 'superagent';
+import Editor from 'draft-js-plugins-editor';
 
-var {EditorState, ContentState,convertFromRaw, CompositeDecorator} = Draft;
-import StrategyCustom from './strategies/index';
+var {EditorState, ContentState,convertFromRaw} = Draft;
 
 export default class TeXEditorShow extends TeXEditor {
+    getEditMode(){
+        return false;
+    }
+
     componentDidUpdate(prevProps) {
         if (prevProps.value != this.props.value) {
             let newContentState = '';
@@ -40,14 +40,6 @@ export default class TeXEditorShow extends TeXEditor {
                 this._onChange(EditorState.createWithContent(newContentState, this.getDecorator()), false);
             }
         }
-    }
-
-    getEditMode(){
-        return false;
-    }
-
-    getDecorator() {
-        return new CompositeDecorator(StrategyCustom.Read);
     }
 
     render() {

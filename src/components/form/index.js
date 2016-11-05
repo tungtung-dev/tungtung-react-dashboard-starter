@@ -1,6 +1,7 @@
 import InputText from './input_text/index';
 import Textarea from './textarea/index';
 import MDEditor from './md_editor/index';
+import CodeEditor from './code_editor/index';
 import Select from './select/index';
 import SelectDropdown from './select_dropdown/index';
 import Loader from './loader/index';
@@ -10,10 +11,10 @@ import MarkdownDisplay from './markdown_display/index';
 import EmojioneDisplay from './emojione_display/index';
 
 export {
-    InputText, Textarea, Select, SelectTag, SelectDropdown,
+    InputText, Textarea, Select, SelectTag, SelectDropdown, CodeEditor,
     Loader, ValidateWrapControl, MDEditor, MarkdownDisplay, EmojioneDisplay
 }
 export default {
-    InputText, Textarea, Select, SelectTag, SelectDropdown,
+    InputText, Textarea, Select, SelectTag, SelectDropdown, CodeEditor,
     Loader, ValidateWrapControl, MDEditor, MarkdownDisplay, EmojioneDisplay
 }

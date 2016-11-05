@@ -20,9 +20,10 @@
       display: block;
     }
   }
-  margin-left: 180px;
+  margin-left: 230px;
   padding-top: 10px;
   height: 100%;
-  overflow-y: scroll;
+  z-index: 9999;
+  //overflow-y: scroll;
   padding-bottom: 20px;
 }

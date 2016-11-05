@@ -7,18 +7,26 @@ import createAlignmentPlugin, { AlignmentDecorator } from 'draft-js-alignment-pl
 import createToolbarPlugin, { ToolbarDecorator } from 'draft-js-toolbar-plugin';
 import createEntityPropsPlugin from 'draft-js-entity-props-plugin';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
+import createKatexPlugin from './plugins/tex-block/index';
+import createCodeEditorBlockPlugin from './plugins/code-editor-block/index';
 import strategyCustom from './strategies/index';
 
+
+
 if(!process.env.SERVER_RENDER) {
-require('draft-js-focus-plugin/lib/plugin.css');
-require('draft-js-image-plugin/lib/plugin.css');
-require('draft-js-alignment-plugin/lib/plugin.css');
-require('draft-js-toolbar-plugin/lib/plugin.css');
-require('draft-js-emoji-plugin/lib/plugin.css');
+    require('draft-js-focus-plugin/lib/plugin.css');
+    require('draft-js-image-plugin/lib/plugin.css');
+    require('draft-js-alignment-plugin/lib/plugin.css');
+    require('draft-js-toolbar-plugin/lib/plugin.css');
+    require('draft-js-emoji-plugin/lib/plugin.css');
+    require('./plugins/tex-block/style.scss')
+    require('./plugins/code-editor-block/style.scss')
+    require('./plugins/draftjs-side-toolbar-plugin/sideToolbarStyles.css')
+    require('./plugins/draftjs-side-toolbar-plugin/buttonStyles.css')
 }
 
 const ImageComponent = ResizeableDecorator({
-    resizeSteps: 10,
+    resizeSteps: 20,
     handles: true,
     vertical: 'auto'
 })(DraggableDecorator(FocusDecorator(
@@ -52,29 +60,12 @@ const plugins = [
 
 export {EmojiSuggestions}
 
-export default (handleUpload = () => {}, handleDefaultData = {}, edit) => {
+export default (config = {}, customPlugin = {}, editMode) => {
     return [
         ...plugins,
-        createDndPlugin({
-            allowDrop: true,
-            handleUpload,
-            handleDefaultData,
-            handlePlaceholder: (state, selection, data) => {
-                const { type } = data;
-                if (type.indexOf('image/') === 0) {
-                    return 'atomic';
-                } else if (type.indexOf('text/') === 0 || type === 'application/json') {
-                    return 'placeholder-github';
-                } return undefined;
-            }, handleBlock: (state, selection, data) => {
-                const { type } = data;
-                if (type.indexOf('image/') === 0) {
-                    return 'block-image';
-                } else if (type.indexOf('text/') === 0 || type === 'application/json') {
-                    return 'block-text';
-                } return undefined;
-            },
-        }),
-        //{decorators: edit ? strategyCustom.Edit : strategyCustom.Read}
+        createKatexPlugin(config.katex, !editMode),
+        createCodeEditorBlockPlugin(config.codeEditor, !editMode),
+        ...customPlugin,
+        {decorators: editMode ? strategyCustom.Edit : strategyCustom.Read}
     ]
 }

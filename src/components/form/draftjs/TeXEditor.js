@@ -1,65 +1,105 @@
-/* eslint-disable */
-import React, {PropTypes, Component} from 'react';
-import {Map} from 'immutable';
-import {autobind} from 'core-decorators';
 import Draft from 'draft-js';
-import classnames from 'classnames';
-import {Modal} from 'react-bootstrap';
+import {Map} from 'immutable';
+import React from 'react';
+import Editor from '../draft-js-plugins-editor';
+import {autobind} from 'core-decorators';
+import {insertTeXBlock, removeTeXBlock} from './plugins/tex-block/modifiers';
+import createSideToolbarPlugin from './plugins/draftjs-side-toolbar-plugin/index';
+import {insertCodeBlock, removeCodeBlock} from './plugins/code-editor-block/modifiers';
+import {insertImage} from './plugins/modifiers';
+import createPlugins from './plugins';
 import strategiesCustom from './strategies/index';
-import Editor, {createEditorStateWithText} from 'draft-js-plugins-editor';
 
-import createPlugins, {EmojiSuggestions} from './plugins';
+import "./style.scss";
 
-var {Entity, EditorState, ContentState, convertFromRaw, convertToRaw, RichUtils, AtomicBlockUtils, CompositeDecorator} = Draft;
+var {convertToRaw, convertFromRaw, ContentState, CompositeDecorator,EditorState, RichUtils} = Draft;
 
-export default class TeXEditor extends React.Component {
+const blockPlugins = {
+    katex: 'liveKatexEdit',
+    codeEditor: 'liveCodeEditorEdit',
+}
+
+export default class TeXEditorExample extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             editorState: this.getEditorState(),
-            liveTeXEdits: Map(),
+            [blockPlugins.katex]: Map(),
+            [blockPlugins.codeEditor]: Map()
         };
-
-        this._focus = (e) => {
-            this.refs.editor.focus();
-            this.props.onFocus(e);
-        }
-        this._blur = (e)=> {
-            if (this.props.onBlur) {
-                this.props.onBlur(e);
-            }
-        }
-        this._onChange = (editorState, change = true) => {
-            this.setState({editorState});
-            let contentState = editorState.getCurrentContent();
-            if (contentState.getPlainText()) {
-                if (change) this.props.onChange(convertToRaw(contentState));
-            }
-            else {
-                if (change) this.props.onChange(null);
-            }
-        }
-
-        this._handleKeyCommand = command => {
-            var {editorState} = this.state;
-            var newState = RichUtils.handleKeyCommand(editorState, command);
-            if (newState) {
-                this._onChange(newState);
-                return true;
-            }
-            return false;
-        };
-        this.plugins = createPlugins(this.props.handleUpload, this.props.handleDefaultData, this.getEditMode())
+        const sideToolbarPlugin = createSideToolbarPlugin();
+        this.SideToolBar = sideToolbarPlugin.SideToolbar;
+        this.plugins = createPlugins({
+            katex: this.getBlockConfig(blockPlugins.katex, removeTeXBlock),
+            codeEditor: this.getBlockConfig(blockPlugins.codeEditor, removeCodeBlock),
+        }, [], this.getEditMode());
     }
 
-    getEditMode() {
+    getEditMode(){
         return true;
+    }
+
+    @autobind
+    _focus(){
+        this.refs.editor.focus();
+    }
+
+    @autobind
+    _onChange(editorState, change = true){
+        this.setState({editorState});
+        let contentState = editorState.getCurrentContent();
+        if (contentState.getPlainText()) {
+            if (change) this.props.onChange(convertToRaw(contentState));
+        }
+        else {
+            if (change) this.props.onChange(null);
+        }
+    }
+
+    @autobind
+    _handleKeyCommand(command){
+        var {editorState} = this.state;
+        var newState = RichUtils.handleKeyCommand(editorState, command);
+        if (newState) {
+            this._onChange(newState);
+            return true;
+        }
+        return false;
+    }
+
+    @autobind
+    insertBlock(keyStateBlock, insertBlockFunc){
+        this.setState({
+            [keyStateBlock]: Map(),
+        });
+        this._onChange(insertBlockFunc(this.state.editorState));
+    }
+
+    @autobind
+    getBlockConfig(keyStateBlock, removeBlockFunc){
+        const removeBlock = (blockKey) => {
+            this.setState({
+                [keyStateBlock]: this.state[keyStateBlock].remove(blockKey),
+            });
+            this._onChange(removeBlockFunc(this.state.editorState, blockKey));
+        };
+
+        return {
+            onStartEdit: (blockKey) => {
+                this.setState({[keyStateBlock]: this.state[keyStateBlock].set(blockKey, true)});
+            },
+            onFinishEdit: (blockKey) => {
+                this.setState({[keyStateBlock]: this.state[keyStateBlock].remove(blockKey)});
+                this._onChange(this.state.editorState);
+            },
+            onRemove: (blockKey) => removeBlock(blockKey),
+        }
     }
 
     getEditorState() {
         let newRawContent = this.props.value;
         let newContentState = '';
-        if (typeof newRawContent == 'object') {
+        if (typeof newRawContent === 'object') {
             if (newRawContent) {
                 if (!newRawContent.entityMap) newRawContent.entityMap = {};
                 if (!newRawContent.blocks[0].inlineStyleRanges) newRawContent.blocks[0].inlineStyleRanges = []
@@ -70,47 +110,61 @@ export default class TeXEditor extends React.Component {
         else if (newRawContent) {
             newContentState = ContentState.createFromText(this.props.value);
         }
-        if(!newContentState) return EditorState.createEmpty(this.getDecorator());
+        if (!newContentState) return EditorState.createEmpty(this.getDecorator());
         return EditorState.createWithContent(newContentState, this.getDecorator());
     }
 
-    //componentDidMount() {
-    //    let newRawContent = this.props.value;
-    //    if (typeof newRawContent == 'object') {
-    //        if (newRawContent) {
-    //            if (!newRawContent.entityMap) newRawContent.entityMap = {};
-    //            if (!newRawContent.blocks[0].inlineStyleRanges) newRawContent.blocks[0].inlineStyleRanges = []
-    //            if (!newRawContent.blocks[0].entityRanges) newRawContent.blocks[0].entityRanges = []
-    //            let newContentState = convertFromRaw(newRawContent);
-    //            this._onChange(EditorState.createWithContent(newContentState, this.getDecorator()), false);
-    //        }
-    //    }
-    //    else if (newRawContent) {
-    //        let newContentState = ContentState.createFromText(this.props.value);
-    //        this._onChange(EditorState.createWithContent(newContentState, this.getDecorator()), false);
-    //    }
-    //}
-
     getDecorator() {
-        return new CompositeDecorator(strategiesCustom.Edit);
+        const strategies = this.getEditMode() ? strategiesCustom.Edit : strategiesCustom.Read
+        return new CompositeDecorator(strategies);
+    }
+
+    disableDraftjs(){
+        var disable = false;
+        Object.keys(blockPlugins).map(key => {
+            let keyBlockEdit = blockPlugins[key];
+            let liveBlockEdit = this.state[keyBlockEdit];
+            if(liveBlockEdit && liveBlockEdit.count()){
+                disable = true;
+            }
+            return {};
+        })
+        return disable;
+    }
+
+    @autobind
+    insertCodeEditor(){
+        this.insertBlock(blockPlugins.codeEditor, insertCodeBlock);
+    }
+
+    @autobind
+    insertTeXEditor(){
+        this.insertBlock(blockPlugins.katex, insertTeXBlock);
+    }
+
+    @autobind
+    insertImage(){
+        const addImage = (src) => {
+            return insertImage(this.state.editorState, 'http://tungtung.vn/images/logo.png');
+        }
+        this.insertBlock('liveImage', addImage);
     }
 
     render() {
         return (
             <div className="TexEditor-container">
                 <div className="TeXEditor-root">
-                    <div className="TeXEditor-editor" onClick={this._focus} onFocus={this._focus} onBlur={this._blur}>
+                    <div className="TeXEditor-editor" id={this.props.id} onClick={this._focus}>
                         <Editor
                             editorState={this.state.editorState}
-                            plugins={this.plugins}
+                            handleKeyCommand={this._handleKeyCommand}
                             onChange={this._onChange}
-                            onBlur={this._blur}
-                            placeholder={this.props.placeholder}
-                            readOnly={this.state.liveTeXEdits.count()}
+                            placeholder="Start a document..."
+                            readOnly={this.disableDraftjs()}
                             ref="editor"
-                            spellCheck={false}
+                            spellCheck={true}
+                            plugins={this.plugins}
                         />
-                        <EmojiSuggestions/>
                     </div>
                 </div>
             </div>
@@ -118,5 +172,4 @@ export default class TeXEditor extends React.Component {
     }
 }
 
-/* plugins={plugins}
- blockRendererFn={mediaBlockRenderer}*/
+//                            blockRendererFn={this._blockRenderer}

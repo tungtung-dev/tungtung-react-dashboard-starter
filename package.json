@@ -69,7 +69,7 @@
     "draft-js-entity-props-plugin": "^2.0.0-beta1",
     "draft-js-focus-plugin": "^2.0.0-beta1",
     "draft-js-image-plugin": "^2.0.0-beta1",
-    "draft-js-plugins-editor": "^2.0.0-beta1",
+    "draft-js-plugins-editor": "^2.0.0-beta5",
     "draft-js-resizeable-plugin": "^1.0.8",
     "draft-js-toolbar-plugin": "^1.0.5",
     "emojione": "^2.2.6",
