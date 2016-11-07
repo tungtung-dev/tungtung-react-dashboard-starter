@@ -30,18 +30,18 @@ export default class AppWrapper extends Component {
     render() {
         const {isAuthenticated, auth} = this.props;
         return (
-            <div className={classnames('dashboard-container', {'show-sidebar': this.state.showSidebar})}>
-                <Header isAuthenticated={isAuthenticated} auth={auth}/>
-                <div style={{height: 'calc(100% - 48px)'}}>
-                    <Sidebar currentPath={this.props.location.pathname} showSidebar={this.state.showSidebar}/>
-                    <div className="wrapper">
-                        <Col md={12} style={{height: '100%'}}>
-                            <MenuBar onClick={this.toggleSidebar} showSidebar={this.state.showSidebar}/>
-                            {this.props.children}
-                        </Col>
+                <div className={classnames('dashboard-container', {'show-sidebar': this.state.showSidebar})}>
+                    <Header isAuthenticated={isAuthenticated} auth={auth}/>
+                    <div style={{height: 'calc(100% - 48px)'}}>
+                        <Sidebar currentPath={this.props.location.pathname} showSidebar={this.state.showSidebar}/>
+                        <div className="wrapper">
+                            <Col md={12} style={{height: '100%'}}>
+                                <MenuBar onClick={this.toggleSidebar} showSidebar={this.state.showSidebar}/>
+                                {this.props.children}
+                            </Col>
+                        </div>
                     </div>
                 </div>
-            </div>
         )
     }
 }

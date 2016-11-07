@@ -14,7 +14,7 @@ const initialState = {
     folders: [
         folderAll
     ],
-    currentFolder: folderAll,
+    current_folder: folderAll,
     medias: {
         data: [],
         pagination: []
@@ -32,10 +32,10 @@ export default function createReducer(state = initialState, action) {
                 ]
             }
         case GET_FOLDER_PHOTOS:
-            var currentFolder = state.folders.find((f) => f.id === action.id);
+            var current_folder = state.folders.find((f) => f.id === action.id);
             return {
                 ...state,
-                currentFolder,
+                current_folder,
                 medias: {
                     ...state.medias,
                     data: action.payload.getFolderPhotos
@@ -56,10 +56,10 @@ export default function createReducer(state = initialState, action) {
             });
         case UPDATE_FOLDER:
             var folderIndex = state.folders.findIndex((f) => f.id === action.id);
-            var currentFolder = state.currentFolder;
-            if (currentFolder.id === action.id) {
-                currentFolder = {
-                    ...currentFolder,
+            var current_folder = state.current_folder;
+            if (current_folder.id === action.id) {
+                current_folder = {
+                    ...current_folder,
                     id: action.name,
                     name: action.name
                 }
@@ -75,8 +75,8 @@ export default function createReducer(state = initialState, action) {
                         }
                     }
                 },
-                currentFolder: {
-                    $set: currentFolder
+                current_folder: {
+                    $set: current_folder
                 }
             })
         case ADD_MEDIA:

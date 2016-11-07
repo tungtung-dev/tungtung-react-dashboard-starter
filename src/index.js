@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './redux/Root';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import 'font-awesome/scss/font-awesome.scss';
 import 'simple-line-icons/scss/simple-line-icons.scss';
 import 'animate.css/animate.css';
 import 'toastr/toastr.scss';
 import './assets/scss/index.scss';
+
+injectTapEventPlugin();
 
 ReactDOM.render(
   <Root />,

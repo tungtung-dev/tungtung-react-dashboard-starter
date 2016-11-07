@@ -9,9 +9,9 @@ import {folderItemPropType} from '../proptypes';
 import "./style.scss";
 
 const mapStateToProps = (state) => {
-    const {folders, currentFolder} = state.media
+    const {folders, current_folder} = state.media
     return {
-        folders, currentFolder
+        folders, current_folder
     }
 }
 
@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Folders extends Component {
     render() {
-        const {folders, currentFolder} = this.props;
+        const {folders, current_folder} = this.props;
         return (
             <div className="folders-sidebar">
                 <ul className="nav-lists">
@@ -31,8 +31,8 @@ export default class Folders extends Component {
                             key={folder.id}
                             onActive={this.props.getFolderPhotos}
                             onUpdate={this.props.updateFolder}
-                            active={currentFolder.id === folder.id}
-                            editable={currentFolder.id !== 'all'}
+                            active={current_folder.id === folder.id}
+                            editable={current_folder.id !== 'all'}
                             {...folder}
                         />
                     )}

@@ -1,8 +1,7 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {autobind} from 'core-decorators';
-import classnames from 'classnames';
+import {connect} from '../../../utils/reduxAwait';
+import {Loader} from '../../form/index';
 import {addMedia, updateMedia, removeMedia} from '../../../redux/actions/MediaActions';
 import {mediaItemPropType} from '../proptypes';
 import MediaItem from './media_item';
@@ -12,9 +11,10 @@ import MediaDropzone from './media_dropdzone';
 import "./style.scss";
 
 const mapStateToProps = (state) => {
-    const {data} = state.media.medias
+    const {medias: {data}, current_folder} = state.media;
     return {
-        medias: data
+        medias: data,
+        current_folder
     }
 }
 
@@ -25,13 +25,14 @@ const mapDispatchToProps = (dispatch) => {
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Folders extends Component {
     render() {
-        const {medias} = this.props;
+        const {medias, current_folder, awaitStatuses:{getFolderPhotos}} = this.props;
         return (
             <div className="media-lists-manager">
                 <MediaToolbar onUpload={() => this.refs.dropzone.openDropzone()}/>
-                <MediaDropzone ref="dropzone" onAddMedia={this.props.addMedia} onUpdateMedia={this.props.updateMedia}>
+                <MediaDropzone folder_id={current_folder.id} ref="dropzone" onAddMedia={this.props.addMedia} onUpdateMedia={this.props.updateMedia}>
                     <div className="media-lists">
-                        {medias.map(media => <MediaItem key={media.id} {...media}/>)}
+                        {getFolderPhotos === 'success' && medias.map(media => <MediaItem key={media.id} {...media}/>)}
+                        {getFolderPhotos === 'pending' && <div className="flex margin-top-20 fullwidth justify-center"><Loader/></div>}
                     </div>
                 </MediaDropzone>
             </div>

@@ -28,6 +28,10 @@ export default class MediaItem extends Component {
             case 'image/png':
             case 'image/gif':
                 return '#3498db';
+            case 'application/pdf':
+                return '#e67e22';
+            case 'video/mp4':
+                return '#8e44ad';
             default: return '#2ecc71'
         }
     }
@@ -40,6 +44,12 @@ export default class MediaItem extends Component {
             case 'image/png':
             case 'image/gif':
                 icon = 'fa fa-file-image-o';
+                break;
+            case 'application/pdf':
+                icon = 'fa fa-file-pdf-o';
+                break;
+            case 'video/mp4':
+                icon = 'fa fa-file-video-o'
                 break;
             default: icon = 'fa fa-file-o';
         }
@@ -60,10 +70,12 @@ export default class MediaItem extends Component {
     }
 
     renderThumbnailIcon(){
+        const isImage = this.isimage();
         return <div className="thumbnail-icon" style={{backgroundColor: this.getColor()}}>
             <div className="display">
                 {this.getIcon()}
-                <span className="name">{this.props.name}</span>
+                {isImage && <span className="name">{this.props.name}</span>}
+                {!isImage && <span className="name">{this.props.type}</span>}
             </div>
         </div>
     }

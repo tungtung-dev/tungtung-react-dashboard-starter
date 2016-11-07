@@ -44,6 +44,7 @@ export default class MediaDropdzone extends Component {
         this.props.onAddMedia(newFile);
         data.append('uploads[]', file, file.name);
         data.append('id', newFile.id);
+        data.append('folder_id', this.props.folder_id);
         const callback_xhr = function (xhr, onUpdateMedia) {
             xhr.upload.onprogress = function (evt) {
                 if (evt.lengthComputable) {
@@ -67,7 +68,7 @@ export default class MediaDropdzone extends Component {
     render() {
         return (
             <div className="dropzone-manager">
-                <Dropzone className="dropzone" ref={(node) => { this.dropzone = node; }} onDrop={this.onDrop}>
+                <Dropzone className="dropzone" disableClick ref={(node) => { this.dropzone = node; }} onDrop={this.onDrop}>
                     {this.props.children}
                 </Dropzone>
             </div>
@@ -77,5 +78,6 @@ export default class MediaDropdzone extends Component {
 
 MediaDropdzone.propTypes = {
     onAddMedia: PropTypes.func,
-    onUpdateMedia: PropTypes.func
+    onUpdateMedia: PropTypes.func,
+    folder_id: PropTypes.string
 }
