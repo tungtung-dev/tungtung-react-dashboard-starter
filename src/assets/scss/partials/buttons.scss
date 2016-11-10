@@ -13,11 +13,11 @@
   color: $color;
   background: #ffffff;
   &:hover, &:focus {
-    //background: lighten($color, 6%);
-    border: 1px solid darken($color, 2);
-    color: darken($color, 2);
-    background: #ffffff;
+    background: $color;
+    //border: 1px solid darken($color, 2);
+    //color: darken($color, 2);
     //color: $color-text;
+    color: #ffffff;
     outline: none;
   }
 }
@@ -52,14 +52,10 @@ button:focus {
   font-size: 12px;
 }
 
-.btn-default, .btn-default:hover, .btn-default:focus, .btn-default:active {
-  border: 1px solid #4cabff;
-  color: #0088ff;
-  background: #ffffff;
-  outline: none !important;
-  box-shadow: none !important;
+.btn-default {
+  @include button_vndev(#08f);
   &.fill{
-    @include button_vndev_fill(#4cabff);
+    @include button_vndev_fill(#08f);
   }
 }
 

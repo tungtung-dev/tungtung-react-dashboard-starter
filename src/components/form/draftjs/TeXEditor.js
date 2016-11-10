@@ -4,13 +4,14 @@ import React from 'react';
 import Editor from '../draft-js-plugins-editor';
 import {autobind} from 'core-decorators';
 import {insertTeXBlock, removeTeXBlock} from './plugins/tex-block/modifiers';
-import createSideToolbarPlugin from './plugins/draftjs-side-toolbar-plugin/index';
 import {insertCodeBlock, removeCodeBlock} from './plugins/code-editor-block/modifiers';
 import {insertImage} from './plugins/modifiers';
 import createPlugins from './plugins';
 import strategiesCustom from './strategies/index';
 
-import "./style.scss";
+if(!process.env.SERVER_RENDER){
+    require("./style.scss");
+}
 
 var {convertToRaw, convertFromRaw, ContentState, CompositeDecorator,EditorState, RichUtils} = Draft;
 
@@ -27,8 +28,6 @@ export default class TeXEditorExample extends React.Component {
             [blockPlugins.katex]: Map(),
             [blockPlugins.codeEditor]: Map()
         };
-        const sideToolbarPlugin = createSideToolbarPlugin();
-        this.SideToolBar = sideToolbarPlugin.SideToolbar;
         this.plugins = createPlugins({
             katex: this.getBlockConfig(blockPlugins.katex, removeTeXBlock),
             codeEditor: this.getBlockConfig(blockPlugins.codeEditor, removeCodeBlock),
@@ -40,8 +39,20 @@ export default class TeXEditorExample extends React.Component {
     }
 
     @autobind
-    _focus(){
-        this.refs.editor.focus();
+    _focus(e){
+        if(this.editor && this.editor.focus){
+            this.editor.focus();
+        }
+        if(this.props.onFocus){
+            this.props.onFocus(e);
+        }
+    }
+
+    @autobind
+    _blur(e){
+        if (this.props.onBlur) {
+            this.props.onBlur(e);
+        }
     }
 
     @autobind
@@ -143,9 +154,9 @@ export default class TeXEditorExample extends React.Component {
     }
 
     @autobind
-    insertImage(){
-        const addImage = (src) => {
-            return insertImage(this.state.editorState, 'http://tungtung.vn/images/logo.png');
+    insertImage(image){
+        const addImage = () => {
+            return insertImage(this.state.editorState, image);
         }
         this.insertBlock('liveImage', addImage);
     }
@@ -154,14 +165,14 @@ export default class TeXEditorExample extends React.Component {
         return (
             <div className="TexEditor-container">
                 <div className="TeXEditor-root">
-                    <div className="TeXEditor-editor" id={this.props.id} onClick={this._focus}>
+                    <div className="TeXEditor-editor" id={this.props.id} onClick={this._focus} onFocus={this._focus} onBlur={this._blur}>
                         <Editor
                             editorState={this.state.editorState}
                             handleKeyCommand={this._handleKeyCommand}
                             onChange={this._onChange}
-                            placeholder="Start a document..."
+                            placeholder={this.props.placeholder}
                             readOnly={this.disableDraftjs()}
-                            ref="editor"
+                            ref={(ref) => this.editor = ref}
                             spellCheck={true}
                             plugins={this.plugins}
                         />

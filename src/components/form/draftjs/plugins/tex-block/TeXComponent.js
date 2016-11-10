@@ -12,11 +12,12 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-'use strict';
-
-import katex from 'katex';
 import React from 'react';
 import {Entity} from 'draft-js';
+var katex = {};
+if(!process.env.SERVER_RENDER) {
+    katex = require('katex');
+};
 
 class KatexOutput extends React.Component {
     constructor(props) {

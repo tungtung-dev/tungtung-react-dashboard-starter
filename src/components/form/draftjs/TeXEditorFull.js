@@ -1,18 +1,20 @@
 import React, {Component, PropTypes} from 'react';
 import classnames from 'classnames';
-import ValidateWrapControl from '../validate_wrap_control/index';
+import {autobind} from 'core-decorators';
 import TeXEditor from './TeXEditor';
 import TeXEditorShow from './TeXEditorShow';
-import ReactTooltip from 'react-tooltip'
-import "./style.scss"
+import Link from '../link/index';
+import {MediaManagerModal, ChooseImageWrap} from '../../media_manager/index';
+import dataTooltip from '../../../constants/tooltipType';
 
 export default class TeXEditorFull extends Component {
+    state = {
+        haveRead: false,
+        isFocus: false
+    }
+
     constructor() {
         super(...arguments);
-        this.state = {
-            haveRead: false,
-            isFocus: false
-        }
         this._onToggleRead = this._onToggleRead.bind(this);
         this._handleFocus = (e) => {
             this.setState({isFocus: true});
@@ -31,78 +33,69 @@ export default class TeXEditorFull extends Component {
             e.preventDefault();
             this.refs.editor.insertTeXEditor();
         }
-        this._insertImage = (e) => {
-            e.preventDefault();
-            this.refs.editor.insertImage();
+        this._handleChooseMedia = (media) => {
+            this.refs.editor.insertImage(media.original_url)
         }
     };
 
+    @autobind
     _onToggleRead(e) {
         e.preventDefault();
         this.setState({haveRead: !this.state.haveRead});
     }
 
-    renderToolbarItem(onClick, icon, id, description){
+    renderToolbarItem(onClick, icon, tooltip){
         return <div className="item">
-            <a href="#" data-tip data-for={`toolbar-item-${id}`} tabIndex="-1" onClick={onClick}>
+            <Link to="#" tabIndex="-1" tooltip={tooltip} onClick={onClick}>
                 <i className={icon}></i>
-            </a>
-            <ReactTooltip place="left" id={`toolbar-item-${id}`} type='warning' effect='solid'>
-                <span>{description}</span>
-            </ReactTooltip>
+            </Link>
         </div>
     }
 
-    render() {
-        const {isBorder} = this.props;
+    renderToolbars(){
         const isShowRead = this.props.readOnly || this.state.haveRead;
+        return <div className={`toolbar ${this.props.toolbarPosition}`}>
+            {this.renderToolbarItem(this._insertCodeEditor, 'fa fa-code', dataTooltip.draft_editor.insert_code_editor)}
+            {this.renderToolbarItem(this._insertTeXEditor, 'icon-calculator', dataTooltip.draft_editor.insert_katex)}
+            <ChooseImageWrap className="item" onChoose={this._handleChooseMedia}>
+                <Link to="#" tabIndex="-1" tooltip={dataTooltip.draft_editor.insert_image}>
+                    <i className="icon-camera"/>
+                </Link>
+            </ChooseImageWrap>
+            <Link tooltip={dataTooltip.draft_editor.preview} href="#" className={isShowRead ? 'active': ''} tabIndex="-1" onClick={this._onToggleRead}>
+                <i className="icon-eye"></i>
+            </Link>
+        </div>
+    }
+
+    componentDidUpdate(prevProps){
+        if(prevProps.preview_all !== this.props.preview_all){
+            this.setState({haveRead: this.props.preview_all});
+        }
+    }
+
+    render() {
+        const {isBorder, readOnly} = this.props;
+        const isShowRead = this.props.readOnly || this.state.haveRead;
+        const classNameTexFull = classnames('TeXEditor-full',{'haveRead':isShowRead, 'border': isBorder, readOnly});
         return (
-            <ValidateWrapControl {...this.props}>
-                <div className={classnames('TeXEditor-full',{'haveRead':isShowRead, 'border': isBorder})}>
-                    {!this.props.readOnly && <div className="write">
-                        <TeXEditor
-                            {...this.props}
-                            onFocus={this._handleFocus} onBlur={this._handleBlur}
-                            ref="editor"
-                        />
-                    </div>
-                    }
-                    <div className="read">
-                        <TeXEditorShow {...this.props} onChange={() => {}} onFocus={()=>{}}/>
-                    </div>
-                    {!this.props.readOnly &&
-                        <div className={`toolbar ${this.props.toolbarPosition}`}>
-                            {this.renderToolbarItem(this._insertCodeEditor, 'fa fa-code','code', 'Nhúng code editor')}
-                            {this.renderToolbarItem(this._insertTeXEditor, 'icon-calculator','katex', 'Nhúng mã toán học')}
-                            {this.renderToolbarItem(this._insertImage, 'icon-camera','camera', 'Nhúng ảnh')}
-                            <a href="#" className={isShowRead ? 'active': ''} tabIndex="-1" onClick={this._onToggleRead}><i className="icon-eye"></i></a>
-                        </div>
-                    }
+            <div className={classNameTexFull}>
+                {!readOnly && <div className="write">
+                    <TeXEditor
+                        {...this.props}
+                        onFocus={this._handleFocus} onBlur={this._handleBlur}
+                        ref="editor"
+                    />
                 </div>
-            </ValidateWrapControl>
+                }
+                <div className="read">
+                    <TeXEditorShow {...this.props} onChange={() => {}} onFocus={()=>{}}/>
+                </div>
+                {!readOnly && this.renderToolbars()}
+            </div>
         )
     }
 }
-//
-
-/*
- {this.state.isFocus &&
- <div className="suggest">
- <p><i className="icon-star"></i> Sử dụng phím <strong>Tab</strong> để di chuyển giữa các câu hỏi và câu trả lời</p>
- <p>Soạn thảo toán học, sử dụng thẻ <span className="text-blue">m:<span className="text-green">[latex]</span>:</span></p>
- <p><u>Ví dụ:</u></p>
- <table className="table">
- <tr>
- <td>m:x^2+10+3:</td>
- <td>
- <KatexInline tex="x^2+10+3"/>
- </td>
- </tr>
- </table>
- <p>m:x^2 + 10 + 3:</p>
- </div>
- }
- */
 
 TeXEditorFull.defaultProps = {
     toolbarPosition: ''

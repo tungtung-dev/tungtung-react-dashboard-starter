@@ -28,6 +28,10 @@
       overflow: hidden;
       &:hover > .overlay {
         opacity: 1;
+        cursor: pointer;
+      }
+      &.checked .overlay{
+        opacity: 1;
       }
       .overlay {
         opacity: 0;
@@ -45,6 +49,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        .icon-check{
+          font-size: 20px;
+        }
         .name {
           color: #ffffff;
           padding: 0px 10px;
@@ -59,13 +66,18 @@
           bottom: 0px;
           display: flex;
           justify-content: space-between;
+          .btn, span{
+            width: 25%;
+            .btn{
+              width: 100%;
+            }
+          }
           .btn {
             background: transparent;
             border: 0px;
             padding: 5px 0px;
             font-size: 14px;
             color: #ffffff;
-            width: 25%;
             &:focus {
               outline: none;
             }

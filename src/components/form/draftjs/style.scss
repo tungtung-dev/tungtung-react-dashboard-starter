@@ -46,7 +46,6 @@
       }
     }
   }
-
   .write, .read {
     float:left;
     width: 100%;
@@ -78,12 +77,26 @@
       }
     }
   }
+  &.readOnly{
+    margin-top: 0px;
+    .read{
+      width: 100%;
+    }
+    .public-DraftEditor-content > div{
+      & > div:last-child, & > div:first-child{
+        br{
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 .TeXEditor-root {
   margin-top: 0px !important;
   margin-bottom: 5px !important;
   font-size: 14px;
+  font-family: 'Bookerly';
   .TeXEditor-editor {
     min-height: 20px;
   }

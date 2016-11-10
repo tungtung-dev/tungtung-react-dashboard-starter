@@ -9,12 +9,17 @@ import ValidateWrapControl from './validate_wrap_control/index';
 import SelectTag from './select_tag/index';
 import MarkdownDisplay from './markdown_display/index';
 import EmojioneDisplay from './emojione_display/index';
+import DialogConfirm from './dialog_confirm/index';
+import SelectImage from './select_image/index';
+import SelectMultipleMedia from './select_multiple_media/index';
 
 export {
     InputText, Textarea, Select, SelectTag, SelectDropdown, CodeEditor,
-    Loader, ValidateWrapControl, MDEditor, MarkdownDisplay, EmojioneDisplay
+    Loader, ValidateWrapControl, MDEditor, MarkdownDisplay, EmojioneDisplay,
+    DialogConfirm, SelectImage, SelectMultipleMedia
 }
 export default {
     InputText, Textarea, Select, SelectTag, SelectDropdown, CodeEditor,
-    Loader, ValidateWrapControl, MDEditor, MarkdownDisplay, EmojioneDisplay
+    Loader, ValidateWrapControl, MDEditor, MarkdownDisplay, EmojioneDisplay,
+    DialogConfirm, SelectImage, SelectMultipleMedia
 }

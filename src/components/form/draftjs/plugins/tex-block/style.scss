@@ -27,44 +27,10 @@
   padding: 14px;
   resize: none;
   -webkit-box-sizing: border-box;
-  width: 500px;
+  width: 90%;
 }
 
 .TeXEditor-buttons {
   margin-top: 10px;
 }
 
-.TeXEditor-saveButton,
-.TeXEditor-removeButton {
-  background-color: #fff;
-  border: 1px solid #0a0;
-  cursor: pointer;
-  font-family: 'Helvetica', 'Arial', sans-serif;
-  font-size: 14px;
-  font-weight: 200;
-  margin: 5px auto;
-  padding: 5px;
-  -webkit-border-radius: 3px;
-  width: 100px;
-}
-
-.TeXEditor-removeButton {
-  border-color: #aaa;
-  color: #999;
-  margin-left: 8px;
-}
-
-.TeXEditor-invalidButton {
-  background-color: #eee;
-  border-color: #a00;
-  color: #666;
-}
-
-.TeXEditor-insert {
-  background-color: #f1f1f1;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  bottom: 30px;
-  position: fixed;
-  right: 30px;
-}

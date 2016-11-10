@@ -23,8 +23,8 @@ export function addFolder(name) {
     return postFetch(getUrl(`folders`), {name});
 }
 
-export function deleteFolder(id) {
-    return deleteFolder(getUrl(`folders/${id}`))
+export function removeFolder(id) {
+    return deleteFetch(getUrl(`folders/${id}`))
 }
 
 export function uploadMedia(data, callback){
@@ -33,4 +33,8 @@ export function uploadMedia(data, callback){
     }, callback);
 }
 
-export default {getFolders, getFolderPhotos, addFolder, updateFolder, deleteFolder, uploadMedia}
+export function removeMedia(id) {
+    return deleteFetch(getUrl(`files/${id}`));
+}
+
+export default {getFolders, getFolderPhotos, addFolder, updateFolder, removeFolder, uploadMedia, removeMedia}

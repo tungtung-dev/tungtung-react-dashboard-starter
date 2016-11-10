@@ -1,9 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import classnames from 'classnames';
-import {getFolders, getFolderPhotos, updateFolder, removeFolder} from '../../../redux/actions/MediaActions';
+import Equal from 'deep-equal';
+import {addFolder, getFolders, getFolderPhotos, updateFolder, removeFolder} from '../../../redux/actions/MediaActions';
 import FolderItem from './folder_item';
+import CreateFolderItem from './create_folder_item';
 import {folderItemPropType} from '../proptypes';
 
 import "./style.scss";
@@ -16,13 +17,17 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({getFolders, getFolderPhotos, updateFolder, removeFolder}, dispatch);
+    return bindActionCreators({addFolder, getFolders, getFolderPhotos, updateFolder, removeFolder}, dispatch);
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Folders extends Component {
+    shouldComponentUpdate(prevProps, prevState){
+        return !Equal(this.props, prevProps);
+    }
+
     render() {
-        const {folders, current_folder} = this.props;
+        const {folders, current_folder, addFolder} = this.props;
         return (
             <div className="folders-sidebar">
                 <ul className="nav-lists">
@@ -31,11 +36,13 @@ export default class Folders extends Component {
                             key={folder.id}
                             onActive={this.props.getFolderPhotos}
                             onUpdate={this.props.updateFolder}
+                            onRemove={this.props.removeFolder}
                             active={current_folder.id === folder.id}
                             editable={current_folder.id !== 'all'}
                             {...folder}
                         />
                     )}
+                    <CreateFolderItem onSubmit={addFolder}/>
                 </ul>
             </div>
         )

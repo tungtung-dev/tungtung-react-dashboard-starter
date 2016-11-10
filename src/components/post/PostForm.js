@@ -1,22 +1,33 @@
 import React, {Component, PropTypes} from 'react';
 import {Row, Col} from 'reactstrap';
-import {InputText, MDEditor, Textarea, SelectTag, EmojioneDisplay, CodeEditor} from '../form/index';
+import {autobind} from 'core-decorators';
+import {InputText, MDEditor, Textarea, SelectTag, EmojioneDisplay, CodeEditor, SelectImage, SelectMultipleMedia} from '../form/index';
 import TeXEditorFull from '../form/draftjs/TeXEditorFull';
+import {MediaManagerModal} from '../../components/media_manager';
+
 
 export default class PostForm extends Component {
     constructor() {
         super(...arguments);
         this.state = {
-            code: ''
+            code: '',
+            showMedia: false
         };
+    }
+
+
+    @autobind
+    toggleMedia(){
+        this.setState({showMedia: !this.state.showMedia})
     }
 
     render() {
         const {fields: {title, description, content}} = this.props;
         return (
             <Row>
-                    <TeXEditorFull  toolbarPosition="left" {...content} onFocus={() => {}} onBlur={()=>{}} isBorder/>
-
+                <TeXEditorFull  toolbarPosition="left" {...content} onFocus={() => {}} onBlur={()=>{}} isBorder/>
+                <SelectImage/>
+                <SelectMultipleMedia {...title} medias={title.value}/>
             </Row>
         )
     }

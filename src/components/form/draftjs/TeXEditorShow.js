@@ -14,8 +14,6 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-'use strict';
-
 import Draft from 'draft-js';
 import React, {PropTypes} from 'react';
 import TeXEditor from './TeXEditor';
@@ -27,7 +25,6 @@ export default class TeXEditorShow extends TeXEditor {
     getEditMode(){
         return false;
     }
-
     componentDidUpdate(prevProps) {
         if (prevProps.value != this.props.value) {
             let newContentState = '';

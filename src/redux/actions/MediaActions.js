@@ -8,7 +8,12 @@ export const REMOVE_FOLDER = 'MEDIA/remove-folder';
 export const UPDATE_FOLDER = 'MEDIA/update-folder';
 export const ADD_MEDIA = 'MEDIA/add-media';
 export const UPDATE_MEDIA = 'MEDIA/update-media';
+export const CHECKED_MEDIA = 'MEDIA/checked-media';
+export const UNCHECKED_MEDIA = 'MEDIA/un-checked-media';
+export const CHECKED_ALL_MEDIA = 'MEDIA/checked-all-media';
+export const UNCHECKED_ALL_MEDIA = 'MEDIA/un-checked-all-media';
 export const REMOVE_MEDIA = 'MEDIA/remove-media';
+export const REMOVE_MEDIA_CHECKED = 'MEDIA/remove-media-checked';
 
 export function getFolders() {
     return {
@@ -41,6 +46,7 @@ export function updateFolder(id, name) {
 }
 
 export function removeFolder(id) {
+    MediaApi.removeFolder(id);
     return {
         type: REMOVE_FOLDER,
         id
@@ -50,6 +56,7 @@ export function removeFolder(id) {
 export function addFolder(name) {
     return {
         type: ADD_FOLDER,
+        AWAIT_MARKER,
         payload: {
             addFolder: MediaApi.addFolder(name)
         }
@@ -71,7 +78,44 @@ export function updateMedia(id, media){
     }
 }
 
+export function checkedMedia(id){
+    return {
+        type: CHECKED_MEDIA,
+        id
+    }
+}
+
+export function unCheckedMedia(id){
+    return {
+        type: UNCHECKED_MEDIA,
+        id
+    }
+}
+
+export function checkedAllMedia(){
+    return {
+        type: CHECKED_ALL_MEDIA,
+    }
+}
+
+export function unCheckedAllMedia(){
+    return {
+        type: UNCHECKED_ALL_MEDIA,
+    }
+}
+
+export function removeMediaChecked(medias_id){
+    medias_id.map(media_id => {
+        MediaApi.removeMedia(media_id);
+        return {}
+    })
+    return {
+        type: REMOVE_MEDIA_CHECKED
+    }
+}
+
 export function removeMedia(id) {
+    MediaApi.removeMedia(id);
     return {
         type: REMOVE_MEDIA,
         id
