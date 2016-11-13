@@ -11,6 +11,12 @@ const Span = ({children, className}) => <span className={className}>{children}</
 
 @connect(() => ({}), (dispatch) => bindActionCreators({addAlertToast}, dispatch))
 export default class ChooseImageWrap extends Component {
+    static propTypes = {
+        element: PropTypes.oneOf(['div','span']),
+        addAlertToast: PropTypes.func,
+        onChoose: PropTypes.func
+    }
+
     state = {
         showModal: false
     }
@@ -53,12 +59,4 @@ export default class ChooseImageWrap extends Component {
             <MediaManagerModal onChooseMedia={this.chooseMedia} isOpen={this.state.showModal} toggle={this.toggleModal}/>
         </Wrap>
     }
-}
-
-ChooseImageWrap.defaultProps = {
-    element: 'div'
-}
-ChooseImageWrap.propTypes = {
-    onChoose: PropTypes.func,
-    element: PropTypes.oneOf(['div','span'])
 }

@@ -1,10 +1,20 @@
 import React from 'react';
 
+/**
+ * Clean file from props, because props have multiple field not need
+ * @param file
+ * @returns {{id: *, name: *, thumbnail_url: *, original_url: *, type: *}}
+ */
 export function cleanFile(file){
     const {id, name, thumbnail_url, original_url, type} = file;
     return {id, name, thumbnail_url, original_url, type}
 }
 
+/**
+ * Get icon from mimeType file
+ * @param type
+ * @returns {React.Component}
+ */
 export function getIcon(type){
     var icon = '';
     switch (type) {
@@ -26,6 +36,11 @@ export function getIcon(type){
     return <i className={`icon ${icon}`}/>
 }
 
+/**
+ * Get color from mimeType file
+ * @param type
+ * @returns {*}
+ */
 export function getColor (type) {
     switch (type) {
         case 'image/jpg':
@@ -42,8 +57,13 @@ export function getColor (type) {
     }
 }
 
+/**
+ * Check mimeType is image
+ * @param type
+ * @returns {bool}
+ */
 export function isImage(type = ''){
-    return type.match('image/*');
+    return type.match('image/*') ? true : false;
 }
 
 export default {cleanFile, getIcon, getColor, isImage}

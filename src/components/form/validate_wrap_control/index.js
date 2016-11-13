@@ -1,20 +1,45 @@
 import React,{Component, PropTypes} from 'react';
 import {FormGroup, Col, Label} from 'reactstrap';
+import classnames from 'classnames';
 
 export default class ValidateWrapControl extends Component {
+    renderLabel(){
+        const {icon, title, rightComponent} = this.props;
+        return <div className="flex align-center justify-space-between">
+            {title && <Label className="label" style={{fontWeight: 600}}>
+                {icon && <span><i className={icon}></i>{' '}</span>}{title}
+            </Label>}
+            {rightComponent && <span>{rightComponent}</span>}
+        </div>
+    }
+
+    renderError(){
+        const {touched, error} = this.props;
+        if(touched && error)
+            return <div className="form-control-feedback">
+                {error}
+            </div>
+        return null;
+    }
+
     renderControl() {
-        const {title, rightComponent, touched, error} = this.props;
+        const {touched, error} = this.props;
         const status = (touched && error) ? 'danger' : null;
 
+        const controlClone = React.cloneElement(
+            this.props.children,
+            {
+                className: classnames(
+                    this.props.children.props.className,
+                    status ? `form-control-${status}` : ''
+                )
+            }
+        )
+
         return <FormGroup className={`has-${status}`}>
-            <div className="flex align-center justify-space-between">
-                {title && <Label className="label" style={{fontWeight: 600}}>
-                    {this.props.icon && <span><i className={this.props.icon}></i>{' '}</span>}{title}
-                </Label>}
-                {rightComponent && <span>{rightComponent}</span>}
-            </div>
-            {React.cloneElement(this.props.children, {className: this.props.children.props.className + ` form-control-${status}`})}
-            {touched && error && <div className="form-control-feedback">{error}</div>}
+            {this.renderLabel()}
+            {controlClone}
+            {this.renderError()}
         </FormGroup>
     }
 
@@ -25,8 +50,10 @@ export default class ValidateWrapControl extends Component {
 }
 
 ValidateWrapControl.propTypes = {
+    icon: PropTypes.string,
     title: PropTypes.any,
     touched: PropTypes.bool,
     error: PropTypes.string,
+    col: PropTypes.number,
     rightComponent: PropTypes.func
 }

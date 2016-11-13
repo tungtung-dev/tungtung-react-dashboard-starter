@@ -1,33 +1,36 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import Equal from 'deep-equal';
-import {addFolder, getFolders, getFolderPhotos, updateFolder, removeFolder} from '../../../redux/actions/MediaActions';
+import MediaActions from '../../../redux/actions/MediaActions';
+import {folderItemPropType} from '../proptypes';
 import FolderItem from './folder_item';
 import CreateFolderItem from './create_folder_item';
-import {folderItemPropType} from '../proptypes';
 
 import "./style.scss";
 
 const mapStateToProps = (state) => {
     const {folders, current_folder} = state.media
-    return {
-        folders, current_folder
-    }
+    return { folders, current_folder }
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({addFolder, getFolders, getFolderPhotos, updateFolder, removeFolder}, dispatch);
+    return bindActionCreators(MediaActions, dispatch);
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Folders extends Component {
-    shouldComponentUpdate(prevProps, prevState){
-        return !Equal(this.props, prevProps);
+    static propTypes = {
+        folders: PropTypes.arrayOf(PropTypes.shape(folderItemPropType)),
+        current_folder: PropTypes.shape(folderItemPropType),
+        addFolder: PropTypes.func.isRequired,
+        updateFolder: PropTypes.func.isRequired,
+        removeFolder: PropTypes.func.isRequired,
+        getFolderPhotos: PropTypes.func.isRequired
     }
 
     render() {
-        const {folders, current_folder, addFolder} = this.props;
+        const {folders, current_folder} = this.props;
+        console.log(this.props);
         return (
             <div className="folders-sidebar">
                 <ul className="nav-lists">
@@ -42,15 +45,10 @@ export default class Folders extends Component {
                             {...folder}
                         />
                     )}
-                    <CreateFolderItem onSubmit={addFolder}/>
+                    <CreateFolderItem onSubmit={this.props.addFolder}/>
                 </ul>
             </div>
         )
     }
-}
-
-Folders.propTypes = {
-    folders: PropTypes.arrayOf(folderItemPropType),
-    currentFolder: PropTypes.shape(folderItemPropType)
 }
 

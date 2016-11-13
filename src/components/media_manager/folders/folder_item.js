@@ -7,12 +7,9 @@ import {folderItemPropType} from '../proptypes';
 import Equal from 'deep-equal';
 
 export default class FolderItem extends Component {
-    constructor() {
-        super(...arguments);
-        this.state = {
-            isEdit: false,
-            name_edit: '',
-        }
+    state = {
+        isEdit: false,
+        name_edit: ''
     }
 
     @autobind
@@ -79,8 +76,8 @@ export default class FolderItem extends Component {
 FolderItem.propTypes = {
     ...folderItemPropType,
     active: PropTypes.bool,
-    onActive: PropTypes.func,
-    onUpdate: PropTypes.func,
-    onRemove: PropTypes.func,
+    onActive: PropTypes.func.isRequired,
+    onUpdate: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired,
     editable: PropTypes.bool
 }

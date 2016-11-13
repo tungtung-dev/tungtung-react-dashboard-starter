@@ -3,6 +3,7 @@ import {Modal} from 'reactstrap';
 import {connect} from 'react-redux';
 import {autobind} from 'core-decorators';
 import ManagerDefault from '../manager_default';
+import {mediaItemPropType} from '../proptypes';
 import {bindActionCreators} from 'redux';
 import {unCheckedAllMedia} from '../../../redux/actions/MediaActions';
 
@@ -12,6 +13,16 @@ import "./style.scss";
     medias_checked: state.media.medias.data.filter(m => m.checked),
 }), (dispatch) => bindActionCreators({unCheckedAllMedia}, dispatch))
 export default class ManagerModal extends Component {
+    static propTypes = {
+        isOpen: PropTypes.bool,
+        toggle: PropTypes.func,
+        medias_cheked: PropTypes.arrayOf(PropTypes.shape(mediaItemPropType)),
+        onChooseMedia: PropTypes.func,
+        onChooseMediaChecked: PropTypes.func,
+        unCheckedAllMedia: PropTypes.func,
+        isMultipleChoose: PropTypes.bool
+    }
+
     @autobind
     handleChooseMediaChecked(e){
         e.preventDefault();
@@ -28,12 +39,4 @@ export default class ManagerModal extends Component {
             </div>
         </Modal>
     }
-}
-
-ManagerModal.propTypes = {
-    isOpen: PropTypes.bool,
-    toggle: PropTypes.func,
-    onChooseMedia: PropTypes.func,
-    onChooseMediaChecked: PropTypes.func,
-    isMultipleChoose: PropTypes.bool
 }

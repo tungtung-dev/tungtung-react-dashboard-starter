@@ -78,6 +78,15 @@ export function updateMedia(id, media){
     }
 }
 
+
+export function removeMedia(id) {
+    MediaApi.removeMedia(id);
+    return {
+        type: REMOVE_MEDIA,
+        id
+    }
+}
+
 export function checkedMedia(id){
     return {
         type: CHECKED_MEDIA,
@@ -114,10 +123,8 @@ export function removeMediaChecked(medias_id){
     }
 }
 
-export function removeMedia(id) {
-    MediaApi.removeMedia(id);
-    return {
-        type: REMOVE_MEDIA,
-        id
-    }
+export default {
+    getFolders, getFolderPhotos, addFolder, updateFolder, removeFolder,
+    addMedia, updateMedia, removeMedia, checkedMedia,
+    unCheckedMedia, checkedAllMedia, removeMediaChecked
 }

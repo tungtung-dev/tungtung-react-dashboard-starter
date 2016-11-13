@@ -1,23 +1,28 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from '../../utils/reduxAwait';
 import {bindActionCreators} from 'redux';
-import {getFolders, getFolderPhotos} from '../../redux/actions/MediaActions';
-import Folders from './folders/index';
-import Medias from './medias/index';
+import {connect} from '../../utils/reduxAwait';
+import MediaActions from '../../redux/actions/MediaActions';
+import Folders from './folders';
+import Medias from './medias';
 import "./style.scss";
 
 const mapStateToProps = (state) => {
-    return {
-        first_loaded: state.media.first_loaded
-    }
+    const {first_loaded} = state.media;
+    return {first_loaded};
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({getFolders, getFolderPhotos}, dispatch);
+    return bindActionCreators(MediaActions, dispatch);
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class MediaManager extends Component {
+    static propTypes = {
+        onChooseMedia: PropTypes.func,
+        getFolders: PropTypes.func.isRequired,
+        getFolderPhotos: PropTypes.func.isRequired
+    }
+
     componentDidMount() {
         if(!this.props.first_loaded && this.props.awaitStatuses.getFolders !== 'pending'){
             this.props.getFolders();
@@ -25,20 +30,21 @@ export default class MediaManager extends Component {
         }
     }
 
-    render() {
+    renderFolders(){
+        return <Folders/>
+    }
+
+    renderMedias(){
         const {onChooseMedia} = this.props;
-        const mediaProps = {
-            onChooseMedia
-        }
+        return <Medias onChooseMedia={onChooseMedia}/>
+    }
+
+    render() {
         return (
             <div ref="media_manager" className="media-manager">
-                <Folders/>
-                <Medias {...mediaProps}/>
+                {this.renderFolders()}
+                {this.renderMedias()}
             </div>
         )
     }
-}
-
-MediaManager.propTypes = {
-    onChooseMedia: PropTypes.func
 }

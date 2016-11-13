@@ -6,16 +6,16 @@ import {
     CHECKED_ALL_MEDIA, UNCHECKED_ALL_MEDIA, REMOVE_MEDIA_CHECKED
 } from '../actions/MediaActions';
 
-const folderAll = {
+const folderAllDefault = {
     id: 'all',
     name: 'All'
 }
 
 const initialState = {
     folders: [
-        folderAll
+        folderAllDefault
     ],
-    current_folder: folderAll,
+    current_folder: folderAllDefault,
     medias: {
         data: [],
         pagination: []
@@ -54,11 +54,12 @@ export default function createReducer(state = initialState, action) {
             return {
                 ...state,
                 folders: [
-                    folderAll,
+                    ...state.folders,
                     ...action.payload.getFolders
                 ],
                 first_loaded: true
             }
+
         case GET_FOLDER_PHOTOS:
             var current_folder = state.folders.find((f) => f.id === action.id);
             return {
@@ -69,6 +70,7 @@ export default function createReducer(state = initialState, action) {
                     data: action.payload.getFolderPhotos
                 }
             }
+
         case ADD_FOLDER:
             if(action.payload.addFolder.success === false) return state;
             return update(state, {
@@ -76,6 +78,7 @@ export default function createReducer(state = initialState, action) {
                     $push: [action.payload.addFolder]
                 }
             })
+
         case REMOVE_FOLDER:
             var folderIndex = state.folders.findIndex((f) => f.id === action.id);
             return update(state, {
@@ -83,6 +86,7 @@ export default function createReducer(state = initialState, action) {
                     $splice: [[folderIndex, 1]]
                 }
             });
+
         case UPDATE_FOLDER:
             var folderIndex = state.folders.findIndex((f) => f.id === action.id);
             var current_folder = state.current_folder;
@@ -107,35 +111,42 @@ export default function createReducer(state = initialState, action) {
                 current_folder: {
                     $set: current_folder
                 }
-            })
+            });
+
         case ADD_MEDIA:
             return updateMediaData(state, [
                 action.media,
                 ...state.medias.data
             ]);
+
         case UPDATE_MEDIA:
             var mediaIndex = state.medias.data.findIndex(m => m.id === action.id);
             return updateMedia(state, mediaIndex, action.media);
+
         case CHECKED_MEDIA:
             var mediaIndex = state.medias.data.findIndex(m => m.id === action.id);
             return updateMedia(state, mediaIndex, {
                 checked: true
             });
+
         case UNCHECKED_MEDIA:
             var mediaIndex = state.medias.data.findIndex(m => m.id === action.id);
-            console.log('unchekec + '+mediaIndex);
             return updateMedia(state, mediaIndex, {
                 checked: false
             });
+
         case CHECKED_ALL_MEDIA:
             var checkedMedia = state.medias.data.map(media => ({...media, checked: true}));
             return updateMediaData(state, checkedMedia);
+
         case UNCHECKED_ALL_MEDIA:
             var unCheckedMedia = state.medias.data.map(media => ({...media, checked: false}));
             return updateMediaData(state, unCheckedMedia);
+
         case REMOVE_MEDIA_CHECKED:
             var removeMediaChecked = state.medias.data.filter(media => !media.checked);
             return updateMediaData(state, removeMediaChecked);
+
         case REMOVE_MEDIA:
             var removeMedia = state.medias.data.filter((f) => f.id != action.id);
             return updateMediaData(state, removeMedia);

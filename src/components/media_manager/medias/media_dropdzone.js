@@ -5,13 +5,6 @@ import Dropzone from 'react-dropzone';
 import {uploadMedia} from '../../../api/MediaApi';
 
 export default class MediaDropdzone extends Component {
-    constructor(){
-        super(...arguments);
-        this.state = {
-            files: []
-        }
-    }
-
     @autobind
     onDrop(acceptedFiles) {
         const files = acceptedFiles;
@@ -21,11 +14,6 @@ export default class MediaDropdzone extends Component {
             }
 
         }
-    }
-
-    @autobind
-    onOpenClick () {
-        this.dropzone.open();
     }
 
     @autobind
