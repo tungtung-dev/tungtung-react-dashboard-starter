@@ -4,28 +4,46 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ChooseImageWrap} from '../../media_manager/index';
 import {addAlertToast} from '../../../redux/actions/AlertAction';
+import ValidateWrapControl from '../validate_wrap_control';
 
 @connect(() => ({}), (dispatch) => bindActionCreators({addAlertToast}, dispatch))
 export default class SelectImage extends Component {
-    state = {
-        value: '',
+    getMedia(){
+        const {media} = this.props;
+        if(!media) return {};
+        return media;
     }
 
     @autobind
     chooseMedia(media){
-        this.setState({value: media.thumbnail_url, showModal: false});
+        this.props.onChange(media);
+    }
+
+    @autobind
+    deleteMedia(){
+        this.props.onChange({});
     }
 
     render() {
-        return <div>
-            {this.state.value && <img src={this.state.value} alt=""/>}
-            <ChooseImageWrap onChoose={this.chooseMedia}>
-                <button className="btn btn-purple" onClick={this.toggleModal}>Select image</button>
-            </ChooseImageWrap>
-        </div>
+        const media = this.getMedia();
+        return <ValidateWrapControl {...this.props}>
+            <div>
+            {media.thumbnail_url && <img src={media.original_url} style={{width: '100%'}} alt=""/>}
+            <div className="flex">
+                <ChooseImageWrap onChoose={this.chooseMedia}>
+                    <button className="btn fullwidth btn-purple" onClick={this.toggleModal}>Select image</button>
+                </ChooseImageWrap>
+                {media.thumbnail_url && <button className="btn fullwidth btn-red" onClick={this.deleteMedia}>Xóa</button>}
+            </div>
+            </div>
+        </ValidateWrapControl>
     }
 }
 
 SelectImage.propTypes = {
-    value: PropTypes.string
+    media: PropTypes.shape({
+        thumbnail_url: PropTypes.string,
+        original_url: PropTypes.string
+    }),
+    onChange: PropTypes.func
 }

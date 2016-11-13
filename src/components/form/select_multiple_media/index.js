@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {autobind} from 'core-decorators';
 import update from 'react-addons-update';
 import slug from 'slug';
+import ValidateWrapControl from '../validate_wrap_control';
 import {ChooseMediaSelectedWrap} from '../../media_manager/index';
 import CardDragSortable from '../card_drag_sortable/index';
 import Media from './media';
@@ -31,6 +32,13 @@ export default class SelectMultipleMedia extends Component {
         }))
     }
 
+    @autobind
+    deleteMedia(index){
+        this.props.onChange(update(this.getMedias(), {
+            $splice: [[index, 1]]
+        }))
+    }
+
     changeIdMedias(medias){
         return medias.map((media, index) => ({
             ...media,
@@ -48,14 +56,17 @@ export default class SelectMultipleMedia extends Component {
 
     render() {
         const cardProps = {
-            onChange: this.changeValueMedia
+            onChange: this.changeValueMedia,
+            onDelete: this.deleteMedia
         }
-        return <div className="select-multiple-media">
-            <CardDragSortable className="media-lists" cards={this.getMedias()} onChange={this.handleChangeSortcard} cardComponent={Media} cardProps={cardProps}/>
-            <ChooseMediaSelectedWrap onChoose={this.handleChoose}>
-                <button className="btn btn-default fullwidth">thêm file</button>
-            </ChooseMediaSelectedWrap>
-        </div>
+        return <ValidateWrapControl {...this.props}>
+            <div className="select-multiple-media">
+                <CardDragSortable className="media-lists" cards={this.getMedias()} onChange={this.handleChangeSortcard} cardComponent={Media} cardProps={cardProps}/>
+                <ChooseMediaSelectedWrap onChoose={this.handleChoose}>
+                    <button className="btn btn-default fullwidth">Add file</button>
+                </ChooseMediaSelectedWrap>
+            </div>
+        </ValidateWrapControl>
     }
 }
 

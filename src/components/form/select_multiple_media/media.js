@@ -14,7 +14,8 @@ export default class Card extends Component {
         id: PropTypes.any.isRequired,
         name: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
-        onChange: PropTypes.func.isRequired
+        onChange: PropTypes.func.isRequired,
+        onDelete: PropTypes.func.isRequired
     };
 
     @autobind
@@ -34,13 +35,24 @@ export default class Card extends Component {
         this.props.onChange(this.props.index, key, value);
     }
 
+    @autobind
+    handleDelete(e){
+        e.preventDefault();
+        this.props.onDelete(this.props.index);
+    }
+
     getButton(){
         const {showEdit} = this.state;
-        const buttonClass = classnames('btn',{'btn-primary': !showEdit}, {'btn-success': showEdit});
-        const iconClass = showEdit ? 'icon-check' : 'icon-pencil';
-        return <a href="#" onClick={this.toggleEdit} className={buttonClass}>
-            <i className={iconClass}/>
-        </a>
+        const buttonEditClass = classnames('btn',{'btn-primary': !showEdit}, {'btn-success': showEdit});
+        const iconEditClass = showEdit ? 'icon-check' : 'icon-pencil';
+        return <div className="tools">
+            <a href="#" onClick={this.toggleEdit} className={buttonEditClass}>
+                <i className={iconEditClass}/>
+            </a>
+            <a href="#" onClick={this.handleDelete} className="btn btn-danger">
+                <i className="icon-trash"/>
+            </a>
+        </div>
     }
 
     render() {

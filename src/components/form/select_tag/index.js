@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import Select, {Creatable} from 'react-select';
+import {autobind} from 'core-decorators';
 import 'react-select/dist/react-select.css';
 import ValidateWrapControl from '../validate_wrap_control/index';
 import "./style.scss"
@@ -18,17 +19,6 @@ export default class SelectTag extends Component {
         return this.props.value;
     }
 
-    onChange(options) {
-        this.setState({options: options});
-    }
-
-    onInputKeyDown({ label, labelKey, valueKey }) {
-        return {
-            value: label,
-            label: label
-        }
-    }
-
     render() {
         return (
             <ValidateWrapControl {...this.props}>
@@ -42,4 +32,12 @@ export default class SelectTag extends Component {
     }
 }
 
-SelectTag.propTypes = {}
+SelectTag.defaultProps = {
+    options: []
+}
+SelectTag.propTypes = {
+    options: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string
+    }))
+}

@@ -17,8 +17,8 @@
   display: flex;
   flex-wrap: wrap;
   .media-item {
-    width: 155px;
-    height: 155px;
+    width: 16.6%;
+    height: 148px;
     padding: 10px;
     .media-item-container {
       position: relative;
@@ -64,6 +64,8 @@
           position: absolute;
           width: 100%;
           bottom: 0px;
+          left: 0px;
+          z-index: 2;
           display: flex;
           justify-content: space-between;
           .btn, span{

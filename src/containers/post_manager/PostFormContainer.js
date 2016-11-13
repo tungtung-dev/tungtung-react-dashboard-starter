@@ -12,7 +12,7 @@ class PostFormContainer extends Component {
     }
 }
 
-const fields = ['title','description','content']
+const fields = ['title','description','content','tags','md_editor','code_editor', 'textarea']
 
 const form = {
     form: 'postForm',
