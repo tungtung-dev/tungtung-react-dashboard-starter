@@ -1,9 +1,8 @@
 import React, {PureComponent, PropTypes} from 'react';
 import {Collapse} from 'reactstrap';
 import {autobind} from 'core-decorators';
-import {Box, Flex} from '../../layouts';
+import {Box, Flex, Pagination} from '../../layouts';
 import {Link, InputText} from '../../form';
-import Pagination from '../pagination';
 
 export default class SearchFilterPagination extends PureComponent {
     state = {

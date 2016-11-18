@@ -6,8 +6,8 @@ import {getUsers} from '../../redux/actions/UsersAction';
 import {getDomainPublic, paginationQueryPage} from '../../utils/index';
 import {connect} from '../../utils/reduxAwait';
 import {deleteUser} from '../../api/AuthApi';
-import {Table, Column, Pagination} from '../../components/manager/index';
-import {CenterPaddingBox, Flex, Title, Breadcrumb} from '../../components/layouts';
+import {Table, Column} from '../../components/manager/index';
+import {CenterPaddingBox, Flex, Title, Breadcrumb, Pagination} from '../../components/layouts';
 import {UserAvatar} from '../../components/partials/index';
 
 const mapStateToProps = (state) => {
@@ -97,5 +97,6 @@ export default class UserManagerContainer extends Component {
         )
     }
 }
+
 
 UserManagerContainer.propTypes = {}

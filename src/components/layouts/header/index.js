@@ -53,11 +53,11 @@ export default class Header extends PureComponent {
                 <Link to="/" className="navbar-brand">
                     <img src="http://tungtung.vn/images/logo.png" alt="" style={{height: 20}}/>
                 </Link>
-                <div className="pull-xs-left tt-breadcrumb-bar-wrap">
+                <div className="pull-left tt-breadcrumb-bar-wrap">
                     <BreadcrumbBar/>
                     <Breadcrumb icon="icon-screen-desktop" href="/" name="Dashboard"/>
                 </div>
-                {!isAuthChecking && <Nav className="pull-xs-right" navbar>
+                {!isAuthChecking && <Nav className="pull-right" navbar>
                     {!isAuthenticated && <NavItem>
                         <Link className="nav-link" to="auth/login">Login</Link>
                     </NavItem>}

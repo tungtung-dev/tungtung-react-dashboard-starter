@@ -1,4 +1,4 @@
-import React,{Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import Sidebar from './sidebar/index';
 import Header  from './header/index';
 import classnames from 'classnames';
@@ -13,7 +13,7 @@ export default class AppWrapper extends Component {
         this.toggleSidebar = this.toggleSidebar.bind(this);
     }
 
-    toggleSidebar(){
+    toggleSidebar() {
         this.setState({
             showSidebar: !this.state.showSidebar
         })
@@ -24,11 +24,9 @@ export default class AppWrapper extends Component {
         return (
             <div className={classnames('dashboard-container', {'show-sidebar': this.state.showSidebar})}>
                 <Header isAuthenticated={isAuthenticated} auth={auth}/>
-                <div style={{height: 'calc(100% - 48px)'}}>
-                    <Sidebar currentPath={this.props.location.pathname} showSidebar={this.state.showSidebar}/>
-                    <div className="wrapper">
-                        {this.props.children}
-                    </div>
+                <Sidebar currentPath={this.props.location.pathname} showSidebar={this.state.showSidebar}/>
+                <div className="wrapper">
+                    {this.props.children}
                 </div>
             </div>
         )

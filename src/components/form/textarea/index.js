@@ -1,4 +1,5 @@
 import React,{PureComponent, PropTypes} from 'react';
+import {cleanPropsReduxForm} from '../../../utils/index';
 import ValidateWrapControl from '../validate-wrap-control/index';
 
 const limitRow = 0;
@@ -41,7 +42,7 @@ export default class Textarea extends PureComponent {
 
         return (
             <ValidateWrapControl {...this.props} right={componentRight}>
-                <textarea className="form-control" ref="textarea" {...props}/>
+                <textarea className="form-control" ref="textarea" {...cleanPropsReduxForm(props)}/>
             </ValidateWrapControl>
         )
     }

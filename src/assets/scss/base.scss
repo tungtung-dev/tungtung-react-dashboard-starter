@@ -2,6 +2,14 @@
   width: 100%;
 }
 
+.pull-left{
+  float: left;
+}
+
+.pull-right{
+  float: right;
+}
+
 .flex {
   display: flex;
   &.flex-wrap{

@@ -1,7 +1,5 @@
-import Tabs from './tabs/index';
-import Pagination from './pagination/index';
 import SearchFilterPagination from './search-filter-pagination/index';
 import {Table, Column} from './table/index';
 
-export {Tabs, Pagination, SearchFilterPagination, Table, Column}
-export default {Tabs, Pagination, SearchFilterPagination, Table, Column}
+export {SearchFilterPagination, Table, Column}
+export default {SearchFilterPagination, Table, Column}
