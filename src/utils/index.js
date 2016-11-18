@@ -2,20 +2,6 @@
 import {DOMAIN_PUBLIC} from '../config/index';
 import * as reduxAwait from './reduxAwait';
 
-export function setTitle(title) {
-    let afterTitle = 'Checkit vn';
-    document.title = title + ' | ' + afterTitle;
-}
-
-export function objectToFormData(object) {
-    let frm = new FormData();
-    Object.keys(object).map((key) => {
-        frm.append(key, object[key]);
-        return {};
-    })
-    return frm
-}
-
 export function getColorFromText(text, charCodeAt = 1) {
     var colors = [
         '#3498db', '#1abc9c', '#e67e22', '#e74c3c', '#34495e', '#8e44ad',
@@ -49,6 +35,27 @@ export function paginationQueryPage(prevProps, props, callback){
     const prevPage = prevProps.location.query.page;
     if(page !== prevPage) callback(page ? page : 1);
     else return true;
+}
+
+export function getStyleFromProps(prop_style_keys = [], props = {}){
+    let style = {};
+    prop_style_keys.map((prop_style_key) => {
+        const prop_style_value = props[prop_style_key];
+        if(prop_style_value !== undefined && prop_style_value !== null && prop_style_value !== false){
+            style = {
+                ...style,
+                [prop_style_key]: prop_style_value
+            }
+        }
+        return prop_style_key;
+    });
+    if(props.style){
+        style = {
+            ...style,
+            ...props.style
+        }
+    }
+    return style;
 }
 
 export {

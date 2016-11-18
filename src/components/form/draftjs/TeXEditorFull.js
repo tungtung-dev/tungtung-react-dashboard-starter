@@ -4,7 +4,7 @@ import {autobind} from 'core-decorators';
 import TeXEditor from './TeXEditor';
 import TeXEditorShow from './TeXEditorShow';
 import Link from '../link/index';
-import {MediaManagerModal, ChooseImageWrap} from '../../media_manager/index';
+import {ChooseImageModalWrap} from '../../media_manager/index';
 import dataTooltip from '../../../constants/tooltipType';
 
 export default class TeXEditorFull extends Component {
@@ -57,11 +57,11 @@ export default class TeXEditorFull extends Component {
         return <div className={`toolbar ${this.props.toolbarPosition}`}>
             {this.renderToolbarItem(this._insertCodeEditor, 'fa fa-code', dataTooltip.draft_editor.insert_code_editor)}
             {this.renderToolbarItem(this._insertTeXEditor, 'icon-calculator', dataTooltip.draft_editor.insert_katex)}
-            <ChooseImageWrap className="item" onChoose={this._handleChooseMedia}>
+            <ChooseImageModalWrap className="item" onChoose={this._handleChooseMedia}>
                 <Link to="#" tabIndex="-1" tooltip={dataTooltip.draft_editor.insert_image}>
                     <i className="icon-camera"/>
                 </Link>
-            </ChooseImageWrap>
+            </ChooseImageModalWrap>
             <Link tooltip={dataTooltip.draft_editor.preview} href="#" className={isShowRead ? 'active': ''} tabIndex="-1" onClick={this._onToggleRead}>
                 <i className="icon-eye"></i>
             </Link>

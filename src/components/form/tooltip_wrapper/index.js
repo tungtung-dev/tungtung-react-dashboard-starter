@@ -1,7 +1,7 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 
-export default class TooltipWrapper extends Component{
+export default class TooltipWrapper extends PureComponent{
     render(){
         const tooltip = <Tooltip id={`tooltip-${this.props.id}`}>{this.props.tooltip}</Tooltip>;
         return <OverlayTrigger overlay={tooltip} placement={this.props.placement}>

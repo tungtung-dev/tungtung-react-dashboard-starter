@@ -30,13 +30,22 @@ export default class ManagerModal extends Component {
         this.props.unCheckedAllMedia();
     }
 
+    customToolbar(){
+        const {medias_checked} = this.props;
+        if(medias_checked.length === 0) return null;
+        return <button className="btn btn-transparent" onClick={this.handleChooseMediaChecked}>
+            Import {medias_checked.length} files
+        </button>
+    }
+
     render() {
         const {isMultipleChoose, isOpen, toggle, onChooseMedia} = this.props;
+        const media_manager_props = {
+            onChooseMedia,
+            customToolbar: isMultipleChoose ? this.customToolbar() : null
+        }
         return <Modal isOpen={isOpen} toggle={toggle} className="media-manager-modal">
-            <ManagerDefault ref="manager" onChooseMedia={onChooseMedia}/>
-            <div className="flex justify-end">
-                {isMultipleChoose && <button className="btn btn-primary" onClick={this.handleChooseMediaChecked}>Chọn files</button>}
-            </div>
+            <ManagerDefault ref="manager" {...media_manager_props}/>
         </Modal>
     }
 }

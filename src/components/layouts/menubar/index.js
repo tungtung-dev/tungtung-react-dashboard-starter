@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 
-export default class MenuBar extends Component {
+export default class MenuBar extends PureComponent {
     render() {
         return (
             <div className="menu-bar">

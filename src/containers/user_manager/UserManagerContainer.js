@@ -7,12 +7,11 @@ import {getDomainPublic, paginationQueryPage} from '../../utils/index';
 import {connect} from '../../utils/reduxAwait';
 import {deleteUser} from '../../api/AuthApi';
 import {Table, Column, Pagination} from '../../components/manager/index';
+import {CenterPaddingBox, Flex, Title, Breadcrumb} from '../../components/layouts';
 import {UserAvatar} from '../../components/partials/index';
-
 
 const mapStateToProps = (state) => {
     const {data, pagination} = state.users;
-    console.log(state.users);
     return {
         users: data,
         pagination: pagination
@@ -61,35 +60,40 @@ export default class UserManagerContainer extends Component {
         const {users, pagination, awaitStatuses} = this.props;
 
         return (
-            <div>
-                <Pagination {...pagination} location={this.props.location} onChange={this._handleUpdatePage}/>
-                <Table data={users} isLoading={awaitStatuses.getUsers === 'pending'}>
-                    <Column
-                        header={() => '#'}
-                        showIndex
-                        pagination={pagination}
-                    />
-                    <Column
-                        header={() => 'Thành viên'}
-                        cell={(user, rowIndex) =>  <UserAvatar {...user}/>}
-                    />
-                    <Column
-                        header={() => 'Họ và tên'}
-                        cell={(user, rowIndex) => user.fullname}
-                    />
-                    <Column
-                        header={() => 'Email'}
-                        cell={(user, rowIndex) => user.email}
-                    />
-                    <Column
-                        header={() => 'Hành động'}
-                        cell={(user, rowIndex) => <div>
-                        <a href={getDomainPublic(`#/user/${user.username}`)} className="btn btn-purple" target="_blank">Xem trang cá nhân</a>{' '}
-                            <button onClick={(e) => this._handleDelete(e, user._id)} className="btn btn-red">Xóa</button>
-                        </div>}
-                    />
-                </Table>
-            </div>
+            <CenterPaddingBox>
+                <Flex justifyContent="space-between" alignItems="center" marginBottom={10}>
+                    <Title element="h2" styleColor="black-white">User manager</Title>
+                    <button className="btn btn-default">Save</button>
+                </Flex>
+                <Breadcrumb id="user_manager" name="Quản lý thành viên" icon="icon-user"/>
+                    <Table data={users} isLoading={awaitStatuses.getUsers === 'pending'}>
+                        <Column
+                            header={() => '#'}
+                            showIndex
+                            pagination={pagination}
+                        />
+                        <Column
+                            header={() => 'Thành viên'}
+                            cell={(user, rowIndex) =>  <UserAvatar {...user}/>}
+                        />
+                        <Column
+                            header={() => 'Họ và tên'}
+                            cell={(user, rowIndex) => user.fullname}
+                        />
+                        <Column
+                            header={() => 'Email'}
+                            cell={(user, rowIndex) => user.email}
+                        />
+                        <Column
+                            header={() => 'Hành động'}
+                            cell={(user, rowIndex) => <div>
+                            <a href={getDomainPublic(`#/user/${user.username}`)} className="btn btn-purple" target="_blank">Xem trang cá nhân</a>{' '}
+                                <button onClick={(e) => this._handleDelete(e, user._id)} className="btn btn-red">Xóa</button>
+                            </div>}
+                        />
+                    </Table>
+                    <Pagination className="text-center margin-top-10" {...pagination} onChange={this._handleUpdatePage}/>
+            </CenterPaddingBox>
         )
     }
 }

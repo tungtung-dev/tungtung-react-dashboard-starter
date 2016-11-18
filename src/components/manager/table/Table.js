@@ -5,9 +5,9 @@ import Equal from 'deep-equal';
 import Row from './row';
 
 export default class TableCustom extends Component {
-    getHeaders() {
+    getPropsColumn() {
         return this.props.children.map(child => {
-            return child.props.header();
+            return child.props;
         });
     }
 
@@ -18,10 +18,12 @@ export default class TableCustom extends Component {
 
     getCells(item, rowIndex, props) {
         return this.props.children.map(child => {
-            const {showIndex, pagination}  = child.props;
+            const {showIndex, pagination, style, className}  = child.props;
             return {
                 showIndex,
-                component: pagination ? this.getIndex(pagination, rowIndex) : child.props.cell(item, rowIndex, props)
+                component: pagination ? this.getIndex(pagination, rowIndex) : child.props.cell(item, rowIndex, props),
+                style,
+                className
             }
         });
     }
@@ -30,8 +32,8 @@ export default class TableCustom extends Component {
         return (
             <thead className="thead-default">
             <tr key="index">
-                {this.getHeaders().map((header, index) =>
-                    <th key={index}>{header}</th>
+                {this.getPropsColumn().map((props, index) =>
+                    <th key={index} style={props.style} className={props.className}>{props.header()}</th>
                 )}
             </tr>
             </thead>
@@ -41,7 +43,7 @@ export default class TableCustom extends Component {
     renderTbody() {
         return <tbody>
         {this.props.data.map((item, index) => <Row key={index} cells={this.getCells(item, index, this.props)}/>)}
-        {this.props.data.length === 0 && <tr><td colSpan={this.getHeaders().length}>{this.props.renderEmpty()}</td></tr>}
+        {this.props.data.length === 0 && <tr><td colSpan={this.getPropsColumn().length}>{this.props.renderEmpty()}</td></tr>}
         </tbody>
     }
 

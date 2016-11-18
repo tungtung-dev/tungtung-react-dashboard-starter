@@ -1,9 +1,18 @@
-$bg-primary-color: #db4c3f;
-$text-header: #ffffff;
-$primary: #424242;
-$btn-white: #ffffff;
-$btn-orange: #e67e22;
-$btn-orange-hover: #d35400;
-$a-hover: #fc605c;
-$font-montserrat: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-default: "Lora"
+$sidebar-bg: #fafafa; //#fafafa
+$sidebar-nav-a-color: #333333;
+
+$wrapper-bg: #f7f7f7;
+
+$text-color-primary: #08f;
+$text-color-red: #ef7260;
+$text-color-blue: #09aab9;
+$text-color-green: #27ae60;
+$text-color-green-darken: #009688;
+$text-color-orange: #e67e22;
+$text-color-purple: #8e44ad;
+$text-color-yellow: #f3cf3f;
+$text-color-black-white: #696969;
+$text-color-gray: #b3b3b3;
+
+$bg-color-white: #ffffff;
+$bg-color-gray: darken(#fafafa, 2)

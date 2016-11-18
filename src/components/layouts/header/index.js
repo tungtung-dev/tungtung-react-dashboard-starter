@@ -1,10 +1,12 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import {Link} from 'react-router';
 import {Navbar,Nav, NavItem, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 import {UserAvatar} from '../../partials/index';
+import BreadcrumbBar from '../breadcrumb_bar';
+import Breadcrumb from '../breadcrumb';
 import './style.scss';
 
-class UserItem extends Component {
+class UserItem extends PureComponent {
     constructor() {
         super(...arguments);
         this.state = {
@@ -43,14 +45,18 @@ UserItem.propTypes = {
     auth: PropTypes.object
 }
 
-export default class Header extends Component {
+export default class Header extends PureComponent {
     render() {
         const {isAuthenticated, isAuthChecking, auth} = this.props;
         return (
-            <Navbar className="header" color="faded" light>
+            <Navbar className="header tt-header" color="faded" light>
                 <Link to="/" className="navbar-brand">
                     <img src="http://tungtung.vn/images/logo.png" alt="" style={{height: 20}}/>
                 </Link>
+                <div className="pull-xs-left tt-breadcrumb-bar-wrap">
+                    <BreadcrumbBar/>
+                    <Breadcrumb icon="icon-screen-desktop" href="/" name="Dashboard"/>
+                </div>
                 {!isAuthChecking && <Nav className="pull-xs-right" navbar>
                     {!isAuthenticated && <NavItem>
                         <Link className="nav-link" to="auth/login">Login</Link>

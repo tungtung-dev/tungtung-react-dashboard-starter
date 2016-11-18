@@ -1,4 +1,5 @@
 import PostForm from './PostFormContainer';
+import PostManager from './PostManagerContainer';
 
-export {PostForm}
-export default {PostForm}
+export {PostForm, PostManager}
+export default {PostForm, PostManager}

@@ -1,11 +1,7 @@
-import React, {Component, PropTypes} from 'react';
-import Equal from 'deep-equal';
-export default class Column extends Component {
-    shouldComponentUpdate(prevProps){
-        return !Equal(this.props, prevProps);
-    }
+import React, {PureComponent, PropTypes} from 'react';
 
-    render() {
+export default class Column extends PureComponent{
+    render(){
         return <div></div>
     }
 }
@@ -13,9 +9,9 @@ export default class Column extends Component {
 Column.propTypes = {
     header: PropTypes.func.isRequired,
     cell: PropTypes.func,
-    showIndex: PropTypes.bool,
     pagination: PropTypes.shape({
         page: PropTypes.number,
         item_per_page: PropTypes.number
-    })
+    }),
+    showIndex: PropTypes.bool
 }

@@ -1,9 +1,9 @@
-import React,{Component, PropTypes} from 'react';
+import React,{PureComponent, PropTypes} from 'react';
 import ValidateWrapControl from '../validate_wrap_control/index';
 
 const limitRow = 0;
 
-export default class Textarea extends Component {
+export default class Textarea extends PureComponent {
     constructor() {
         super(...arguments);
         this._handleChange = (e) => {
@@ -16,7 +16,7 @@ export default class Textarea extends Component {
 
     updateRows(lines) {
         if (this.props.autoResize) {
-            var prevLines = parseInt(this.refs.textarea.getAttribute('rows'));
+            var prevLines = parseInt(this.refs.textarea.getAttribute('rows'), 10);
             if (prevLines !== lines && lines > 1) {
                 this.refs.textarea.setAttribute('rows', lines);
             }

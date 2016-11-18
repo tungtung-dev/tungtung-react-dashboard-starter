@@ -1,6 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import Select from 'react-select';
-import Equal from 'deep-equal';
 
 import 'codemirror/mode/javascript/javascript.js';
 import 'codemirror/mode/jsx/jsx.js';
@@ -35,7 +34,7 @@ const options = [
     }
 ]
 
-export default class SelectModes extends Component {
+export default class SelectModes extends PureComponent {
     transformOptions() {
         const option = (value, label, render, disabled = false) => ({value, label, render, disabled});
 
@@ -44,16 +43,6 @@ export default class SelectModes extends Component {
             const children = o.children.map(c => option(c.value, c.label, <div style={{paddingLeft: 10}}>{c.label}</div>));
             return acc.concat(parent).concat(children);
         }, []);
-    }
-
-    shoudComponentUpdate(prevProps){
-        return !Equal(prevProps, this.props);
-    }
-
-    renderOption(item) {
-        return <div>
-            <i className="fa fa-code"/> {item.label}
-        </div>
     }
 
     renderValue(item) {

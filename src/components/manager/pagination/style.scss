@@ -1,3 +1,23 @@
+.tt-paginate{
+  padding-left: 0px;
+  li{
+    list-style: none;
+    display: inline-block;
+    a:not([href]):not([tabindex]){
+      display: block;
+      padding: 7px 10px;
+      color: #0e5a8a;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    &.selected{
+      a:not([href]):not([tabindex]){
+        background: darken(#ffffff, 10);
+        border-radius: 2px;
+      }
+    }
+  }
+}
 .table-pagination {
   margin-bottom: 10px;
   @media (max-width: 991px) {

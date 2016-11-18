@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {autobind} from 'core-decorators';
 import {mediaItemPropType} from '../proptypes';
 import MediaView from './media_view';
-import {DialogConfirm} from '../../../components/form/index';
+import {PopoverConfirm} from '../../../components/form/index';
 import {cleanFile, getIcon, getColor} from '../utils';
 import classnames from 'classnames';
 import Equal from 'deep-equal';
@@ -91,9 +91,9 @@ export default class MediaItem extends Component {
             <div className="actions">
                 {this.renderButtonAction('icon-plus', this.handleChoose)}
                 {this.renderButtonAction('icon-eye', this.toggleView)}
-                <DialogConfirm title="Xóa file" message="Bạn có muốn xóa không" onConfirm={this.handleRemove}>
+                <PopoverConfirm title="Xóa file" message="Bạn có muốn xóa không" onConfirm={this.handleRemove}>
                     {this.renderButtonAction('icon-trash')}
-                </DialogConfirm>
+                </PopoverConfirm>
             </div>
         </div>
     }
@@ -122,11 +122,6 @@ export default class MediaItem extends Component {
         )
     }
 }
-/*
- <div className="thumbnail">
- <img src={thumbnail_url} alt={name}/>
- </div>
- */
 
 MediaItem.defaultProps = {
     onChoose: PropTypes.func
@@ -135,6 +130,7 @@ MediaItem.defaultProps = {
 MediaItem.propTypes = {
     ...mediaItemPropType,
     is_uploading: PropTypes.bool,
+    progress: PropTypes.number,
     checked: PropTypes.bool,
     onRemove: PropTypes.func,
     onChoose: PropTypes.func,

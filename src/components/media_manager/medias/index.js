@@ -1,20 +1,30 @@
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
+import Fuse from 'fuse.js';
 import {connect} from '../../../utils/reduxAwait';
 import {Loader} from '../../form/index';
 import MediaActions from '../../../redux/actions/MediaActions';
-import {mediaItemPropType, folderItemPropType} from '../proptypes';
+import {mediaItemPropType} from '../proptypes';
 import MediaItem from './media_item';
 import MediaToolbar from './media_toolbar';
 import MediaDropzone from './media_dropdzone';
 import "./style.scss";
 
+const filterData = (data, filter) => {
+    if(!filter) return data;
+    var fuse = new Fuse(data, {
+        keys: [{name: 'name', weight: '0.7'},{name: 'type', weight: '0.3'}],
+    })
+    return fuse.search(filter);
+}
+
 const mapStateToProps = (state) => {
-    const {medias: {data}, current_folder} = state.media;
+    const {medias: {data, filter}, current_folder} = state.media;
     return {
-        medias: data,
+        medias: filterData(data, filter),
+        media_filter: filter,
         medias_checked: data.filter(m => m.checked),
-        current_folder_id: current_folder.id
+        current_folder_id: current_folder.id,
     }
 }
 
@@ -27,8 +37,11 @@ export default class Folders extends Component {
     static propTypes = {
         medias: PropTypes.arrayOf(PropTypes.shape(mediaItemPropType)),
         medias_checked: PropTypes.arrayOf(PropTypes.shape(mediaItemPropType)),
+        media_filter: PropTypes.string,
         current_folder_id: PropTypes.string,
         onChooseMedia: PropTypes.func,
+        customToolbar: PropTypes.func,
+        mediaFilter: PropTypes.func,
         addMedia: PropTypes.func.isRequired,
         updateMedia: PropTypes.func.isRequired,
         removeMedia: PropTypes.func.isRequired,
@@ -41,6 +54,9 @@ export default class Folders extends Component {
 
     renderToolbar(){
         return  <MediaToolbar
+            filter={this.props.media_filter}
+            onFilter={this.props.mediaFilter}
+            customToolbar={this.props.customToolbar}
             onUpload={() => this.refs.dropzone.openDropzone()}
             onCheckedAll={this.props.checkedAllMedia}
             onUnCheckedAll={this.props.unCheckedAllMedia}

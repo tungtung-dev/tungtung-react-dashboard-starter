@@ -1,35 +1,24 @@
 /* eslint-disable */
-import {GET_TAGS_QUIZ_LIST, ADD_TAG_QUIZ_LIST, GET_USER_INFO, UPDATE_USER_INFO, GET_CATEGORIES_QUIZ_LIST} from '../actions/DefaultLoadAction';
+import {
+    ADD_BREADCRUMB, REMOVE_BREADCRUMB, RESET_BREADCRUMB,
+    GET_USER_INFO, UPDATE_USER_INFO, UPDATE_BREADCRUMB
+} from '../actions/DefaultLoadAction';
+import update from 'react-addons-update';
+
+type DefaultLoadType = {
+    breadcrumbs: Array<BreadcrumbType>,
+    users: Array<Object>
+}
 
 function getInitialState() {
     return {
-        tagsQuizList: [],
-        categoriesQuizList: [],
+        breadcrumbs: [],
         users: []
     }
 }
 
-function filterTagsName(tags = []) {
-    return tags.map(tag => tag);
-}
-
-export default function createReducer(state = getInitialState(), action) {
+export default function createReducer(state : DefaultLoadType = getInitialState(), action) {
     switch (action.type) {
-        case GET_CATEGORIES_QUIZ_LIST:
-            return {
-                ...state,
-                categoriesQuizList: action.payload.getCategoriesQuizList
-            }
-        case GET_TAGS_QUIZ_LIST:
-            return {
-                ...state,
-                tagsQuizList: filterTagsName(action.payload.getTagsQuizList)
-            }
-        case ADD_TAG_QUIZ_LIST:
-            return {
-                ...state,
-                tagsQuizList: state.tagsQuizList.concat({tag_name: action.tag})
-            }
         case GET_USER_INFO:
             var userInfo = action.payload.getUserInfo;
             var users = state.users;
@@ -53,7 +42,48 @@ export default function createReducer(state = getInitialState(), action) {
                 ...state,
                 users
             }
+        case ADD_BREADCRUMB:
+            return addBreadcrumb(state, action.breadcrumb);
+        case UPDATE_BREADCRUMB:
+            return updateBreadcrumb(state, action.breadcrumb);
+        case REMOVE_BREADCRUMB:
+            return removeBreadcrumb(state, action.key);
+        case RESET_BREADCRUMB:
+            return update(state, {
+                breadcrumbs: []
+            })
         default:
             return state;
     }
+}
+
+function addBreadcrumb(state, breadcrumb){
+    return update(state, {
+        breadcrumbs: {
+            $push: [breadcrumb]
+        }
+    });
+}
+
+function updateBreadcrumb(state, breadcrumb){
+    let index_breadcrumb = state.breadcrumbs.findIndex(b => b.id === breadcrumb.id);
+    if(index_breadcrumb > 0){
+        return update(state, {
+            breadcrumbs: {
+                [index_breadcrumb]: {
+                    $set: breadcrumb
+                }
+            }
+        });
+    }
+    return state;
+}
+
+function removeBreadcrumb(state, breadcrumb_key){
+    var index_breadcrumb = state.breadcrumbs.findIndex(breadcrumb => breadcrumb.key === breadcrumb_key)
+    return update(state, {
+        breadcrumbs: {
+            $splice: [[index_breadcrumb, 1]]
+        }
+    })
 }

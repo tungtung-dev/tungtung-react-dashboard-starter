@@ -1,27 +1,18 @@
+// @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './redux/Root';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import 'font-awesome/scss/font-awesome.scss';
 import 'simple-line-icons/scss/simple-line-icons.scss';
 import 'animate.css/animate.css';
 import 'toastr/toastr.scss';
+import '@blueprintjs/core/dist/blueprint.css'
 import './assets/scss/index.scss';
 
-injectTapEventPlugin();
 
 ReactDOM.render(
   <Root />,
   document.getElementById('root')
 );
 
-if (module.hot) {
-  module.hot.accept('./redux/Root', () => {
-    const NextApp = require('./redux/Root').default;
-    ReactDOM.render(
-      <NextApp />,
-      document.getElementById('root')
-    );
-  });
-}

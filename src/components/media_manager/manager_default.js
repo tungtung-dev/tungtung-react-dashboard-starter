@@ -18,6 +18,7 @@ const mapDispatchToProps = (dispatch) => {
 @connect(mapStateToProps, mapDispatchToProps)
 export default class MediaManager extends Component {
     static propTypes = {
+        customToolbar: PropTypes.func,
         onChooseMedia: PropTypes.func,
         getFolders: PropTypes.func.isRequired,
         getFolderPhotos: PropTypes.func.isRequired
@@ -35,8 +36,8 @@ export default class MediaManager extends Component {
     }
 
     renderMedias(){
-        const {onChooseMedia} = this.props;
-        return <Medias onChooseMedia={onChooseMedia}/>
+        const {onChooseMedia, customToolbar} = this.props;
+        return <Medias onChooseMedia={onChooseMedia} customToolbar={customToolbar}/>
     }
 
     render() {

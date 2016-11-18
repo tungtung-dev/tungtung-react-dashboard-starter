@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import {Link} from 'react-router';
 
 function checkPath(currentPath, path) {
@@ -15,7 +15,7 @@ function checkPath(currentPath, path) {
     else return false;
 }
 
-export default class MenuItem extends Component {
+export default class MenuItem extends PureComponent {
     getClassname() {
         const {path, currentPath} = this.props;
         var activePath = [...this.props.activePath, path];

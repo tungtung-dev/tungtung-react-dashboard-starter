@@ -1,12 +1,13 @@
-import React,{Component, PropTypes} from 'react';
+import React,{PureComponent, PropTypes} from 'react';
 import {FormGroup, Col, Label} from 'reactstrap';
 import classnames from 'classnames';
+import "./style.scss";
 
-export default class ValidateWrapControl extends Component {
+export default class ValidateWrapControl extends PureComponent {
     renderLabel(){
         const {icon, title, rightComponent} = this.props;
         return <div className="flex align-center justify-space-between">
-            {title && <Label className="label" style={{fontWeight: 600}}>
+            {title && <Label className="label tt-form-label" style={{fontWeight: 600}}>
                 {icon && <span><i className={icon}></i>{' '}</span>}{title}
             </Label>}
             {rightComponent && <span>{rightComponent}</span>}
@@ -36,7 +37,12 @@ export default class ValidateWrapControl extends Component {
             }
         )
 
-        return <FormGroup className={`has-${status}`}>
+        let style = {};
+        if(this.props.noBottom){
+            style = {marginBottom: 0}
+        }
+
+        return <FormGroup className={`has-${status}`} style={style}>
             {this.renderLabel()}
             {controlClone}
             {this.renderError()}
@@ -55,5 +61,6 @@ ValidateWrapControl.propTypes = {
     touched: PropTypes.bool,
     error: PropTypes.string,
     col: PropTypes.number,
-    rightComponent: PropTypes.func
+    rightComponent: PropTypes.func,
+    noBottom: PropTypes.bool
 }

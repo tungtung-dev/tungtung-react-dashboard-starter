@@ -1,11 +1,11 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 var katex = {};
 if(!process.env.SERVER_RENDER) {
     katex = require('katex');
     require('katex/dist/katex.min.css')
 };
 
-export default class KatexInline extends Component {
+export default class KatexInline extends PureComponent {
     renderKatex() {
         if(typeof window === 'undefined') {
             return ;

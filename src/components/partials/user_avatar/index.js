@@ -1,9 +1,9 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import {Link} from 'react-router';
 import Avatar from '../avatar/index';
 import "./style.scss";
 
-export default class UserAvatar extends Component {
+export default class UserAvatar extends PureComponent {
     renderInformation() {
         const {username, label} = this.props;
         return (
@@ -26,11 +26,11 @@ export default class UserAvatar extends Component {
         const {username, isEditAvatar, isLink} = this.props;
         return (
             <div style={this.props.style}>
-                {!isLink && <div className={`user-avatar-component `+this.props.className}>
+                {!isLink && <div className={`tt-user-avatar-component `+this.props.className}>
                     {this.renderAvatar()}
                     {this.renderInformation()}
                 </div>}
-                {isLink && !isEditAvatar && <Link to={`user/${username}`} className={`user-avatar-component text-none `+this.props.className}>
+                {isLink && !isEditAvatar && <Link to={`user/${username}`} className={`tt-user-avatar-component text-none `+this.props.className}>
                     {this.renderAvatar()}
                     {this.renderInformation()}
                 </Link>}
@@ -46,13 +46,12 @@ UserAvatar.defaultProps = {
 }
 
 UserAvatar.propTypes = {
-    avatar_url: PropTypes.string,
-    label: PropTypes.string,
-    username: PropTypes.string,
-    nickname: PropTypes.string,
     onClickAvatar: PropTypes.func,
     isEditAvatar: PropTypes.bool,
     isLink: PropTypes.bool,
-    hideLabel: PropTypes.bool
+    hideLabel: PropTypes.bool,
+    avatar_url: PropTypes.string,
+    username: PropTypes.string,
+    label: PropTypes.string
 }
 

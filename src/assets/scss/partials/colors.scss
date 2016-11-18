@@ -1,0 +1,84 @@
+@import "../../../assets/scss/variables";
+
+@mixin borderColor($color){
+  border-color: $color;
+}
+
+@mixin backgroundColor($color){
+  background-color: $color;
+}
+
+@mixin textColor($color){
+  color: $color
+}
+
+/* Border color */
+.tt-border-color-blue{
+  @include borderColor(#08f);
+}
+
+.tt-border-color-black  {
+  @include borderColor(rgba(0,0,0,.4));
+}
+
+.tt-border-color-red {
+  @include borderColor(#e74c3c);
+}
+
+.tt-border-color-orange {
+  @include borderColor(#e67e22);
+}
+
+.tt-border-color-yellow{
+  @include borderColor(#f1c40f);
+}
+
+/* Background color */
+.tt-bg-color-white{
+  @include backgroundColor($bg-color-white);
+}
+
+.tt-bg-color-gray{
+  @include backgroundColor($bg-color-gray);
+}
+
+/* Text color */
+.tt-text-color-primary{
+  @include textColor($text-color-primary);
+}
+
+.tt-text-color-gray{
+  @include textColor($text-color-gray);
+}
+
+.tt-text-color-black-white {
+  @include textColor($text-color-black-white);
+}
+
+.tt-text-color-red{
+  @include textColor($text-color-red);
+}
+
+.tt-text-color-blue{
+  @include textColor($text-color-blue);
+}
+
+.tt-text-color-green{
+  @include textColor($text-color-green);
+}
+
+.tt-text-color-green-darken{
+  @include textColor($text-color-green-darken);
+}
+
+.tt-text-color-orange{
+  @include textColor($text-color-orange);
+}
+
+.tt-text-color-purple{
+  @include textColor($text-color-purple);
+}
+
+.tt-text-color-yellow{
+  @include textColor($text-color-yellow);
+}

@@ -1,29 +1,30 @@
+/* eslint-disable */
+// @flow
 import update from 'react-addons-update';
 
 import {
     GET_FOLDER_PHOTOS, GET_FOLDERS, UPDATE_FOLDER, REMOVE_FOLDER, ADD_FOLDER,
-    ADD_MEDIA, UPDATE_MEDIA, REMOVE_MEDIA, CHECKED_MEDIA, UNCHECKED_MEDIA,
-    CHECKED_ALL_MEDIA, UNCHECKED_ALL_MEDIA, REMOVE_MEDIA_CHECKED
+    MEDIA_FILTER, RESET_MEDIA_FILTER, ADD_MEDIA, UPDATE_MEDIA, REMOVE_MEDIA,
+    CHECKED_MEDIA, UNCHECKED_MEDIA, CHECKED_ALL_MEDIA, UNCHECKED_ALL_MEDIA, REMOVE_MEDIA_CHECKED
 } from '../actions/MediaActions';
 
-const folderAllDefault = {
+const folderAllDefault : FolderType = {
     id: 'all',
     name: 'All'
 }
 
-const initialState = {
-    folders: [
-        folderAllDefault
-    ],
+const initialState : MediaReducerState = {
+    folders: [folderAllDefault],
     current_folder: folderAllDefault,
     medias: {
         data: [],
-        pagination: []
+        pagination: {},
+        filter: ''
     },
     first_loaded: false
 }
 
-const updateMedia = (state, mediaIndex, data) => {
+const updateMedia = (state: MediaReducerState, mediaIndex : number, data : Object) : MediaReducerState => {
     return update(state, {
         medias: {
             data: {
@@ -38,7 +39,7 @@ const updateMedia = (state, mediaIndex, data) => {
     });
 }
 
-const updateMediaData = (state, data) => {
+const updateMediaData = (state: MediaReducerState, data : Array<MediaType>) : MediaReducerState => {
     return update(state, {
         medias: {
             data: {
@@ -48,7 +49,7 @@ const updateMediaData = (state, data) => {
     });
 }
 
-export default function createReducer(state = initialState, action) {
+export default function createReducer(state : MediaReducerState = initialState, action : Object) : MediaReducerState {
     switch (action.type) {
         case GET_FOLDERS:
             return {
@@ -112,6 +113,24 @@ export default function createReducer(state = initialState, action) {
                     $set: current_folder
                 }
             });
+
+        case MEDIA_FILTER:
+            return update(state, {
+                medias: {
+                    filter: {
+                        $set: action.filter
+                    }
+                }
+            });
+
+        case RESET_MEDIA_FILTER:
+            return update(state, {
+                medias: {
+                    filter: {
+                        $set: ''
+                    }
+                }
+            })
 
         case ADD_MEDIA:
             return updateMediaData(state, [

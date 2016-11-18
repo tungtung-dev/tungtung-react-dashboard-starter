@@ -1,13 +1,14 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import {autobind} from 'core-decorators';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {ChooseImageWrap} from '../../media_manager/index';
+import {ChooseImageModalWrap} from '../../media_manager/index';
 import {addAlertToast} from '../../../redux/actions/AlertAction';
 import ValidateWrapControl from '../validate_wrap_control';
+import {mediaItemPropType} from '../../media_manager/proptypes'
 
 @connect(() => ({}), (dispatch) => bindActionCreators({addAlertToast}, dispatch))
-export default class SelectImage extends Component {
+export default class SelectImage extends PureComponent {
     getMedia(){
         const {media} = this.props;
         if(!media) return {};
@@ -20,7 +21,8 @@ export default class SelectImage extends Component {
     }
 
     @autobind
-    deleteMedia(){
+    deleteMedia(e){
+        e.preventDefault();
         this.props.onChange({});
     }
 
@@ -28,12 +30,13 @@ export default class SelectImage extends Component {
         const media = this.getMedia();
         return <ValidateWrapControl {...this.props}>
             <div>
-            {media.thumbnail_url && <img src={media.original_url} style={{width: '100%'}} alt=""/>}
-            <div className="flex">
-                <ChooseImageWrap onChoose={this.chooseMedia}>
-                    <button className="btn fullwidth btn-purple" onClick={this.toggleModal}>Select image</button>
-                </ChooseImageWrap>
-                {media.thumbnail_url && <button className="btn fullwidth btn-red" onClick={this.deleteMedia}>Xóa</button>}
+            {media.thumbnail_url && <img src={media.original_url} style={{width: '100%', marginBottom: 5}} alt=""/>}
+            <div className="flex justify-space-between">
+                <ChooseImageModalWrap onChoose={this.chooseMedia}>
+                    <a className="tt-link-gray" href="#" onClick={this.toggleModal}><i className="fa fa-file-image-o"/> Select image</a>
+                </ChooseImageModalWrap>
+                &nbsp;
+                {media.thumbnail_url && <a className="tt-link-red" href="#" onClick={this.deleteMedia}>Remove</a>}
             </div>
             </div>
         </ValidateWrapControl>
@@ -41,9 +44,6 @@ export default class SelectImage extends Component {
 }
 
 SelectImage.propTypes = {
-    media: PropTypes.shape({
-        thumbnail_url: PropTypes.string,
-        original_url: PropTypes.string
-    }),
+    media: PropTypes.shape(mediaItemPropType),
     onChange: PropTypes.func
 }

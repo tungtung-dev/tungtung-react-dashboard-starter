@@ -10,6 +10,7 @@ import alert from './alert';
 import defaultLoad from './defaultLoad';
 import quizLists from './quizLists';
 import media from './media';
+import post from './post';
 
 export default combineReducers({
     form: formReducer,
@@ -22,5 +23,6 @@ export default combineReducers({
     users,
     authSocial,
     quizLists,
-    alert
+    alert,
+    post
 })

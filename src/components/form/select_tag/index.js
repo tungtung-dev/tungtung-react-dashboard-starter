@@ -1,17 +1,17 @@
-import React, {Component, PropTypes} from 'react';
-import Select, {Creatable} from 'react-select';
-import {autobind} from 'core-decorators';
-import 'react-select/dist/react-select.css';
+import React, {PureComponent, PropTypes} from 'react';
+import {Creatable} from 'react-select';
 import ValidateWrapControl from '../validate_wrap_control/index';
+import 'react-select/dist/react-select.css';
 import "./style.scss"
 
-export default class SelectTag extends Component {
+export default class SelectTag extends PureComponent {
     constructor(){
         super(...arguments);
         this.state = {
             options: this.props.options
         }
     }
+
     getValue() {
         if (Array.isArray(this.props.value)) {
             return this.props.value.map(v => v.value).join(',')

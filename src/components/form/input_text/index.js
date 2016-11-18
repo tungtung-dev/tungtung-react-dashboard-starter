@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, {PureComponent} from 'react';
 import {Input} from 'reactstrap';
 import ValidateWrapControl from '../validate_wrap_control/index';
 
@@ -12,14 +12,10 @@ var cleanInputText = (props) => {
     return newProps;
 }
 
-export default class InputText extends Component {
-    render() {
-        const {status} = this.props;
-        return (
-            <ValidateWrapControl {...this.props}>
-                <Input className={`form-control-${status}`} {...cleanInputText(this.props)}/>
-            </ValidateWrapControl>
-        )
+export default class InputText extends PureComponent {
+    render(){
+        return <ValidateWrapControl {...this.props}>
+            <Input className={`form-control-${this.props.status}`} {...cleanInputText(this.props)}/>
+        </ValidateWrapControl>
     }
 }
-

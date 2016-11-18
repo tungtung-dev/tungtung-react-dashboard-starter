@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 
-export default class MenuOption extends Component {
+export default class MenuOption extends PureComponent {
     render() {
         const {icon, name} = this.props;
         const isOptionName = icon || name;

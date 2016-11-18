@@ -1,56 +1,69 @@
+/* eslint-disable */
 import React, {Component, PropTypes} from 'react';
 import {Row, Col} from 'reactstrap';
 import {autobind} from 'core-decorators';
-import {InputText, MDEditor, Textarea, SelectTag, EmojioneDisplay, CodeEditor, SelectImage, SelectMultipleMedia} from '../form/index';
+import {
+    InputText,
+    MDEditor,
+    Button,
+    Textarea,
+    SelectTag,
+    EmojioneDisplay,
+    CodeEditor,
+    SelectImage,
+    SelectMultipleMedia,
+    SelectImagePopover,
+    DialogConfirm,
+    PopoverConfirm
+} from '../form/index';
+import {
+    UserAvatar
+} from '../partials/index';
 import TeXEditorFull from '../form/draftjs/TeXEditorFull';
-import DraftjsExport from '../form/draftjs/DraftjsExport';
-import {MediaManagerModal} from '../../components/media_manager';
-
+import {Box, TitleFlex, CenterPaddingBox, Breadcrumb} from '../layouts/index';
+import {
+    Switch, Checkbox
+} from '@blueprintjs/core';
+import classnames from 'classnames';
 
 export default class PostForm extends Component {
-    constructor() {
-        super(...arguments);
-        this.state = {
-            code: '',
-            showMedia: false
-        };
-    }
-
-
-    @autobind
-    toggleMedia(){
-        this.setState({showMedia: !this.state.showMedia})
-    }
-
     render() {
         const {fields: {title, description, content, tags, md_editor, code_editor, textarea}} = this.props;
         return (
-            <Row>
-                <Col md={8}>
-                    <InputText title="Tiêu đề"/>
-                    <div className="clearfix"></div>
-                    <TeXEditorFull  toolbarPosition="left" {...content} onFocus={() => {}} onBlur={()=>{}} isBorder/>
-                    <div className="clearfix margin-top-10"></div>
-                    <SelectTag title="Tags" {...tags}/>
-                    <hr/>
-                    <MDEditor {...md_editor}/>
-                    <CodeEditor {...code_editor}/>
-                    <hr/>
+            <CenterPaddingBox>
+                <Breadcrumb id="post-form" href="/create" icon="icon-plus" name="Create new post"/>
+                {title.value && <Breadcrumb id="post-form-title" name={title.value}/>}
+                <TitleFlex
+                    title={
+                        <h2>Create new post</h2>
+                    }
+                    actions={
+                        <button className="btn btn-default fill">Save</button>
+                    }
+                />
+                <Box>
                     <Row>
-                        <Col md={6}>
-                            <Textarea title="Textarea autoresize" autoResize {...textarea}/>
+                        <Col md={9}>
+                            <InputText title="Title" {...title}/>
+                            <SelectTag title="Tags" {...tags}/>
+                            <Textarea title="Description"/>
+                            <div className="clearfix"></div>
+                            <TeXEditorFull title="Content" {...content} isBorder toolbarPosition="left"/>
                         </Col>
-                        <Col md={6}>
-                            <EmojioneDisplay content="Hello xin chào mọi người :smile: đây là react dashboard toolkit :books: sắp ra mắt rồi :v"/>
+                        <Col md={3}>
+                            <SelectImage title="Featured image" {...description} media={description.value ? description.value : {}}/>
+                            <SelectImagePopover title="Popover image" {...description} media={description.value ? description.value : {}}/>
+                            <div className="clearfix"/>
+                            <SelectMultipleMedia title="Ablums" {...title} medias={title.value ? title.value : []}/>
+                            <Switch checked={textarea.value} label="Public" {...textarea}/>
+                            <Checkbox checked={textarea.value} {...textarea}>
+                                <span className="pt-icon-standard pt-icon-user" />
+                                Gilad Gray
+                            </Checkbox>
                         </Col>
                     </Row>
-                </Col>
-                <Col md={4}>
-                    <SelectImage title="Ảnh đại diện" {...description} media={description.value}/>
-                    <div className="clearfix"/>
-                    <SelectMultipleMedia title="Album ảnh" {...title} medias={title.value}/>
-                </Col>
-            </Row>
+                </Box>
+            </CenterPaddingBox>
         )
     }
 }

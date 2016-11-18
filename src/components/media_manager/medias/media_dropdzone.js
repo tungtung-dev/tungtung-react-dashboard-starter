@@ -38,7 +38,7 @@ export default class MediaDropdzone extends Component {
                 if (evt.lengthComputable) {
                     // calculate the percentage of upload completed
                     var percentComplete = evt.loaded / evt.total;
-                    percentComplete = parseInt(percentComplete * 100);
+                    percentComplete = parseInt(percentComplete * 100, 10);
                     onUpdateMedia(newFile.id, {
                         progress: percentComplete,
                     })

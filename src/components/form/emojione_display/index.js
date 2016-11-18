@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import emojione from 'emojione';
 if(!process.env.SERVER_RENDER){
     require('./style.scss');
@@ -15,10 +15,7 @@ var encodedStr = (rawStr) => {
     });
 }
 
-export default class EmojioneDisplay extends Component {
-    shouldComponentUpdate(prevProps){
-        return prevProps.content !== this.props.content
-    }
+export default class EmojioneDisplay extends PureComponent {
     render() {
         const {content} = this.props;
         return (

@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 
 const edit_item = {
@@ -13,7 +13,7 @@ const delete_item = {
     name: 'Delete'
 }
 
-export default class SelectDropDown extends Component {
+export default class SelectDropDown extends PureComponent {
     constructor(){
         super(...arguments);
         this.state = {

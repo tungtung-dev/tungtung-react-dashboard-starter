@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import classnames from 'classnames';
 import {autobind} from 'core-decorators';
 import {InputText} from '../../../components/form/index';
-import {Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import {Modal, ModalBody} from 'reactstrap';
 import {folderItemPropType} from '../proptypes';
 import Equal from 'deep-equal';
 

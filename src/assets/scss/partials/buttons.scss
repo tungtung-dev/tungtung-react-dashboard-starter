@@ -1,9 +1,7 @@
 @import "../variables";
 
 @mixin button_vndev($color, $color-text:#ffffff) {
-  //background: $color;
   border: 1px solid $color;
-  //box-shadow: 0px 3px 0px 0px darken($color, 10%);
   border-radius: 3px;
   -webkit-transition: all .3s linear;
   -moz-transition: all .3s linear;
@@ -11,12 +9,10 @@
   -o-transition: all .3s linear;
   transition: all .3s linear;
   color: $color;
-  background: #ffffff;
+  background: transparent;
+  //background: #ffffff;
   &:hover, &:focus {
     background: $color;
-    //border: 1px solid darken($color, 2);
-    //color: darken($color, 2);
-    //color: $color-text;
     color: #ffffff;
     outline: none;
   }
@@ -25,7 +21,6 @@
 @mixin button_vndev_fill($color, $color-text:#ffffff) {
   background: $color;
   border: 1px solid $color;
-  //box-shadow: 0px 3px 0px 0px darken($color, 10%);
   border-radius: 3px;
   -webkit-transition: all .3s linear;
   -moz-transition: all .3s linear;
@@ -48,14 +43,21 @@ button:focus {
 
 .btn {
   border-radius: 3px;
-  //border: 0px !important;
   font-size: 12px;
+  padding: 8px 20px;
 }
 
 .btn-default {
   @include button_vndev(#08f);
   &.fill{
     @include button_vndev_fill(#08f);
+  }
+}
+
+.btn-black {
+  @include button_vndev(rgba(0,0,0,.5));
+  &.fill{
+    @include button_vndev_fill(rgba(0,0,0,.5));
   }
 }
 
@@ -108,98 +110,37 @@ button:focus {
   }
 }
 
-.btn-circle {
-  width: 70px;
-  height: 70px;
-  margin-top: 15px;
-  padding: 7px 16px;
-  border: 2px solid white;
-  border-radius: 100% !important;
-  font-size: 40px;
-  color: white;
-  position: relative;
-  z-index: 9999;
-  background: transparent;
-  -webkit-transition: background .3s ease-in-out;
-  -moz-transition: background .3s ease-in-out;
-  transition: background .3s ease-in-out;
-  &:hover,
-  &:focus {
-    outline: none;
-    color: white;
-    background: rgba(white, 0.1);
-  }
-  i.animated {
-    -webkit-transition-property: -webkit-transform;
-    -webkit-transition-duration: 1s;
-    -moz-transition-property: -moz-transform;
-    -moz-transition-duration: 1s;
-  }
-  &:hover {
-    i.animated {
-      -webkit-animation-name: pulse;
-      -moz-animation-name: pulse;
-      -webkit-animation-duration: 1.5s;
-      -moz-animation-duration: 1.5s;
-      -webkit-animation-iteration-count: infinite;
-      -moz-animation-iteration-count: infinite;
-      -webkit-animation-timing-function: linear;
-      -moz-animation-timing-function: linear;
-    }
-  }
-}
-
-@-webkit-keyframes pulse {
-  from {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-
-  50% {
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-
-  100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-}
-
-@-moz-keyframes pulse {
-  from {
-    -moz-transform: scale(1);
-    transform: scale(1);
-  }
-
-  50% {
-    -moz-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-
-  100% {
-    -moz-transform: scale(1);
-    transform: scale(1);
-  }
-}
-
-.btn-white {
-  border: 1px solid $btn-white;
-  color: $btn-white;
-  background-color: transparent;
-  &:hover,
-  &:focus {
-    border: 1px solid $primary;
-    outline: none;
-    color: #ffffff;
-    background-color: $primary;
-  }
-}
-
-.btn-black {
-
-}
-
 .btn-super-sm{
-  padding: 2px 5px !important;
+  padding: 3px 5px !important;
 }
+
+.btn-no-border{
+  border: 0px;
+  &:hover, &:focus, &:active{
+    background: transparent;
+  }
+}
+
+.btn-no-background{
+  background: transparent;
+  &:hover, &:focus, &:active{
+    background: transparent;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+}
+
+.btn-transparent{
+  background: transparent;
+  border: 1px solid transparent;
+  color: #08f;
+  @extend .btn-super-sm;
+  &:hover, &:focus, &:active{
+    background: transparent;
+    color: darken(#08f, 10);
+    box-shadow: none !important;
+    outline: none !important;
+    border: 1px solid transparent !important;
+  }
+}
+

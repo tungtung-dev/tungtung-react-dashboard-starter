@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import marked from '../../../utils/marked';
 
 marked.setOptions({
@@ -13,7 +13,7 @@ marked.setOptions({
     emoji: true
 });
 
-export default class MarkdownDisplay extends Component{
+export default class MarkdownDisplay extends PureComponent{
     render(){
         return <div dangerouslySetInnerHTML={{__html: marked(this.props.content)}} className={this.props.className}/>
     }

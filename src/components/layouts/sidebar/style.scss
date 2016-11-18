@@ -1,15 +1,18 @@
+@import "../../../assets/scss/variables";
+
 .wrapper-sidebar {
   -webkit-transition: all .6s linear;
   -moz-transition: all .6s linear;
   -ms-transition: all .6s linear;
   -o-transition: all .6s linear;
   transition: all .6s linear;
+  box-shadow: 0 1px 1px rgba(0,0,0,.1);
   @media (max-width: 779px) {
     display: none;
     margin-left: -180px;
   }
   width: 230px;
-  background: #fafafa;
+  background: $sidebar-bg;
   float: left;
   height: 100%;
   font-size: 14px;
@@ -24,13 +27,13 @@
         top: 50%;
         height: 1px;
         width: 100%;
-        background: darken(#EEEEEE, 4);
+        background: darken($sidebar-bg, 4);
         z-index: 0;
       }
       .name {
         position: relative;
         z-index: 1;
-        background: #fafafa;
+        background: $sidebar-bg;
         padding-right: 5px;
         font-size: 12px;
         color: darken(#d4d4d4, 15);
@@ -45,11 +48,12 @@
         &.active {
           a {
             opacity: 1;
-            background: darken(#fafafa, 3)
+            background: darken($sidebar-bg, 4);
+            //background: darken(#fafafa, 3)
           }
         }
         a {
-          color: #333333;
+          color: $sidebar-nav-a-color;
           display: block;
           opacity: .5;
           padding: 10px 20px;

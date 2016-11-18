@@ -12,7 +12,7 @@ class UserInfoWrap extends Component {
     }
 
     componentDidUpdate(prevProps){
-        if(this.props.user._id != prevProps.user._id){
+        if(this.props.user._id !== prevProps.user._id){
             this.props.getUserInfo(this.props.user_id);
         }
     }
@@ -44,7 +44,7 @@ const mapStateToProps = (state, ownProps) => {
     if (!ownProps.user_id.match(/^[0-9a-fA-F]{24}$/)) {
         keySearch = "username";
     }
-    user = state.defaultLoad.users.find(u => u[keySearch] == ownProps.user_id);
+    user = state.defaultLoad.users.find(u => u[keySearch] === ownProps.user_id);
     if (!user) user = {};
     return {
         user

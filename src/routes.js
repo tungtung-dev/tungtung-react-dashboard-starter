@@ -14,6 +14,7 @@ export default () => {
                 <IndexRoute component={QuizListManager}/>
                 <Route path="/users" component={UserManagerContainer}/>
                 <Route path="/post" component={PostManager.PostForm}/>
+                <Route path="/posts" component={PostManager.PostManager}/>
                 <Route path="/media" component={MediaManager}></Route>
             </Route>
             <Route path="/auth">

@@ -2,7 +2,7 @@
   "presets": ["react-app","stage-1"],
   "env": {
       "development": {
-          "plugins": ["transform-runtime","transform-decorators-legacy","transform-class-properties",["react-transform", {
+          "plugins": ["transform-runtime",  "transform-decorators-legacy","transform-class-properties",["react-transform", {
              "transforms": [{
                "transform": "react-transform-hmr",
                // if you use React Native, pass "react-native" instead:
@@ -15,7 +15,7 @@
            }]]
       },
       "production": {
-            "plugins": ["transform-runtime","transform-decorators-legacy","transform-class-properties"]
+            "plugins": ["transform-runtime","transform-flow-strip-types","transform-decorators-legacy","transform-class-properties"]
       }
   }
 }

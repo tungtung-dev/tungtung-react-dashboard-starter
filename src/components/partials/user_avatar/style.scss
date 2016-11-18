@@ -1,8 +1,8 @@
-.user-avatar-component {
+.tt-user-avatar-component {
   //flex: 2;
   display: flex;
   align-items: center;
-  .avatar {
+  .tt-avatar-component {
     width: 30px;
   }
   .information {
@@ -19,7 +19,7 @@
     }
   }
   &.size-20 {
-    .avatar {
+    .tt-avatar-component {
       width: 20px;
       height: 20px;
       img{
@@ -34,7 +34,7 @@
     }
   }
   &.size-25 {
-    .avatar {
+    .tt-avatar-component {
       width: 25px;
       height: 25px;
     }
@@ -45,7 +45,7 @@
     }
   }
   &.size-70 {
-    .avatar {
+    .tt-avatar-component {
       width: 70px;
       height: 70px;
       border-radius: 35px;
@@ -70,5 +70,11 @@
     .name-label {
       color: darken(#ffffff, 10);
     }
+  }
+}
+
+a.tt-user-avatar-component{
+  &:hover{
+    text-decoration: none;
   }
 }

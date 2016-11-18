@@ -3,4 +3,12 @@
   float: left;
   width: 200px;
   height: 100%;
+  .nav-lists{
+    margin-top: 0px;
+  }
+  .nav-lists li a{
+    &.active, &:focus{
+      border-radius: 0px;
+    }
+  }
 }

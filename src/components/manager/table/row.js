@@ -1,28 +1,21 @@
-import React, {Component, PropTypes} from 'react';
-import {Table} from 'reactstrap';
-import Equal from 'deep-equal';
-import {COLUMN_PROPTYPES} from './proptypes';
+import React, {PureComponent, PropTypes} from 'react';
 
-export default class Row extends Component {
-    static propTypes = {
-        cells: PropTypes.arrayOf(PropTypes.shape({
-            showIndex: PropTypes.bool,
-            component: PropTypes.func
-        }))
-    }
-
-    shouldComponentUpdate(prevProps) {
-        return !Equal(this.props.cells, prevProps.cells);
-    }
-
-    render() {
+export default class Row extends PureComponent{
+    render(){
         const {cells} = this.props;
         return <tr>
             {cells.map((cell, index) => {
                 if (cell.showIndex)
                     return <th scope="row" key={index}>{cell.component}</th>;
-                else return <td key={index}>{cell.component}</td>;
+                else return <td key={index} style={cell.style} className={cell.className}>{cell.component}</td>;
             })}
         </tr>
     }
+}
+
+Row.propTypes = {
+    cells: PropTypes.arrayOf(PropTypes.shape({
+        showIndex: PropTypes.bool,
+        component: PropTypes.func
+    }))
 }

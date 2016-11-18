@@ -1,10 +1,12 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import {Link} from 'react-router';
 import TooltipWrapper, {tooltipPropType} from '../tooltip_wrapper/index';
 
-export default class LinkCustom extends Component {
+export default class LinkCustom extends PureComponent {
     renderLink(){
-        return <Link {...this.props}>
+        var className = `${this.props.className}`;
+        if(this.props.styleColor) className += ` tt-link-${this.props.styleColor}`;
+        return <Link {...this.props} className={className}>
             {this.props.children}
         </Link>
     }
@@ -23,7 +25,9 @@ export default class LinkCustom extends Component {
         return linkComponent;
     }
 }
+
 LinkCustom.propTypes = {
-    tooltip: PropTypes.shape(tooltipPropType)
+    tooltip: PropTypes.shape(tooltipPropType),
+    styleColor: PropTypes.string
 }
 

@@ -6,6 +6,8 @@ export const GET_FOLDER_PHOTOS = 'MEDIA/get-folder-information';
 export const ADD_FOLDER = 'MEDIA/add-folder';
 export const REMOVE_FOLDER = 'MEDIA/remove-folder';
 export const UPDATE_FOLDER = 'MEDIA/update-folder';
+export const MEDIA_FILTER = 'MEDIA/media-filter';
+export const RESET_MEDIA_FILTER = 'MEDIA/reset-media-filter';
 export const ADD_MEDIA = 'MEDIA/add-media';
 export const UPDATE_MEDIA = 'MEDIA/update-media';
 export const CHECKED_MEDIA = 'MEDIA/checked-media';
@@ -60,6 +62,19 @@ export function addFolder(name) {
         payload: {
             addFolder: MediaApi.addFolder(name)
         }
+    }
+}
+
+export function mediaFilter(filter){
+    return {
+        type: MEDIA_FILTER,
+        filter
+    }
+}
+
+export function resetMediaFilter(){
+    return {
+        type: RESET_MEDIA_FILTER
     }
 }
 
@@ -124,7 +139,7 @@ export function removeMediaChecked(medias_id){
 }
 
 export default {
-    getFolders, getFolderPhotos, addFolder, updateFolder, removeFolder,
-    addMedia, updateMedia, removeMedia, checkedMedia,
-    unCheckedMedia, checkedAllMedia, removeMediaChecked
+    getFolders, getFolderPhotos, addFolder, updateFolder, removeFolder, mediaFilter,
+    resetMediaFilter, addMedia, updateMedia, removeMedia, checkedMedia, unCheckedMedia,
+    checkedAllMedia, unCheckedAllMedia, removeMediaChecked
 }

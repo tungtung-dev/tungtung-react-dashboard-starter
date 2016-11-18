@@ -1,8 +1,8 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import {autobind} from 'core-decorators';
 import {Modal, ModalBody, ModalHeader} from 'reactstrap';
 
-export default class DialogConfirm extends Component {
+export default class DialogConfirm extends PureComponent {
     state = {
         showConfirm: false
     }

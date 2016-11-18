@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {autobind} from 'core-decorators';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import MediaActions from '../../../redux/actions/MediaActions';
@@ -25,19 +26,26 @@ export default class Folders extends Component {
         addFolder: PropTypes.func.isRequired,
         updateFolder: PropTypes.func.isRequired,
         removeFolder: PropTypes.func.isRequired,
-        getFolderPhotos: PropTypes.func.isRequired
+        getFolderPhotos: PropTypes.func.isRequired,
+        resetMediaFilter: PropTypes.func.isRequired
     }
+
+    @autobind
+    handleActiveFolder(id){
+        this.props.getFolderPhotos(id);
+        this.props.resetMediaFilter();
+    }
+
 
     render() {
         const {folders, current_folder} = this.props;
-        console.log(this.props);
         return (
             <div className="folders-sidebar">
                 <ul className="nav-lists">
                     {folders.map(folder =>
                         <FolderItem
                             key={folder.id}
-                            onActive={this.props.getFolderPhotos}
+                            onActive={this.handleActiveFolder}
                             onUpdate={this.props.updateFolder}
                             onRemove={this.props.removeFolder}
                             active={current_folder.id === folder.id}

@@ -1,5 +1,9 @@
-.header {
+.header.tt-header {
   background: darken(#fafafa, .5);
+  box-shadow: 0 1px 1px rgba(0,0,0,.1);
+  ul{
+    margin-top: 0px;
+  }
   .navbar-brand {
     font-size: 16px;
   }
@@ -11,5 +15,8 @@
       outline: none;
       background: transparent;
     }
+  }
+  .tt-breadcrumb-bar-wrap{
+    padding-left: 40px;
   }
 }

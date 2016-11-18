@@ -1,4 +1,7 @@
+@import "../../assets/scss/variables";
+
 .wrapper {
+  background: $wrapper-bg;
   .menu-bar {
     display: none;
     margin-bottom: 10px;
@@ -21,9 +24,8 @@
     }
   }
   margin-left: 230px;
-  padding-top: 10px;
   height: 100%;
   z-index: 9999;
-  //overflow-y: scroll;
+  overflow-y: scroll;
   padding-bottom: 20px;
 }

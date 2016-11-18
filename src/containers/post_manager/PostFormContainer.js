@@ -68,8 +68,6 @@ var rawContent = {
     },
 }
 
-var rawContent = '';
-
 const mapStateToProps = () => {
     return {
         initialValues: {

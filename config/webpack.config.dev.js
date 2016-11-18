@@ -3,6 +3,7 @@ var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
 var findCacheDir = require('find-cache-dir');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var FlowtypePlugin = require('flowtype-loader/plugin');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
@@ -89,13 +90,14 @@ module.exports = {
   module: {
     // First, run the linter.
     // It's important to do this before Babel processes the JS.
-    // preLoaders: [
-    //   {
-    //     test: /\.(js|jsx)$/,
-    //     loader: 'eslint',
-    //     include: paths.appSrc,
-    //   }
-    // ],
+    preLoaders: [
+      {
+        test: /\.(js|jsx)$/,
+        loader: 'eslint',
+        include: paths.appSrc,
+      },
+      {test: /\.(js|jsx)$/, loader: "flowtype", exclude: /node_modules/}
+    ],
     loaders: [
       // Process JS with Babel.
       {
@@ -173,6 +175,7 @@ module.exports = {
     // Makes the public URL available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In development, this will be an empty string.
+    new FlowtypePlugin(),
     new InterpolateHtmlPlugin({
       PUBLIC_URL: publicUrl
     }),

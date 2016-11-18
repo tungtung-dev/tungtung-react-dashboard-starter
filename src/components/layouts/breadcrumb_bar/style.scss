@@ -1,0 +1,13 @@
+.tt-breadcrumb-bar{
+  //padding: 5px 80px;
+  background: darken(#f9f9f9, 0);
+  .pt-breadcrumb{
+    font-size: 14px;
+  }
+  .pt-breadcrumb, .pt-breadcrumbs-collapsed{
+    color: #55595c;
+  }
+  .pt-breadcrumb-current{
+    color: darken(#55595c, 5);
+  }
+}

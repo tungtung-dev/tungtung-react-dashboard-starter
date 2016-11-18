@@ -1,10 +1,10 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import {Link} from 'react-router';
 import classnames from 'classnames';
 import {getColorFromText} from '../../../utils/index';
 import "./style.scss";
 
-export default class Avatar extends Component {
+export default class Avatar extends PureComponent {
     getColor() {
         return getColorFromText(this.props.username);
     }
@@ -35,7 +35,7 @@ export default class Avatar extends Component {
         const {avatar_url, username, isLink} = this.props;
         const isImage = !isLink;
         return (
-            <div className={classnames('avatar','avatar-component',{'character': !avatar_url})}
+            <div className={classnames('avatar','tt-avatar-component',{'character': !avatar_url})}
                  style={{backgroundColor: this.getColor()}} onClick={this.props.onClickAvatar}>
                 {isLink && <Link to={`user/${username}`} className="text-none text-white">{this.renderImage()}</Link>}
                 {isImage && this.renderImage()}
@@ -47,7 +47,7 @@ export default class Avatar extends Component {
 Avatar.propTypes = {
     isEditAvatar: PropTypes.bool,
     onClickAvatar: PropTypes.func,
+    isLink: PropTypes.bool,
     avatar_url: PropTypes.string,
     username: PropTypes.string,
-    isLink: PropTypes.bool
 }

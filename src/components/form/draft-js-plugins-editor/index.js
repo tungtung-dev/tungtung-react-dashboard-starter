@@ -1,6 +1,6 @@
 import Editor from 'draft-js-plugins-editor';
 
-export default class CustomEditorOverridePlugin extends Editor{
+export default class CustomEditorOverridePlugin extends Editor {
     getEditorRef() {
         console.log(this.editor);
         return this.editor;

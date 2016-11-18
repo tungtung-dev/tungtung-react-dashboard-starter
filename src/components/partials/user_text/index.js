@@ -24,6 +24,6 @@ UserText.defaultProps = {
 }
 
 UserText.propTypes = {
-    username: PropTypes.string,
-    isLink: PropTypes.bool
+    isLink: PropTypes.bool,
+    username: PropTypes.string
 }
