@@ -19,8 +19,6 @@ export function postFetch(url, data, props,  callback = () => {}) {
         headers: getHeaders()
     }, props);
 
-    console.log(data);
-
     return qwest.post(url, data, attributes, callback).then((xhr, res) => {
         return new Promise((resolve, reject) => {
             try {

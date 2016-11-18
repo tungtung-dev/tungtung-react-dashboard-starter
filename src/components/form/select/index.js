@@ -1,6 +1,6 @@
 import React,{PureComponent} from 'react';
 import {FormControl} from 'reactstrap';
-import ValidateWrapControl from '../validate_wrap_control/index';
+import ValidateWrapControl from '../validate-wrap-control/index';
 
 export default class Select extends PureComponent {
     render() {

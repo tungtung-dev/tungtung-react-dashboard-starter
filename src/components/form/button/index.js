@@ -1,5 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react';
-import TooltipWrapper, {tooltipPropType} from '../tooltip_wrapper/index';
+import TooltipWrapper, {tooltipPropType} from '../tooltip-wrapper/index';
 
 export default class Button extends PureComponent {
     render(){

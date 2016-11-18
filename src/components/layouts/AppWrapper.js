@@ -1,10 +1,10 @@
-import React,{PureComponent} from 'react';
+import React,{Component, PropTypes} from 'react';
 import Sidebar from './sidebar/index';
 import Header  from './header/index';
 import classnames from 'classnames';
 import './style.scss';
 
-export default class AppWrapper extends PureComponent {
+export default class AppWrapper extends Component {
     constructor() {
         super(...arguments);
         this.state = {
@@ -33,4 +33,9 @@ export default class AppWrapper extends PureComponent {
             </div>
         )
     }
+}
+
+AppWrapper.propTypes = {
+    isAuthenticated: PropTypes.bool,
+    auth: PropTypes.object
 }

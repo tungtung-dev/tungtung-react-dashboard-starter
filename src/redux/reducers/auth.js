@@ -39,7 +39,6 @@ export default function createReducer(state = getInitialState(), action) {
             }
         case AUTH_UPDATE_AVATAR:
             const {avatar, avatar_url} = action;
-            console.log(action);
             return {
                 ...state,
                 user: {

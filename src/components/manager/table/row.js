@@ -16,6 +16,6 @@ export default class Row extends PureComponent{
 Row.propTypes = {
     cells: PropTypes.arrayOf(PropTypes.shape({
         showIndex: PropTypes.bool,
-        component: PropTypes.func
+        component: PropTypes.any
     }))
 }

@@ -4,10 +4,9 @@ import {autobind} from 'core-decorators';
 import PostAction from '../../redux/actions/PostAction';
 import {connect} from '../../utils/reduxAwait';
 import {Link} from '../../components/form/index';
-import {Breadcrumb, CenterPaddingBox, Box, Flex, Title} from '../../components/layouts/index';
+import {Breadcrumb, CenterPaddingBox, Box, Title} from '../../components/layouts/index';
 import {Tabs,Table, Column, SearchFilterPagination} from '../../components/manager/index';
 import {UserAvatar} from '../../components/partials/index';
-import {InputText, Button} from '../../components/form/index';
 
 const TAB_ALL = 'tab all';
 const TAB_PUBLISH = 'tab publish'

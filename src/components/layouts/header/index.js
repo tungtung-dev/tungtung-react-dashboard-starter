@@ -2,7 +2,7 @@ import React, {PureComponent, PropTypes} from 'react';
 import {Link} from 'react-router';
 import {Navbar,Nav, NavItem, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 import {UserAvatar} from '../../partials/index';
-import BreadcrumbBar from '../breadcrumb_bar';
+import BreadcrumbBar from '../breadcrumb-bar';
 import Breadcrumb from '../breadcrumb';
 import './style.scss';
 

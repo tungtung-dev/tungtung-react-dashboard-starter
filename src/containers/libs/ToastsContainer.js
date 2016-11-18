@@ -11,7 +11,6 @@ var ToastMessageFactory = React.createFactory(ReactToastr.ToastMessage.animation
 class ToastsContainer extends Component {
     showToast(toast) {
         const {title, content, status} = toast;
-        console.log(toast);
         this.refs.container[status](
             content,
             title, {

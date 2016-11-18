@@ -1,12 +1,13 @@
 import React, {PureComponent, PropTypes} from 'react';
 import {Link} from 'react-router';
-import TooltipWrapper, {tooltipPropType} from '../tooltip_wrapper/index';
+import {cleanProps} from '../../../utils/index';
+import TooltipWrapper, {tooltipPropType} from '../tooltip-wrapper/index';
 
 export default class LinkCustom extends PureComponent {
     renderLink(){
         var className = `${this.props.className}`;
         if(this.props.styleColor) className += ` tt-link-${this.props.styleColor}`;
-        return <Link {...this.props} className={className}>
+        return <Link className={className} {...cleanProps(['tooltip', 'styleColor'],this.props)}>
             {this.props.children}
         </Link>
     }

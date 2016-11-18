@@ -58,6 +58,24 @@ export function getStyleFromProps(prop_style_keys = [], props = {}){
     return style;
 }
 
+export function cleanProps(clean_key_props, props){
+    let newProps = {...props};
+    clean_key_props.map(key => {
+        delete newProps[key];
+        return {}
+    });
+    return newProps;
+}
+
+export function cleanPropsReduxForm(props){
+    return cleanProps(
+        [
+            'initialValue', 'autofill', 'onUpdate', 'valid', 'invalid', 'dirty',
+            'pristine', 'error', 'active', 'touched', 'visited', 'autofilled',
+            'noBottom', 'styleColor'
+        ], props);
+}
+
 export {
     reduxAwait
 }

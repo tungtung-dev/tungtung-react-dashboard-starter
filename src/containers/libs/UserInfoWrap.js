@@ -6,7 +6,6 @@ import {connect} from '../../utils/reduxAwait';
 class UserInfoWrap extends Component {
     componentDidMount() {
         if (!this.props.user._id) {
-            console.log('get user ' + this.props.user_id);
             this.props.getUserInfo(this.props.user_id);
         }
     }

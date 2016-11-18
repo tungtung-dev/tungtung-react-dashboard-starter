@@ -1,5 +1,5 @@
 import React,{PureComponent, PropTypes} from 'react';
-import ValidateWrapControl from '../validate_wrap_control/index';
+import ValidateWrapControl from '../validate-wrap-control/index';
 
 const limitRow = 0;
 

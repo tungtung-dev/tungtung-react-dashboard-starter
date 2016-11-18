@@ -7,6 +7,8 @@
   -o-transition: all .6s linear;
   transition: all .6s linear;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
+  position: fixed;
+  top: 44.5px;
   @media (max-width: 779px) {
     display: none;
     margin-left: -180px;

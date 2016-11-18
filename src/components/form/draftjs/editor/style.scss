@@ -1,0 +1,42 @@
+.tt-draftjs-editor-root {
+  margin-top: 0px !important;
+  margin-bottom: 5px !important;
+  font-size: 14px;
+  font-family: 'Bookerly';
+  .tt-draftjs-editor {
+    min-height: 20px;
+  }
+  .public-DraftEditorPlaceholder-root{
+    color: #9197a3;
+    position: absolute;
+    z-index: 0;
+  }
+  .DraftEditor-editorContainer, .public-DraftEditorPlaceholder-root {
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    font-weight: 400;
+    line-height: 1.6em;
+    letter-spacing: 0.01em;
+  }
+}
+
+.DraftEditor-editorContainer {
+  figure {
+    margin: 0rem;
+  }
+}
+
+.draftJsToolbar__toolbar__2NV21 .draftJsToolbar__toolbar-item__ZQoML button {
+  padding: 5px 10px;
+}
+
+.draftJsEmojiPlugin__emojiSuggestionsEntryIcon__1qC2V {
+  position: relative;
+  top: -5px;
+}
+
+.draftJsEmojiPlugin__emoji__2oqBk {
+  position: relative;
+  top: -3px;
+}

@@ -12,7 +12,7 @@ class PostFormContainer extends Component {
     }
 }
 
-const fields = ['title','description','content','tags','md_editor','code_editor', 'textarea']
+const fields = ['title','description','tags','content_type','content','featured_image','secondary_featured_image','is_public']
 
 const form = {
     form: 'postForm',
@@ -45,9 +45,216 @@ var rawContent = {
             type: 'unstyled',
         },
         {
-            text: ' ',
-            type: 'atomic',
-            entityRanges: [{offset: 0, length: 1, key: 'first'}],
+            text: 'You can also insert a new TeX block at the cursor location.',
+            type: 'unstyled',
+        },
+        {
+            text: 'This is a Draft-based editor that supports TeX rendering.',
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: (
+                'Each TeX block below is represented as a DraftEntity object and ' +
+                'rendered using Khan Academy\'s KaTeX library.'
+            ),
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: 'Click any TeX block to edit.',
+            type: 'unstyled',
+        },
+        {
+            text: 'You can also insert a new TeX block at the cursor location.',
+            type: 'unstyled',
+        },
+        {
+            text: 'This is a Draft-based editor that supports TeX rendering.',
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: (
+                'Each TeX block below is represented as a DraftEntity object and ' +
+                'rendered using Khan Academy\'s KaTeX library.'
+            ),
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: 'Click any TeX block to edit.',
+            type: 'unstyled',
+        },
+        {
+            text: 'You can also insert a new TeX block at the cursor location.',
+            type: 'unstyled',
+        },
+        {
+            text: 'This is a Draft-based editor that supports TeX rendering.',
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: (
+                'Each TeX block below is represented as a DraftEntity object and ' +
+                'rendered using Khan Academy\'s KaTeX library.'
+            ),
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: 'Click any TeX block to edit.',
+            type: 'unstyled',
+        },
+        {
+            text: 'You can also insert a new TeX block at the cursor location.',
+            type: 'unstyled',
+        },
+        {
+            text: 'This is a Draft-based editor that supports TeX rendering.',
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: (
+                'Each TeX block below is represented as a DraftEntity object and ' +
+                'rendered using Khan Academy\'s KaTeX library.'
+            ),
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: 'Click any TeX block to edit.',
+            type: 'unstyled',
+        },
+        {
+            text: 'You can also insert a new TeX block at the cursor location.',
+            type: 'unstyled',
+        }, {
+            text: 'This is a Draft-based editor that supports TeX rendering.',
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: (
+                'Each TeX block below is represented as a DraftEntity object and ' +
+                'rendered using Khan Academy\'s KaTeX library.'
+            ),
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: 'Click any TeX block to edit.',
+            type: 'unstyled',
+        },
+        {
+            text: 'You can also insert a new TeX block at the cursor location.',
+            type: 'unstyled',
+        }, {
+            text: 'This is a Draft-based editor that supports TeX rendering.',
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: (
+                'Each TeX block below is represented as a DraftEntity object and ' +
+                'rendered using Khan Academy\'s KaTeX library.'
+            ),
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: 'Click any TeX block to edit.',
+            type: 'unstyled',
+        },
+        {
+            text: 'You can also insert a new TeX block at the cursor location.',
+            type: 'unstyled',
+        }, {
+            text: 'This is a Draft-based editor that supports TeX rendering.',
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: (
+                'Each TeX block below is represented as a DraftEntity object and ' +
+                'rendered using Khan Academy\'s KaTeX library.'
+            ),
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: 'Click any TeX block to edit.',
+            type: 'unstyled',
+        },
+        {
+            text: 'You can also insert a new TeX block at the cursor location.',
+            type: 'unstyled',
+        }, {
+            text: 'This is a Draft-based editor that supports TeX rendering.',
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: (
+                'Each TeX block below is represented as a DraftEntity object and ' +
+                'rendered using Khan Academy\'s KaTeX library.'
+            ),
+            type: 'unstyled',
+        },
+        {
+            text: '',
+            type: 'unstyled',
+        },
+        {
+            text: 'Click any TeX block to edit.',
+            type: 'unstyled',
         },
         {
             text: 'You can also insert a new TeX block at the cursor location.',
@@ -56,15 +263,7 @@ var rawContent = {
     ],
 
     entityMap: {
-        first: {
-            type: 'TOKEN',
-            mutability: 'IMMUTABLE',
-            data: {
-                filename: 'hello',
-                mode: 'php',
-                content: `$n = 100`,
-            },
-        },
+
     },
 }
 

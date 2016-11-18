@@ -1,0 +1,28 @@
+.tt-draftjs-editor-toolbar{
+  font-size: 16px;
+  background: #fafafa;
+  display: flex;
+  .item{
+    float: left;
+    padding: 5px 10px;
+    border-right: 1px solid rgba(0,0,0,.05);
+  }
+  a {
+    color: #888888;
+    &:hover, &.active{
+      color: orange;
+      text-decoration: none;
+      background: #ffffff;
+    }
+    &:focus{
+      text-decoration: none;
+    }
+  }
+}
+
+.tt-draftjs-editor-toolbar-fixed{
+  position: fixed;
+  z-index: 10;
+  box-shadow: 0 1px 1px rgba(0,0,0,.1);
+  border: 0px;
+}

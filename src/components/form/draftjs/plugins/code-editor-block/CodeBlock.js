@@ -1,4 +1,4 @@
-import CodeEditor from '../../../code_editor/index';
+import CodeEditor from '../../../code-editor/index';
 import React from 'react';
 import {Entity} from 'draft-js';
 import classnames from 'classnames';

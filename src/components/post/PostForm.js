@@ -14,21 +14,16 @@ import {
     SelectMultipleMedia,
     SelectImagePopover,
     DialogConfirm,
-    PopoverConfirm
+    PopoverConfirm,
+    DraftjsEditor,
+    Switch,
+    Checkbox
 } from '../form/index';
-import {
-    UserAvatar
-} from '../partials/index';
-import TeXEditorFull from '../form/draftjs/TeXEditorFull';
 import {Box, TitleFlex, CenterPaddingBox, Breadcrumb} from '../layouts/index';
-import {
-    Switch, Checkbox
-} from '@blueprintjs/core';
-import classnames from 'classnames';
 
 export default class PostForm extends Component {
     render() {
-        const {fields: {title, description, content, tags, md_editor, code_editor, textarea}} = this.props;
+        const {fields: {title, description, tags, content_type, content, featured_image, secondary_featured_image, is_public}} = this.props;
         return (
             <CenterPaddingBox>
                 <Breadcrumb id="post-form" href="/create" icon="icon-plus" name="Create new post"/>
@@ -46,20 +41,14 @@ export default class PostForm extends Component {
                         <Col md={9}>
                             <InputText title="Title" {...title}/>
                             <SelectTag title="Tags" {...tags}/>
-                            <Textarea title="Description"/>
-                            <div className="clearfix"></div>
-                            <TeXEditorFull title="Content" {...content} isBorder toolbarPosition="left"/>
+                            <Textarea title="Description" {...description}/>
+                            <DraftjsEditor title="Content" {...content} isBorder toolbarPosition="left"/>
                         </Col>
                         <Col md={3}>
-                            <SelectImage title="Featured image" {...description} media={description.value ? description.value : {}}/>
-                            <SelectImagePopover title="Popover image" {...description} media={description.value ? description.value : {}}/>
+                            <SelectImage title="Featured image" {...featured_image} media={featured_image.value}/>
+                            <SelectImagePopover title="Secondary featured image" {...secondary_featured_image} media={secondary_featured_image.value}/>
                             <div className="clearfix"/>
-                            <SelectMultipleMedia title="Ablums" {...title} medias={title.value ? title.value : []}/>
-                            <Switch checked={textarea.value} label="Public" {...textarea}/>
-                            <Checkbox checked={textarea.value} {...textarea}>
-                                <span className="pt-icon-standard pt-icon-user" />
-                                Gilad Gray
-                            </Checkbox>
+                            <Switch checked={is_public.value} label="Public" {...is_public}/>
                         </Col>
                     </Row>
                 </Box>

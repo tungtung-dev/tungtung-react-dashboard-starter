@@ -41,7 +41,6 @@ export function authLogout() {
 
 export function updateProfile(user) {
     return dispatch => {
-        console.log(user);
         dispatch({
             type: AUTH_UPDATE_PROFILE,
             user
