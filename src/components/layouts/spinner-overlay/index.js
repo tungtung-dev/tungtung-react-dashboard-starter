@@ -17,6 +17,6 @@ export default class SpinnerOverlay extends Component {
 SpinnerOverlay.propTypes = {
     sm: PropTypes.bool,
     fixed: PropTypes.bool,
-    backgroundColor: PostType.string
+    backgroundColor: PropTypes.string
 }
 
