@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {Breadcrumb} from '../../../components/layouts/index';
 
 export default class UserWrapper extends Component {

@@ -7,7 +7,7 @@ import {getDomainPublic, paginationQueryPage} from '../../../utils/index';
 import {connect} from '../../../utils/reduxAwait';
 import {deleteUser} from '../../../api/AuthApi';
 import {Table, Column} from '../../../components/manager/index';
-import {CenterPaddingBox, Flex, Title, Breadcrumb, Pagination} from '../../../components/layouts';
+import {CenterPaddingBox, Flex, Title, Pagination} from '../../../components/layouts';
 import {UserAvatar} from '../../../components/partials/index';
 
 const mapStateToProps = (state) => {

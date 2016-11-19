@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Popover, Position, Menu, MenuItem, PopoverInteractionKind} from '@blueprintjs/core';
 import Button from '../button';
+import {cleanProps} from '../../../utils'
 
 import "./style.scss";
 
@@ -18,7 +19,7 @@ export default class ButtonDropdown extends Component {
                 useSmartPositioning={false}
                 className="tt-btn-dropdown"
                 content={this.renderPopoverContent()}>
-                    <Button {...this.props}>{this.props.children}</Button>
+                    <Button {...cleanProps(['options'], this.props)}>{this.props.children}</Button>
             </Popover>
     }
 }
@@ -26,7 +27,7 @@ ButtonDropdown.defaultProps = {
     options: []
 }
 ButtonDropdown.propTypes = {
-    options: PropTypes.array(PropTypes.shape({
+    options: PropTypes.arrayOf(PropTypes.shape({
         icon: PropTypes.string,
         text: PropTypes.string,
         onClick: PropTypes.func

@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {Breadcrumb} from '../../../components/layouts/index';
 import {PostAction} from '../../../redux/actions';

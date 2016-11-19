@@ -50,4 +50,8 @@ export function deletePost(id){
     }
 }
 
+export function deleteMultiplePosts(){
+
+}
+
 export default {getPosts, getPostsByFilter, getPost, clearPost, deletePost}

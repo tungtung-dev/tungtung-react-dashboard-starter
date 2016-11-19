@@ -12,5 +12,3 @@ export default class InputTextGroup extends Component {
         />
     }
 }
-
-InputTextGroup.propTypes = InputGroup.propTypes;

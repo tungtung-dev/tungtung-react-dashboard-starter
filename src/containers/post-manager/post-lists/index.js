@@ -5,7 +5,7 @@ import {autobind} from 'core-decorators';
 import PostAction from '../../../redux/actions/PostAction';
 import {connect} from '../../../utils/reduxAwait';
 import {Link, Button, ButtonDropdown, ButtonGroupDropdown, Checkbox, SelectTag} from '../../../components/form/index';
-import {Breadcrumb, CenterPaddingBox, Box, Icon, Title, Tabs} from '../../../components/layouts/index';
+import {CenterPaddingBox, Box, Icon, Title, Tabs} from '../../../components/layouts/index';
 import {Table, Column, SearchFilterPagination} from '../../../components/manager/index';
 import {UserAvatar} from '../../../components/partials/index';
 import update from 'react-addons-update';
@@ -85,7 +85,7 @@ export default class PostManager extends Component {
     renderTabs(){
         return <Tabs tabs={TABS} tabSelected={this.state.tab} onChange={this.handleChangeTab}>
             <li className="pull-right">
-                <Link to="post"><i className="icon-plus"/> New post</Link>
+                <Link to="/posts/create"><i className="icon-plus"/> New post</Link>
             </li>
         </Tabs>
     }
@@ -106,7 +106,7 @@ export default class PostManager extends Component {
         const {awaitStatuses} = this.props;
         return <Table data={this.props.data} isLoading={awaitStatuses.getPosts === 'pending'} showLoading>
             <Column
-                header={() => <ButtonDropdown className="btn btn-super-sm" options={[{icon: 'trash', text: `Trash ${this.state.posts_checked.length} posts`}]}>
+                header={() => <ButtonDropdown className="btn-black btn-super-sm" options={[{icon: 'trash', text: `Trash ${this.state.posts_checked.length} posts`}]}>
                     <Icon name="caret-down" bluePrintIcon/>
                 </ButtonDropdown>
                 }
