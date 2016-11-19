@@ -9,12 +9,15 @@ export default class Sidebar extends PureComponent {
         return (
             <div className={classnames('wrapper-sidebar',{'show-sidebar': this.props.showSidebar})}>
                 <MenuOption currentPath={this.props.currentPath} name="Posts">
-                    <MenuItem path='/posts' activePath={['/posts']} icon="icon-notebook" text="Posts Manager"/>
-                    <MenuItem path='/post' activePath={['/post']} icon="icon-plus" text="New post"/>
+                    <MenuItem path='/posts' activePath={['/posts','/posts/edit/**']} icon="icon-notebook" text="Posts Manager"/>
+                    <MenuItem path='/posts/create' activePath={['/posts/create']} icon="icon-plus" text="New post"/>
                 </MenuOption>
                 <MenuOption currentPath={this.props.currentPath} name="Manager">
                     <MenuItem path="/users" icon="icon-user" text="Users"/>
                     <MenuItem path='/media' activePath={['/media']} icon="icon-folder-alt" text="Medias"/>
+                </MenuOption>,
+                <MenuOption currentPath={this.props.currentPath} name="Options">
+                    <MenuItem path="/setting" activePath={['/setting']} icon="icon-settings" text="Setting"/>
                 </MenuOption>
             </div>
         )

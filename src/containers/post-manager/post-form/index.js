@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, {Component, PropTypes} from 'react';
 import {Row, Col} from 'reactstrap';
+import {reduxForm} from 'redux-form';
 import {autobind} from 'core-decorators';
 import {
     InputText,
@@ -8,20 +9,12 @@ import {
     Button,
     Textarea,
     SelectTag,
-    EmojioneDisplay,
-    CodeEditor,
     SelectImage,
-    SelectMultipleMedia,
     SelectImagePopover,
-    DialogConfirm,
-    PopoverConfirm,
     DraftjsEditor,
     Switch,
-    Checkbox,
-    RadioGroup,
-    TooltipWrapper
-} from '../form/index';
-import {Box, Flex, Title, Icon, CenterPaddingBox, Breadcrumb, Tabs} from '../layouts/index';
+} from '../../../components/form/index';
+import {Box, Flex, Title, Icon, CenterPaddingBox, Breadcrumb, Tabs} from '../../../components/layouts/index';
 import {Spinner} from '@blueprintjs/core';
 
 const DRAFTJS_CONTENT_TYPE = 'CONTENT-TYPE/draftjs';
@@ -32,8 +25,19 @@ const TABS_CONTENT_TYPE = [
     {text: 'Markdown',value: MARKDOWN_CONTENT_TYPE},
 ]
 
-export default class PostForm extends Component {
+const fields = ['title','description','tags','content_type','content','featured_image','secondary_featured_image','is_public']
 
+const form = {
+    form: 'postForm',
+    fields
+}
+
+const mapStateToProps = () => {
+    return {}
+}
+
+@reduxForm(form, mapStateToProps)
+export default class PostForm extends Component {
     renderContentType(){
         const {fields: {content_type, content}} = this.props;
         switch (content_type.value){
@@ -79,8 +83,6 @@ export default class PostForm extends Component {
         const {fields: {title}} = this.props;
         return (
             <CenterPaddingBox>
-                <Breadcrumb id="post-form" href="/create" icon="icon-plus" name="Create new post"/>
-                {title.value && <Breadcrumb id="post-form-title" name={title.value}/>}
                 <Flex alignItems="center" justifyContent="space-between" marginBottom={10}>
                     <Title element="h2" styleColor="black-white"><Icon name="document-open" bluePrintIcon/> Create new post</Title>
                     <Button tooltip={{tooltip: 'Save your post'}} className="btn-default fill">Save your post</Button>
@@ -99,6 +101,3 @@ export default class PostForm extends Component {
         )
     }
 }
-
-PostForm.propTypes = {}
-

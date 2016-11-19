@@ -1,15 +1,26 @@
 // Import react
 import React, {Component} from 'react';
 import {Provider} from 'react-redux';
-import {hashHistory, Router} from 'react-router';
+import {Router, useRouterHistory} from 'react-router';
 import {syncHistoryWithStore} from 'react-router-redux';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 // Import custom
 import configureStore from './store/configureStore';
 import Routes from '../routes';
 
-const store = configureStore({}, hashHistory);
-const history = syncHistoryWithStore(hashHistory, store);
+var browserHistory = useRouterHistory(createBrowserHistory)();
+browserHistory.listen(location => {
+    setTimeout(() => {
+        if (location.action === 'POP') {
+            return;
+        }
+        window.scrollTo(0, 0);
+    }, 10);
+});
+
+const store = configureStore({}, browserHistory);
+const history = syncHistoryWithStore(browserHistory, store);
 
 export default class Root extends Component {
     render() {

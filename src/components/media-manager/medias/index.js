@@ -2,7 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import Fuse from 'fuse.js';
 import {connect} from '../../../utils/reduxAwait';
-import {Loader} from '../../form/index';
+import {Flex} from '../../layouts/index';
+import {Spinner} from '@blueprintjs/core';
 import MediaActions from '../../../redux/actions/MediaActions';
 import {mediaItemPropType} from '../proptypes';
 import MediaItem from './media_item';
@@ -78,7 +79,9 @@ export default class Folders extends Component {
                                {...media}
                     />
                 )}
-                {getFolderPhotos === 'pending' && <div className="flex margin-top-20 fullwidth justify-center"><Loader/></div>}
+                {getFolderPhotos === 'pending' && <Flex width="100%" height="100%" alignItems="center" justifyContent="center" marginTop={20} marginBottom={20}>
+                    <Spinner/>
+                </Flex>}
             </div>
         </MediaDropzone>
     }

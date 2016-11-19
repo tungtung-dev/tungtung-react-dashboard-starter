@@ -1,0 +1,176 @@
+@import "../../../assets/scss/variables";
+
+@mixin button_tt($color, $color-text:#ffffff) {
+  border: 1px solid $color;
+  border-radius: 3px;
+  -webkit-transition: all .3s linear;
+  -moz-transition: all .3s linear;
+  -ms-transition: all .3s linear;
+  -o-transition: all .3s linear;
+  transition: all .3s linear;
+  color: $color;
+  background: transparent;
+  &:hover, &:focus {
+    background: $color;
+    color: #ffffff;
+    outline: none;
+  }
+}
+
+@mixin button_tt_fill($color, $color-text:#ffffff) {
+  background: $color;
+  border: 1px solid $color;
+  border-radius: 3px;
+  -webkit-transition: all .3s linear;
+  -moz-transition: all .3s linear;
+  -ms-transition: all .3s linear;
+  -o-transition: all .3s linear;
+  transition: all .3s linear;
+  color: $color-text;
+  &:hover, &:focus {
+    background: lighten($color, 6%);
+    border: 1px solid darken($color, 2);
+    color: darken($color, 2);
+    color: $color-text;
+    outline: none;
+  }
+}
+
+@mixin button_tt_shadow($color) {
+  box-shadow: 0 2px 1px darken($color, 10);
+}
+
+button:focus {
+  box-shadow: none !important;
+}
+
+.btn {
+  border-radius: 3px;
+  font-size: 14px;
+  padding: 5px 10px
+}
+
+.btn-default {
+  @include button_tt(#08f);
+  &.fill {
+    @include button_tt_fill(#08f);
+  }
+  &.shadow {
+    @include button_tt_shadow(#08f);
+  }
+}
+
+.btn-black {
+  @include button_tt(rgba(0, 0, 0, .5));
+  &.fill {
+    @include button_tt_fill(rgba(0, 0, 0, .5));
+  }
+  &.shadow {
+    @include button_tt_shadow(rgba(0, 0, 0, .5));
+  }
+}
+
+.btn-red {
+  @include button_tt(#ef7260);
+  &.fill {
+    @include button_tt_fill(#ef7260);
+  }
+  &.shadow {
+    @include button_tt_shadow(#ef7260);
+  }
+}
+
+.btn-blue {
+  @include button_tt(#39add1);
+  &.fill {
+    @include button_tt_fill(#39add1);
+  }
+  &.shadow {
+    @include button_tt_shadow(#39add1);
+  }
+}
+
+.btn-orange {
+  @include button_tt(#eb7728);
+  &.fill {
+    @include button_tt_fill(#eb7728);
+  }
+  &.shadow {
+    @include button_tt_shadow(#eb7728);
+  }
+}
+
+.btn-purple {
+  @include button_tt(#9e4d83);
+  &.fill {
+    @include button_tt_fill(#9e4d83);
+  }
+  &.shadow {
+    @include button_tt_shadow(#9e4d83);
+  }
+}
+
+.btn-green {
+  @include button_tt(#5cb860);
+  &.fill {
+    @include button_tt_fill(#5cb860);
+  }
+  &.shadow {
+    @include button_tt_shadow(#5cb860);
+  }
+}
+
+.btn-yellow {
+  @include button_tt(#ebba10);
+  &.fill {
+    @include button_tt_fill(#ebba10);
+  }
+  &.shadow {
+    @include button_tt_shadow(#ebba10);
+  }
+}
+
+.btn-blue-dark {
+  @include button_tt(#3e474f);
+  &.fill {
+    @include button_tt_fill(#3e474f);
+  }
+  &.shadow {
+    @include button_tt_shadow(#3e474f);
+  }
+}
+
+.btn-super-sm {
+  padding: 3px 6px !important;
+}
+
+.btn-no-border {
+  border: 0px;
+  &:hover, &:focus, &:active {
+    background: transparent;
+  }
+}
+
+.btn-no-background {
+  background: transparent;
+  &:hover, &:focus, &:active {
+    background: transparent;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+}
+
+.btn-transparent {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #08f;
+  @extend .btn-super-sm;
+  &:hover, &:focus, &:active {
+    background: transparent;
+    color: darken(#08f, 10);
+    box-shadow: none !important;
+    outline: none !important;
+    border: 1px solid transparent !important;
+  }
+}
+

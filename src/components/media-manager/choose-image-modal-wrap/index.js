@@ -1,16 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import {autobind} from 'core-decorators';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import Equal from 'deep-equal';
 import MediaManagerModal from '../manager-modal/index';
-import {addAlertToast} from '../../../redux/actions/AlertAction';
 import {Toaster} from '../../form';
 
 const Div = ({children, className}) => <div className={className}>{children}</div>
 const Span = ({children, className}) => <span className={className}>{children}</span>
 
-@connect(() => ({}), (dispatch) => bindActionCreators({addAlertToast}, dispatch))
 export default class ChooseImageWrap extends Component {
     static propTypes = {
         element: PropTypes.oneOf(['div','span']),

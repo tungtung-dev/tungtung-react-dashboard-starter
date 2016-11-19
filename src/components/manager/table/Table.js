@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Table} from 'reactstrap';
-import {Loader} from '../../form/index';
+import {Flex} from '../../layouts/index';
+import {Spinner} from '@blueprintjs/core';
 import Equal from 'deep-equal';
 import Row from './row';
 
@@ -51,16 +52,25 @@ export default class TableCustom extends Component {
         return !Equal(this.props, prevProps);
     }
 
+    renderLoading(){
+        const style = {
+            backgroundColor: 'rgba(0,0,0,.04)',
+            zIndex: 1,
+            position:'absolute',
+            width: '100%',
+            height: '100%'
+        };
+        return<Flex className="overlay" alignItems="center" justifyContent="center" style={style}>
+            <Spinner/>
+        </Flex>
+    }
+
     render() {
-        const {responsive, striped, bordered, size} = this.props;
+        const {responsive, striped, bordered, size, isLoading, showLoading} = this.props;
         const propsTable = {responsive, striped, bordered, size};
         return (
             <div style={{position: 'relative'}}>
-                {this.props.showLoading && this.props.isLoading &&
-                <div className="overlay" style={{backgroundColor: 'rgba(255,255,255,.8)',zIndex:'1',position:'absolute',width: '100%', height: '100%',display:'flex', alignItems: 'center',justifyContent: 'center'}}>
-                    <Loader/>
-                </div>
-                }
+                {isLoading && showLoading && this.renderLoading()}
                 <Table {...propsTable} size="normal">
                     {this.renderThead()}
                     {this.renderTbody()}

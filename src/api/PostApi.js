@@ -10,7 +10,9 @@ export function getUrl(path) {
 
 export function getPosts(page = 1, item_per_page = 10) {
     return new Promise((resolve, reject) =>{
-        resolve(randomPosts(page, item_per_page))
+        setTimeout(() => {
+            resolve(randomPosts(page, item_per_page))
+        }, 300);
     });
 }
 

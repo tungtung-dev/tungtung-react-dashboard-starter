@@ -37,8 +37,8 @@ export default class ChooseImageWrap extends Component {
             Toaster.show({ message: "Invalid image", timeout: 5000, intent: 3});
         }
         else{
-             findDOMNode(this.refs.dismiss).click();
             this.props.onChoose(media);
+            findDOMNode(this.refs.dismiss).click();
         }
     }
 
@@ -57,7 +57,6 @@ export default class ChooseImageWrap extends Component {
 
     renderMediaManager(){
         return <div className="media-manager-popover-container">
-            <button ref="dismiss" className="pt-popover-dismiss" style={{display: 'none'}}>Dissmiss</button>
             <MediaManager onChooseMedia={this.chooseMedia} customToolbar={this.renderToggleFolderSidebar()}/>
         </div>
     }
@@ -65,6 +64,7 @@ export default class ChooseImageWrap extends Component {
     render() {
         const Wrap = this.getWrap();
         return <Wrap className={this.props.className}>
+            <button ref="dismiss" className="pt-popover-dismiss" style={{display: 'none'}}>Dissmiss</button>
             <Popover
                 content={this.renderMediaManager()}
                 interactionKind={PopoverInteractionKind.CLICK}

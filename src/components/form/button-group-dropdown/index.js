@@ -1,0 +1,43 @@
+import React, {Component, PropTypes} from 'react';
+import classnames from 'classnames';
+import {Popover, Position, Menu, MenuItem, PopoverInteractionKind} from '@blueprintjs/core';
+import Button from '../button';
+import {Icon} from '../../layouts';
+
+import "./style.scss";
+
+export default class ButtonGroupDropdown extends Component {
+    renderPopoverContent(){
+        return <Menu>{this.props.options.map(
+            (option, index) => <MenuItem key={index} iconName={option.icon} onClick={option.onClick} text={option.text}/>
+        )}</Menu>;
+    }
+
+    render() {
+        return <div className="btn-group tt-btn-group-dropdown">
+            <Button {...this.props}>{this.props.children}</Button>
+            <Popover
+                interactionKind={PopoverInteractionKind.CLICK}
+                position={Position.BOTTOM}
+                useSmartPositioning={false}
+                content={this.renderPopoverContent()}>
+                <Button className={classnames(this.props.className, 'tt-dropdown-icon')}>
+                    <Icon {...this.props.dropdownIcon}/>
+                </Button>
+            </Popover>
+
+        </div>
+    }
+}
+ButtonGroupDropdown.defaultProps = {
+    options: []
+}
+ButtonGroupDropdown.propTypes = {
+    dropdownIcon: PropTypes.object,
+    options: PropTypes.array(PropTypes.shape({
+        icon: PropTypes.string,
+        text: PropTypes.string,
+        onClick: PropTypes.func
+    }))
+}
+

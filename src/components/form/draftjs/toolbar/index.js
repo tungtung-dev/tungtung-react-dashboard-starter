@@ -40,9 +40,10 @@ export default class Toolbar extends Component {
     }
 
     componentDidMount(){
-        this._windowScroll = window.addEventListener('scroll', (e) => {
+        this._windowScroll = (e) => {
             this.getEditorRect();
-        })
+        }
+        window.addEventListener('scroll', this._windowScroll)
     }
 
     componentWillUnmount(){

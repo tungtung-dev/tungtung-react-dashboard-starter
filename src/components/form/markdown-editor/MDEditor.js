@@ -5,12 +5,14 @@ import ReactDOM from 'react-dom';
 import marked from 'marked';
 import classNames from 'classnames';
 import CM from 'codemirror';
+import {ChooseImagePopoverWrap} from '../../media-manager/index';
 
 import 'codemirror/mode/xml/xml';
 import 'codemirror/mode/markdown/markdown';
 import 'codemirror/addon/edit/continuelist';
 
-import { getCursorState, applyFormat } from './format.js';
+import { getCursorState, applyFormat} from './format.js';
+import {insertImage} from './replace';
 
 export default class MDEditor extends Component {
     constructor() {
@@ -120,6 +122,11 @@ export default class MDEditor extends Component {
     }
 
     @autobind
+    addImage(media){
+        insertImage(this.codeMirror, media.original_url);
+    }
+
+    @autobind
     renderToolbar() {
         return (
             <div className="MDEditor_toolbar">
@@ -132,6 +139,12 @@ export default class MDEditor extends Component {
                 {this.renderButton('uList', '', 'fa fa-list-ul')}
                 {this.renderButton('quote', '', 'fa fa-quote-right')}
                 {this.renderButton('quote', '', 'fa fa-eye', this.togglePreview)}
+                <ChooseImagePopoverWrap onChoose={this.addImage}>
+                    <button className="btn btn-red">
+                        Image
+                    </button>
+                </ChooseImagePopoverWrap>
+
                 {/*this.renderButton('link', 'a')*/}
             </div>
         );

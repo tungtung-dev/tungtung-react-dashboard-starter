@@ -1,23 +1,28 @@
 import React, {PureComponent, PropTypes} from 'react';
-import {Tooltip, OverlayTrigger} from 'react-bootstrap';
+import {Popover, Position, PopoverInteractionKind} from '@blueprintjs/core';
+import "./style.scss";
 
 export default class TooltipWrapper extends PureComponent{
     render(){
-        const tooltip = <Tooltip id={`tooltip-${this.props.id}`}>{this.props.tooltip}</Tooltip>;
-        return <OverlayTrigger overlay={tooltip} placement={this.props.placement}>
+        const popoverContent = <span>{this.props.tooltip}</span>
+        return <Popover content={popoverContent}
+                        interactionKind={PopoverInteractionKind.HOVER}
+                        popoverClassName="tooltip-content-sizing pt-dark"
+                        position={this.props.placement}
+                        useSmartPositioning={false}
+                        >
             {this.props.children}
-        </OverlayTrigger>
+        </Popover>
     }
 }
 
 TooltipWrapper.defaultProps = {
-    placement: 'bottom'
+    placement: Position.BOTTOM
 }
 
 export const  tooltipPropType = {
-    placement: PropTypes.string,
-    tooltip: PropTypes.string,
-    id: PropTypes.string
+    placement: PropTypes.any,
+    tooltip: PropTypes.any
 }
 TooltipWrapper.propTypes = tooltipPropType
 

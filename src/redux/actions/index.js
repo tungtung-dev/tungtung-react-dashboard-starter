@@ -4,7 +4,11 @@ import AuthSocialAction from './AuthSocialAction';
 import AwaitAction from './AwaitAction';
 import DefaultLoadAction from './DefaultLoadAction';
 import UserAction from './UsersAction';
-import QuizListsAction from './QuizListsAction';
+import PostAction from './PostAction';
 
-export {AlertAction, AuthAction, AuthSocialAction, AwaitAction, DefaultLoadAction, UserAction, QuizListsAction};
-export default {AlertAction, AuthAction, AuthSocialAction, AwaitAction, DefaultLoadAction, UserAction, QuizListsAction};
+export {
+    AlertAction, AuthAction, AuthSocialAction, AwaitAction, DefaultLoadAction, UserAction, PostAction
+};
+export default {
+    AlertAction, AuthAction, AuthSocialAction, AwaitAction, DefaultLoadAction, UserAction, PostAction
+};

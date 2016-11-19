@@ -1,0 +1,9 @@
+.tt-btn-group-dropdown{
+  display: flex;
+  align-items: center;
+  .tt-dropdown-icon{
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: 0px;
+  }
+}

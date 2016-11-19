@@ -1,6 +1,7 @@
 import React,{PureComponent, PropTypes} from 'react';
 import {FormGroup, Col, Label} from 'reactstrap';
 import classnames from 'classnames';
+import {getStyleFromProps} from '../../../utils/index';
 import "./style.scss";
 
 export default class ValidateWrapControl extends PureComponent {
@@ -37,9 +38,12 @@ export default class ValidateWrapControl extends PureComponent {
             }
         )
 
-        let style = {};
+        let style = getStyleFromProps(['marginTop','marginBottom'], this.props);
         if(this.props.noBottom){
-            style = {marginBottom: 0}
+            style = {
+                ...style,
+                marginBottom: 0
+            }
         }
 
         return <FormGroup className={`has-${status}`} style={style}>
@@ -62,5 +66,7 @@ ValidateWrapControl.propTypes = {
     error: PropTypes.string,
     col: PropTypes.number,
     rightComponent: PropTypes.func,
-    noBottom: PropTypes.bool
+    noBottom: PropTypes.bool,
+    marginTop: PropTypes.number,
+    marginBottom: PropTypes.number
 }

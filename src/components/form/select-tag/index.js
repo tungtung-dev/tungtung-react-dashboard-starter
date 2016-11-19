@@ -9,7 +9,10 @@ export default class SelectTag extends PureComponent {
     constructor(){
         super(...arguments);
         this.state = {
-            options: this.props.options
+            defaultTags: this.props.defaultTags.map(tag => ({
+                label: tag,
+                value: tag
+            }))
         }
     }
 
@@ -32,7 +35,7 @@ export default class SelectTag extends PureComponent {
             <ValidateWrapControl {...this.props}>
                 <Creatable multi
                             {...this.props}
-                           options={this.state.options}
+                           options={this.state.defaultTags}
                            value={this.getValue()}
                            onChange={this.handleChange}
                            onBlur={()=>{this.props.onBlur(this.props.value)}}
@@ -43,11 +46,10 @@ export default class SelectTag extends PureComponent {
 }
 
 SelectTag.defaultProps = {
-    options: []
+    defaultTags: []
 }
 SelectTag.propTypes = {
-    options: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string,
-        value: PropTypes.string
-    }))
+    defaultTags: PropTypes.arrayOf(PropTypes.string),
+    value: PropTypes.arrayOf(PropTypes.string),
+    onChange: PropTypes.func
 }

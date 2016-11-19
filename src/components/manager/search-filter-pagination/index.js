@@ -2,7 +2,7 @@ import React, {PureComponent, PropTypes} from 'react';
 import {Collapse} from 'reactstrap';
 import {autobind} from 'core-decorators';
 import {Box, Flex, Pagination} from '../../layouts';
-import {Link, InputText} from '../../form';
+import {InputTextGroup, Button} from '../../form';
 
 export default class SearchFilterPagination extends PureComponent {
     state = {
@@ -13,13 +13,6 @@ export default class SearchFilterPagination extends PureComponent {
     toggleFilters(e){
         if(e) e.preventDefault();
         this.setState({collapse: !this.state.collapse})
-    }
-
-    renderFilter(){
-        const {customText} = this.props.filterProps;
-        return <Link className="font-size-14" styleColor="purple" onClick={this.toggleFilters}>
-            {customText ? customText : <span><i className="icon-notebook"/> Filters</span>}
-        </Link>
     }
 
     renderFilterCollapse(){
@@ -33,7 +26,13 @@ export default class SearchFilterPagination extends PureComponent {
     }
 
     renderSearch(){
-        return <InputText placeholder="search ..." {...this.props.searchProps} noBottom/>
+        return <InputTextGroup
+            leftIconName="search"
+            rightElement={<Button onClick={this.toggleFilters} className="pt-minimal pt-intent-primary pt-icon-filter" bluePrint/>}
+            placeholder="search ..."
+            {...this.props.searchProps}
+            noBottom
+        />
     }
 
     renderPagination(){
@@ -45,8 +44,6 @@ export default class SearchFilterPagination extends PureComponent {
             <Flex justifyContent="space-between" wrap="wrap" alignItems="center">
                 {this.renderPagination()}
                 <Flex justifyContent="space-between" alignItems="center">
-                    {this.props.isFilter && this.renderFilter()}
-                    &nbsp; &nbsp;
                     {this.props.isSearch && this.renderSearch()}
                 </Flex>
             </Flex>
