@@ -1,5 +1,6 @@
 import React, {PureComponent, PropTypes} from 'react';
 import "./style.scss";
+import classnames from 'classnames';
 
 export default class CenterPaddingBox extends PureComponent{
     getStyle(){
@@ -9,10 +10,12 @@ export default class CenterPaddingBox extends PureComponent{
             paddingBottom: paddingBottom ? paddingBottom : paddingTop,
             paddingLeft: paddingLeft ? paddingLeft : paddingRight,
             paddingRight: paddingRight ? paddingRight : paddingLeft,
+            ...this.props.style
         }
     }
     render(){
-        return <div className="tt-layout-center-padding-box" style={this.getStyle()}>
+        const className = classnames('tt-layout-center-padding-box', {[this.props.className] : this.props.className});
+        return <div className={className} style={this.getStyle()}>
             {this.props.children}
         </div>
     }

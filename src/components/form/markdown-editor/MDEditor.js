@@ -162,9 +162,8 @@ export default class MDEditor extends Component {
                         </div>
                     </Col>
                     {this.state.preview && <Col md={6}>
-                        <div dangerouslySetInnerHTML={{__html: marked(this.props.value)}}/>
+                        <div className="MDEditor-preview" dangerouslySetInnerHTML={{__html: marked(this.props.value)}}/>
                     </Col>}
-
                 </Row>
             </div>
         );

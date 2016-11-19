@@ -7,8 +7,12 @@ import PostForm from '../post-form';
 
 const mapStateToProps = (state, ownProps) => {
     const post = state.post.lists.data.find(post => post.id === ownProps.params.post_id);
+    // return {
+    //     post
+    // }
+    const {current_post} = state.post;
     return {
-        post
+        post: current_post
     }
 }
 
@@ -17,10 +21,21 @@ export default class PostEdit extends Component {
     props : {
         post: PostType
     }
+
+    componentDidMount(){
+        const {post_id} = this.props.params;
+        this.props.getPost(post_id);
+    }
+
+    componentWillUnmount(){
+        this.props.clearPost();
+    }
+
     render() {
+        const {awaitStatuses: {getPost}} = this.props;
         return <div>
             <Breadcrumb id="edit-post" name={this.props.post.title}/>
-            <PostForm initialValues={this.props.post}/>
+            <PostForm isLoading={getPost === 'pending'} initialValues={this.props.post}/>
         </div>
     }
 }

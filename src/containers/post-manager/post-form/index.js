@@ -15,7 +15,7 @@ import {
     Switch,
     Checkbox
 } from '../../../components/form/index';
-import {Box, Flex, Title, Icon, CenterPaddingBox, Breadcrumb, Tabs} from '../../../components/layouts/index';
+import {Box, Flex, Title, Icon, CenterPaddingBox, SpinnerOverlay, Tabs} from '../../../components/layouts/index';
 import {Spinner} from '@blueprintjs/core';
 
 const DRAFTJS_CONTENT_TYPE = 'CONTENT-TYPE/draftjs';
@@ -39,9 +39,14 @@ const mapStateToProps = () => {
 
 @reduxForm(form, mapStateToProps)
 export default class PostForm extends Component {
+    static propTypes = {
+        isLoading: PropTypes.bool
+    }
+
     state = {
         checked: false
     }
+
     renderContentType(){
         const {fields: {content_type, content}} = this.props;
         switch (content_type.value){
@@ -90,7 +95,7 @@ export default class PostForm extends Component {
     }
 
     render() {
-        const {fields: {title}} = this.props;
+        const {isLoading} = this.props;
         return (
             <CenterPaddingBox>
                 <Flex alignItems="center" justifyContent="space-between" marginBottom={10}>
@@ -98,6 +103,7 @@ export default class PostForm extends Component {
                     <Button tooltip={{tooltip: 'Save your post'}} className="btn-default fill">Save your post</Button>
                 </Flex>
                 <Box>
+                    {isLoading && <SpinnerOverlay fixed/>}
                     <Row>
                         <Col md={9}>
                             {this.renderMainContent()}

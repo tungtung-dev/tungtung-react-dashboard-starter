@@ -115,7 +115,7 @@ export default class TableCustom extends Component {
             width: '100%',
             height: '100%'
         };
-        return<Flex className="overlay" alignItems="center" justifyContent="center" style={style}>
+        return <Flex className="overlay" alignItems="center" justifyContent="center" style={style}>
             <Spinner/>
         </Flex>
     }

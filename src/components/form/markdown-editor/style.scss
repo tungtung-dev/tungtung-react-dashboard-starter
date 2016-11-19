@@ -24,6 +24,15 @@
     border-radius: 0px;
     font-size: 16px;
   }
+  .CodeMirror pre{
+    box-shadow: none;
+  }
+}
+
+.MDEditor-preview{
+  img{
+    max-width: 75%;
+  }
 }
 
 .CodeMirror {

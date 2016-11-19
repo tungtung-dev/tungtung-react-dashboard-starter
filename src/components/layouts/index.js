@@ -10,6 +10,11 @@ import Flex from './flex';
 import Breadcrumb from './breadcrumb';
 import Pagination from './pagination';
 import Tabs from './tabs';
+import SpinnerOverlay from './spinner-overlay';
 
-export {AppWrapper, CenterPaddingBox, Header, Sidebar, Box, Title, Icon, TitleFlex, Flex, Breadcrumb, Pagination, Tabs}
-export default {AppWrapper, CenterPaddingBox, Header, Sidebar, Box, Icon, Title, TitleFlex, Flex, Breadcrumb, Pagination, Tabs}
+export {
+    AppWrapper, CenterPaddingBox, Header, Sidebar, Box, Title, Icon, TitleFlex, Flex, Breadcrumb, Pagination, Tabs, SpinnerOverlay
+}
+export default {
+    AppWrapper, CenterPaddingBox, Header, Sidebar, Box, Icon, Title, TitleFlex, Flex, Breadcrumb, Pagination, Tabs, SpinnerOverlay
+}

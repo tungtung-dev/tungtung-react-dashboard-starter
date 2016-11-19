@@ -18,8 +18,10 @@ export function getPosts(page = 1, item_per_page = 10) {
 
 export function getPost(id) {
     return new Promise((resolve, reject) =>{
-        const posts = randomPosts(1);
-        resolve(posts[1]);
+        setTimeout(() => {
+            const posts = randomPosts(1, 2);
+            resolve(posts.data[1]);
+        }, 300)
     });
 }
 

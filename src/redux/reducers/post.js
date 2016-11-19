@@ -48,6 +48,7 @@ function getPostsByFilter(state: PostReducerState, action){
 }
 
 function getPost(state: PostReducerState, action){
+    console.log(action.payload);
     return update(state, {
         current_post: {
             $set: action.payload.getPost
