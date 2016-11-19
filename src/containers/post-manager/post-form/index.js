@@ -55,7 +55,7 @@ export default class PostForm extends Component {
             case DRAFTJS_CONTENT_TYPE:
                 return <DraftjsEditor isBorder title="Content" {...content}/>;
             default:
-                return <MDEditor isBorder title="Content" {...content}/>;
+                return <DraftjsEditor isBorder title="Content" {...content}/>;
         }
     }
 
@@ -103,7 +103,7 @@ export default class PostForm extends Component {
                     <Button tooltip={{tooltip: 'Save your post'}} className="btn-default fill">Save your post</Button>
                 </Flex>
                 <Box>
-                    {isLoading && <SpinnerOverlay fixed/>}
+                    {isLoading && <SpinnerOverlay backgroundColor={"#fff"}/>}
                     <Row>
                         <Col md={9}>
                             {this.renderMainContent()}
