@@ -12,7 +12,7 @@ const H6 = (props) => <h6 {...props}>{props.children}</h6>;
 
 export default class Title extends PureComponent {
     getStyle(){
-        return getStyleFromProps(['color', 'fontSize', 'marginTop', 'marginBottom'], this.props);
+        return getStyleFromProps(['color', 'fontSize','fontWeight','marginTop', 'marginBottom'], this.props);
     }
 
     getComponentElement(){
@@ -49,8 +49,10 @@ Title.propTypes = {
     element: PropTypes.oneOf(['h1','h2','h3','h4','h5','h6']),
     styleColor: PropTypes.string,
     fontSize: PropTypes.number,
+    fontWeight: PropTypes.number,
     color: PropTypes.string,
     marginBottom: PropTypes.number,
     marginTop: PropTypes.number
+
 }
 

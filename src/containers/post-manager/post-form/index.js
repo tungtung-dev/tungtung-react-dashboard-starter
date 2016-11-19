@@ -99,7 +99,9 @@ export default class PostForm extends Component {
         return (
             <CenterPaddingBox>
                 <Flex alignItems="center" justifyContent="space-between" marginBottom={10}>
-                    <Title element="h2" styleColor="black-white"><Icon name="document-open" bluePrintIcon/> Create new post</Title>
+                    <Title element="h2" styleColor="black-white" fontWeight={400}>
+                        <Icon name="note"/> Create new post
+                    </Title>
                     <Button tooltip={{tooltip: 'Save your post'}} className="btn-default fill">Save your post</Button>
                 </Flex>
                 <Box>

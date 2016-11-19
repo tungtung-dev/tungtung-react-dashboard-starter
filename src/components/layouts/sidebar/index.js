@@ -15,7 +15,7 @@ export default class Sidebar extends PureComponent {
                 <MenuOption currentPath={this.props.currentPath} name="Manager">
                     <MenuItem path="/users" icon="icon-user" text="Users"/>
                     <MenuItem path='/media' activePath={['/media']} icon="icon-folder-alt" text="Medias"/>
-                </MenuOption>,
+                </MenuOption>
                 <MenuOption currentPath={this.props.currentPath} name="Options">
                     <MenuItem path="/setting" activePath={['/setting']} icon="icon-settings" text="Setting"/>
                 </MenuOption>
