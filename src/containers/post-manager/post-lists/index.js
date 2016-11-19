@@ -4,15 +4,17 @@ import {push} from 'react-router-redux';
 import {autobind} from 'core-decorators';
 import PostAction from '../../../redux/actions/PostAction';
 import {connect} from '../../../utils/reduxAwait';
+import QueryManager from '../../../utils/location_queries';
 import {Link, Button, ButtonDropdown, ButtonGroupDropdown, Checkbox, SelectTag} from '../../../components/form/index';
 import {CenterPaddingBox, Box, Icon, Title, Tabs} from '../../../components/layouts/index';
 import {Table, Column, SearchFilterPagination} from '../../../components/manager/index';
 import {UserAvatar} from '../../../components/partials/index';
 import update from 'react-addons-update';
+import Equal from 'deep-equal';
 
-const TAB_ALL = 'tab all';
-const TAB_PUBLISH = 'tab publish'
-const TAB_DRAFT = 'tab draft'
+const TAB_ALL = 'LISTS/tab_all';
+const TAB_PUBLISH = 'LISTS/tab_publish'
+const TAB_DRAFT = 'LISTS/tab_draft'
 
 const TABS = [
     {value: TAB_ALL, text:'All'},
@@ -28,6 +30,7 @@ export default class PostManager extends Component {
     state = {
         tab: TAB_ALL,
         tags: [],
+        search: '',
         posts_checked: []
     }
 
@@ -36,30 +39,38 @@ export default class PostManager extends Component {
         pagination: PropTypes.object
     }
 
-    @autobind
-    handleCheckPost(e, post_id){
-        if(e.target.value){
-            this.setState(update(this.state, {
-                posts_checked: {
-                    $push: [post_id]
-                }
-            }))
-        }
-        else{
-            this.setState({
-                posts_checked: this.state.posts_checked.filter(p_id => post_id !== p_id)
-            })
-        }
+    constructor(){
+        super(...arguments);
+        this.query_manager = new QueryManager({
+            page: ['search','tab'],
+            search: ['tab'],
+            tab: []
+        });
     }
 
-    getPostChecked(post_id){
-        const index_post = this.state.posts_checked.findIndex(p_id => post_id === p_id);
-        return index_post > - 1 ? true : false;
+    updateLocationPage(query_key, query_value){
+        const queries_string = this.query_manager.updateQuery(query_key, query_value);
+        this.props.push(`/posts?${queries_string}`);
+    }
+
+    @autobind
+    handleChangeChecked(posts_checked = []){
+        this.setState({posts_checked})
+    }
+
+    @autobind
+    handleSearch(search){
+        this.updateLocationPage('search',search);
     }
 
     @autobind
     handleChangeTab(tab){
-        this.setState({tab});
+        this.updateLocationPage('tab',tab);
+    }
+
+    @autobind
+    handleChangePage(page){
+        this.updateLocationPage('page', page);
     }
 
     @autobind
@@ -72,18 +83,25 @@ export default class PostManager extends Component {
 
     }
 
-    @autobind
-    handleChangePage(page){
-        this.props.getPosts(page);
-    }
-
-    @autobind
-    componentDidMount(){
+    getPosts(){
+        const query = this.query_manager.getQueryObject({
+            tab: TAB_ALL
+        });
         this.props.getPosts();
     }
 
+    componentDidMount(){
+        this.getPosts();
+    }
+
+    componentDidUpdate(prevProps){
+        if(!Equal(prevProps.location.query, this.props.location.query)){
+            this.getPosts();
+        }
+    }
+
     renderTabs(){
-        return <Tabs tabs={TABS} tabSelected={this.state.tab} onChange={this.handleChangeTab}>
+        return <Tabs tabs={TABS} tabSelected={this.query_manager.getQuery('tab', TAB_ALL)} onChange={this.handleChangeTab}>
             <li className="pull-right">
                 <Link to="/posts/create"><i className="icon-plus"/> New post</Link>
             </li>
@@ -92,7 +110,9 @@ export default class PostManager extends Component {
 
     renderSearchFilterPagination(){
         return <SearchFilterPagination
-            paginationProps={{...this.props.pagination, onChange: this.handleChangePage}}
+            onSearch={this.handleSearch}
+            paginationProps={{...this.props.pagination, page: this.query_manager.getQuery('page', 1), onChange: this.handleChangePage}}
+            searchProps={{defaultValue: this.query_manager.getQuery('search','')}}
             isSearch
             isFilter
         >
@@ -104,13 +124,23 @@ export default class PostManager extends Component {
 
     renderTable(){
         const {awaitStatuses} = this.props;
-        return <Table data={this.props.data} isLoading={awaitStatuses.getPosts === 'pending'} showLoading>
+        return <Table
+            data={this.props.data}
+            isLoading={awaitStatuses.getPosts === 'pending'}
+            showLoading
+        >
             <Column
                 header={() => <ButtonDropdown className="btn-black btn-super-sm" options={[{icon: 'trash', text: `Trash ${this.state.posts_checked.length} posts`}]}>
                     <Icon name="caret-down" bluePrintIcon/>
                 </ButtonDropdown>
                 }
+                checkboxProps={{
+                    keyData: 'id',
+                    checkedData: this.state.posts_checked,
+                    onChange: this.handleChangeChecked
+                }}
                 cell={(post) => <Checkbox value={this.getPostChecked(post.id)} onChange={(e) => this.handleCheckPost(e, post.id)}/>}
+                showCheckbox
             />
             <Column
                 header={() => "#"}

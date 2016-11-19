@@ -2,11 +2,17 @@
   vertical-align: middle !important;
 }
 
-.table-normal {
+.tt-table {
   &.table .thead-default th{
     background: darken(#fafafa, 3);
   }
   &.table td, &.table th, &.table thead th {
     padding: 7px 5px;
   }
+  td.checkbox{
+    .pt-control{
+      margin-bottom: 0px;
+    }
+  }
 }
+

@@ -6,7 +6,22 @@ import {InputTextGroup, Button} from '../../form';
 
 export default class SearchFilterPagination extends PureComponent {
     state = {
-        collapse: false
+        collapse: false,
+        search: ''
+    }
+
+    @autobind
+    handleChangeSearch(e){
+        this.setState({search: e.target.value});
+    }
+
+    @autobind
+    handleKeyDownSearch(e){
+        if(e.keyCode === 13) this.props.onSearch(this.state.search)
+    }
+
+    changeSearch(search){
+        this.setState({search});
     }
 
     @autobind
@@ -30,6 +45,8 @@ export default class SearchFilterPagination extends PureComponent {
             leftIconName="search"
             rightElement={<Button onClick={this.toggleFilters} className="pt-minimal pt-intent-primary pt-icon-filter" bluePrint/>}
             placeholder="search ..."
+            onChange={this.handleChangeSearch}
+            onKeyDown={this.handleKeyDownSearch}
             {...this.props.searchProps}
             noBottom
         />
@@ -63,5 +80,6 @@ SearchFilterPagination.propTypes = {
     isFilter: PropTypes.bool,
     paginationProps: PropTypes.object,
     searchProps: PropTypes.object,
-    filterProps: PropTypes.object
+    filterProps: PropTypes.object,
+    onSearch: PropTypes.func
 }

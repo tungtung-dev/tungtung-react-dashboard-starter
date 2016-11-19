@@ -1,11 +1,39 @@
 import React, {Component, PropTypes} from 'react';
 import {Table} from 'reactstrap';
-import {Flex} from '../../layouts/index';
+import {autobind} from 'core-decorators';
 import {Spinner} from '@blueprintjs/core';
 import Equal from 'deep-equal';
 import Row from './row';
+import {Flex} from '../../layouts';
+import {Checkbox} from '../../form';
+import update from 'react-addons-update';
 
 export default class TableCustom extends Component {
+    @autobind
+    handleCheckItem(e, check_key_value, checkboxProps){
+       const {onChange, checkedData} = checkboxProps;
+        if(e.target.checked){
+            onChange(
+                update(checkedData, {
+                    $push: [check_key_value]
+                })
+            )
+        }
+        else{
+            onChange(
+                update(checkedData, {
+                    $set: checkedData.filter(checked_key_value => check_key_value !== checked_key_value)
+                })
+            )
+        }
+    }
+
+    isCheckedItem(item, checkboxProps){
+        const {keyData, checkedData} = checkboxProps;
+        if(checkedData.indexOf(item[keyData]) > -1) return true;
+        return false;
+    }
+
     getPropsColumn() {
         return this.props.children.map(child => {
             return child.props;
@@ -17,14 +45,41 @@ export default class TableCustom extends Component {
         return (page-1) * item_per_page + rowIndex + 1;
     }
 
+    getCellShowIndex(cellProps, rowIndex){
+        const {showIndex, pagination} = cellProps;
+        return {
+            showIndex,
+            component: this.getIndex(pagination, rowIndex),
+        }
+    }
+
+    getCellCheckbox(item, cellProps){
+        const {showCheckbox, checkboxProps: {keyData}, checkboxProps} = cellProps;
+        return {
+            showCheckbox,
+            component: <Checkbox checked={this.isCheckedItem(item, checkboxProps)} onChange={(e) => this.handleCheckItem(e, item[keyData], checkboxProps)}/>,
+            className: 'checkbox'
+        }
+    }
+
     getCells(item, rowIndex, props) {
         return this.props.children.map(child => {
-            const {showIndex, pagination, style, className}  = child.props;
+            const {showIndex, showCheckbox, style, className}  = child.props;
+            let cellProps = {};
+            if(showIndex){
+                cellProps = this.getCellShowIndex(child.props, rowIndex);
+            } else if(showCheckbox){
+                cellProps = this.getCellCheckbox(item, child.props);
+            } else {
+                cellProps = {
+                    component: child.props.cell(item, rowIndex, props)
+                }
+            }
             return {
-                showIndex,
-                component: pagination ? this.getIndex(pagination, rowIndex) : child.props.cell(item, rowIndex, props),
                 style,
-                className
+                className,
+                ...cellProps,
+
             }
         });
     }
@@ -43,7 +98,7 @@ export default class TableCustom extends Component {
 
     renderTbody() {
         return <tbody>
-        {this.props.data.map((item, index) => <Row key={index} cells={this.getCells(item, index, this.props)}/>)}
+        {this.props.data.map((item, index) => <Row key={index} cells={this.getCells(item, index, this.props)} tableProps={this.props}/>)}
         {this.props.data.length === 0 && <tr><td colSpan={this.getPropsColumn().length}>{this.props.renderEmpty()}</td></tr>}
         </tbody>
     }
@@ -66,8 +121,8 @@ export default class TableCustom extends Component {
     }
 
     render() {
-        const {responsive, striped, bordered, size, isLoading, showLoading} = this.props;
-        const propsTable = {responsive, striped, bordered, size};
+        const {className, responsive, striped, bordered, size, isLoading, showLoading} = this.props;
+        const propsTable = {responsive, striped, bordered, size, className: `tt-table ${className}`};
         return (
             <div style={{position: 'relative'}}>
                 {isLoading && showLoading && this.renderLoading()}

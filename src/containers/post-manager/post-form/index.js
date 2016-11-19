@@ -13,6 +13,7 @@ import {
     SelectImagePopover,
     DraftjsEditor,
     Switch,
+    Checkbox
 } from '../../../components/form/index';
 import {Box, Flex, Title, Icon, CenterPaddingBox, Breadcrumb, Tabs} from '../../../components/layouts/index';
 import {Spinner} from '@blueprintjs/core';
@@ -38,6 +39,9 @@ const mapStateToProps = () => {
 
 @reduxForm(form, mapStateToProps)
 export default class PostForm extends Component {
+    state = {
+        checked: false
+    }
     renderContentType(){
         const {fields: {content_type, content}} = this.props;
         switch (content_type.value){
@@ -68,6 +72,11 @@ export default class PostForm extends Component {
         </div>
     }
 
+    @autobind
+    handleCheckbox(e){
+        this.setState({checked: e.target.checked});
+    }
+
     renderOptions(){
         const {fields: {featured_image, secondary_featured_image, is_public}} = this.props;
         return <div>
@@ -75,6 +84,7 @@ export default class PostForm extends Component {
             <SelectImagePopover title="Secondary featured image" {...secondary_featured_image} media={secondary_featured_image.value}/>
             <div className="clearfix"/>
             <Switch checked={is_public.value} label="Public" {...is_public}/>
+            <Checkbox checked={this.state.checked} label="Public" onChange={this.handleCheckbox}/>
             <Button className="btn-red fill"><Icon name="trash" bluePrintIcon/>Trash post</Button>
         </div>
     }

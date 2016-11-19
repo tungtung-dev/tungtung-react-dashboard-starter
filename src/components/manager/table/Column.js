@@ -9,6 +9,11 @@ export default class Column extends PureComponent{
 Column.propTypes = {
     header: PropTypes.func.isRequired,
     cell: PropTypes.func,
+    checkboxProps: PropTypes.shape({
+        keyData: PropTypes.string,
+        checkedData: PropTypes.arrayOf(PropTypes.string),
+        onChange: PropTypes.func
+    }),
     pagination: PropTypes.shape({
         page: PropTypes.number,
         item_per_page: PropTypes.number
