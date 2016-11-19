@@ -11,6 +11,7 @@ import {Table, Column, SearchFilterPagination} from '../../../components/manager
 import {UserAvatar} from '../../../components/partials/index';
 import update from 'react-addons-update';
 import Equal from 'deep-equal';
+import {Position} from '@blueprintjs/core';
 
 const TAB_ALL = 'LISTS/tab_all';
 const TAB_PUBLISH = 'LISTS/tab_publish'
@@ -130,7 +131,12 @@ export default class PostManager extends Component {
             showLoading
         >
             <Column
-                header={() => <ButtonDropdown className="btn-black btn-super-sm" options={[{icon: 'trash', text: `Trash ${this.state.posts_checked.length} posts`}]}>
+                header={() =>
+                <ButtonDropdown
+                    className="btn-black btn-super-sm"
+                    options={[{icon: 'trash', text: `Trash ${this.state.posts_checked.length} posts`}]}
+                    position={Position.BOTTOM_LEFT}
+                    >
                     <Icon name="caret-down" bluePrintIcon/>
                 </ButtonDropdown>
                 }
@@ -139,7 +145,6 @@ export default class PostManager extends Component {
                     checkedData: this.state.posts_checked,
                     onChange: this.handleChangeChecked
                 }}
-                cell={(post) => <Checkbox value={this.getPostChecked(post.id)} onChange={(e) => this.handleCheckPost(e, post.id)}/>}
                 showCheckbox
             />
             <Column
@@ -164,6 +169,7 @@ export default class PostManager extends Component {
                 cell={(post) =>
                     <ButtonGroupDropdown
                         className="btn-default"
+                        position={Position.BOTTOM_RIGHT}
                         onClick={(e) => this.props.push(`/posts/edit/${post.id}`)}
                         dropdownIcon={{name: 'caret-down', bluePrintIcon: true}}
                         options={[

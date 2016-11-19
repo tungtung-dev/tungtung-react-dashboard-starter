@@ -51,6 +51,7 @@
           a {
             opacity: 1;
             background: darken($sidebar-bg, 4);
+            color: darken($sidebar-nav-a-color, 10);
             //background: darken(#fafafa, 3)
           }
         }

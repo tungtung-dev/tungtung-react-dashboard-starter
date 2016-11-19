@@ -7,6 +7,7 @@ import {
     InputText,
     MDEditor,
     Button,
+    ButtonGroupDropdown,
     Textarea,
     SelectTag,
     SelectImage,
@@ -16,7 +17,7 @@ import {
     Checkbox
 } from '../../../components/form/index';
 import {Box, Flex, Title, Icon, CenterPaddingBox, SpinnerOverlay, Tabs} from '../../../components/layouts/index';
-import {Spinner} from '@blueprintjs/core';
+import {Spinner, Position} from '@blueprintjs/core';
 
 const DRAFTJS_CONTENT_TYPE = 'CONTENT-TYPE/draftjs';
 const MARKDOWN_CONTENT_TYPE = 'CONTENT-TYPE/markdown';
@@ -90,7 +91,7 @@ export default class PostForm extends Component {
             <div className="clearfix"/>
             <Switch checked={is_public.value} label="Public" {...is_public}/>
             <Checkbox checked={this.state.checked} label="Public" onChange={this.handleCheckbox}/>
-            <Button className="btn-red fill"><Icon name="trash" bluePrintIcon/>Trash post</Button>
+            <Button className="btn-red fill"><Icon name="trash" bluePrintIcon/> Trash post</Button>
         </div>
     }
 
@@ -102,7 +103,14 @@ export default class PostForm extends Component {
                     <Title element="h2" styleColor="black-white" fontWeight={400}>
                         <Icon name="note"/> Create new post
                     </Title>
-                    <Button tooltip={{tooltip: 'Save your post'}} className="btn-default fill">Save your post</Button>
+                    <ButtonGroupDropdown
+                        className="btn-default fill"
+                        position={Position.BOTTOM_RIGHT}
+                        options={[{text: 'Save and finish'}]}
+                        dropdownIcon={{name: 'caret-down', bluePrintIcon: true}}
+                    >
+                        Save your post
+                    </ButtonGroupDropdown>
                 </Flex>
                 <Box>
                     {isLoading && <SpinnerOverlay backgroundColor={"#fff"}/>}

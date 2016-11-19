@@ -29,7 +29,7 @@
   color: $color-text;
   &:hover, &:focus {
     background: lighten($color, 6%);
-    border: 1px solid darken($color, 2);
+    //border: 1px solid darken($color, 2);
     color: darken($color, 2);
     color: $color-text;
     outline: none;

@@ -15,7 +15,7 @@ export default class ButtonDropdown extends Component {
     render() {
         return <Popover
                 interactionKind={PopoverInteractionKind.CLICK}
-                position={Position.BOTTOM}
+                position={this.props.position}
                 useSmartPositioning={false}
                 className="tt-btn-dropdown"
                 content={this.renderPopoverContent()}>
@@ -24,13 +24,15 @@ export default class ButtonDropdown extends Component {
     }
 }
 ButtonDropdown.defaultProps = {
-    options: []
+    options: [],
+    position: Position.BOTTOM
 }
 ButtonDropdown.propTypes = {
     options: PropTypes.arrayOf(PropTypes.shape({
         icon: PropTypes.string,
         text: PropTypes.string,
         onClick: PropTypes.func
-    }))
+    })),
+    position: PropTypes.any
 }
 
