@@ -100,14 +100,14 @@ export default class MDEditor extends Component {
     renderButton(formatKey, label, labelClassName, action) {
         if (!action) action = this.toggleFormat.bind(this, formatKey);
 
-        var className = classNames('MDEditor_toolbarButton', {
+        var className = classNames('item MDEditor_toolbarButton', {
             'MDEditor_toolbarButton--pressed': this.state.cs[formatKey]
         }, ('MDEditor_toolbarButton--' + formatKey));
 
         return (
-            <button className={className} onClick={action} title={formatKey}>
+            <span className={className} onClick={action} title={formatKey}>
                 <span className={labelClassName}>{label}</span>
-            </button>
+            </span>
         );
     }
 
@@ -129,7 +129,7 @@ export default class MDEditor extends Component {
     @autobind
     renderToolbar() {
         return (
-            <div className="MDEditor_toolbar">
+            <div className="tt-markdown-editor-toolbar">
                 {this.renderButton('h1', this.renderHeaderNumber(1), 'fa fa-header')}
                 {this.renderButton('h2', this.renderHeaderNumber(2), 'fa fa-header')}
                 {this.renderButton('h3', this.renderHeaderNumber(3), 'fa fa-header')}
