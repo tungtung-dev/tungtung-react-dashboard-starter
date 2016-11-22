@@ -2,6 +2,8 @@ import React, {PureComponent, PropTypes} from 'react';
 import {Popover, Position, PopoverInteractionKind} from '@blueprintjs/core';
 import "./style.scss";
 
+var fa_ab = "ada";
+
 export default class TooltipWrapper extends PureComponent{
     render(){
         const popoverContent = <span>{this.props.tooltip}</span>
