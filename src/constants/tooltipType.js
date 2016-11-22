@@ -1,22 +1,23 @@
 import React from 'react';
+import {Position} from '@blueprintjs/core';
 
 export default {
     draft_editor: {
         insert_code_editor: {
-            tooltip: 'Nhúng mã code',
-            id: 'insert_code_editor'
+            tooltip: 'Embed code edtior',
+            position: Position.TOP
         },
         insert_image: {
-            tooltip: 'Nhúng ảnh',
-            id: 'insert_image'
+            tooltip: 'Embed image',
+            position: Position.TOP
         },
         insert_katex: {
             tooltip: 'Nhúng mã toán học (latex)',
             id: 'insert_katex'
         },
         preview: {
-            tooltip: 'Xem câu hỏi đã được biên dịch',
-            id: 'preview'
+            tooltip: 'Preview',
+            position: Position.TOP
         }
     },
     compare_pdf: {

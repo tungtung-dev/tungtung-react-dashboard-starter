@@ -5,7 +5,6 @@ import Link from '../../link';
 import dataTooltip from '../../../../constants/tooltipType';
 import {ChooseImageModalWrap} from '../../../media-manager/index';
 import {Icon} from '../../../layouts/index';
-import {Position} from '@blueprintjs/core';
 
 import "./style.scss";
 
@@ -58,13 +57,13 @@ export default class Toolbar extends Component {
             {[this.props.position]: this.props.position ? this.props.position : ''},
         )
         return <div className={className} style={this.state.style}>
-            {this.renderToolbarItem(this.props.onInsertCodeEditor, 'code', {tooltip: 'Embed code editor', position: Position.TOP})}
+            {this.renderToolbarItem(this.props.onInsertCodeEditor, 'code', dataTooltip.draft_editor.insert_code_editor)}
             <ChooseImageModalWrap className="item" onChoose={this.props.onInsertImage}>
-                <Link to="#" tabIndex="-1" tooltip={{tooltip: 'Embed image', position: Position.TOP}}>
+                <Link to="#" tabIndex="-1" tooltip={dataTooltip.draft_editor.insert_image}>
                     <Icon name="camera" bluePrintIcon/>
                 </Link>
             </ChooseImageModalWrap>
-            <Link tooltip={{tooltip: 'Preview', position: Position.TOP}} href="#" className={this.props.showRead ? 'active': ''} tabIndex="-1" onClick={this.props.onRead}>
+            <Link tooltip={dataTooltip.draft_editor.preview} href="#" className={this.props.showRead ? 'active': ''} tabIndex="-1" onClick={this.props.onRead}>
                 <Icon name="eye" bluePrintIcon/>
             </Link>
         </div>

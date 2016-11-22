@@ -6,10 +6,6 @@ import {connect} from '../../../utils/reduxAwait';
 import PostForm from '../post-form';
 
 const mapStateToProps = (state, ownProps) => {
-    const post = state.post.lists.data.find(post => post.id === ownProps.params.post_id);
-    // return {
-    //     post
-    // }
     const {current_post} = state.post;
     return {
         post: current_post
