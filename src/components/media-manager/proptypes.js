@@ -9,6 +9,6 @@ export const mediaItemPropType = {
     id: PropTypes.string,
     type: PropTypes.string,
     name: PropTypes.string,
-    thumbnail_url: PropTypes.string,
-    original_url: PropTypes.string,
+    thumbnailUrl: PropTypes.string,
+    originalUrl: PropTypes.string,
 }

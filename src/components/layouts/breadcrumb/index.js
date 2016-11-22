@@ -1,7 +1,7 @@
 import {PureComponent, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {addBreadcrumb, removeBreadcrumb, updateBreadcrumb} from '../../../redux/actions/DefaultLoadAction';
+import {addBreadcrumb, removeBreadcrumb, updateBreadcrumb} from '../../../redux/actions/defaultLoadAction';
 
 @connect(() => ({}), (dispatch) => bindActionCreators({addBreadcrumb, removeBreadcrumb, updateBreadcrumb}, dispatch))
 export default class Breadcrumb extends PureComponent {

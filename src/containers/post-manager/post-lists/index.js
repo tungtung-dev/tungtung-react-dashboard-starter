@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
 import {autobind} from 'core-decorators';
-import PostAction from '../../../redux/actions/PostAction';
+import postAction from '../../../redux/actions/postAction';
 import {connect} from '../../../utils/reduxAwait';
 import QueryManager from '../../../utils/location_queries';
 import {Link, Button, ButtonDropdown, ButtonGroupDropdown, Checkbox, SelectTag} from '../../../components/form/index';
@@ -26,7 +26,7 @@ const TABS = [
 @connect((state) => ({
     data: state.post.lists.data,
     pagination: state.post.lists.pagination
-}), (dispatch) => bindActionCreators({...PostAction, push}, dispatch))
+}), (dispatch) => bindActionCreators({...postAction, push}, dispatch))
 export default class PostManager extends Component {
     state = {
         tab: TAB_ALL,

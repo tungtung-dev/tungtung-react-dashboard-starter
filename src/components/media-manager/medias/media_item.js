@@ -37,9 +37,9 @@ export default class MediaItem extends Component {
     }
 
     renderThumnailImage() {
-        const {thumbnail_url, name} = this.props;
+        const {thumbnailUrl, name} = this.props;
         return <div className="thumbnail">
-            <img src={thumbnail_url} alt={name}/>
+            <img src={thumbnailUrl} alt={name}/>
         </div>
     }
 
@@ -106,17 +106,17 @@ export default class MediaItem extends Component {
     }
 
     render() {
-        const {is_uploading, checked} = this.props;
-        const is_thumbnail_image = this.isimage() && !is_uploading;
-        const is_thumbnail_icon = is_uploading || !is_thumbnail_image;
+        const {isLoading, checked} = this.props;
+        const is_thumbnail_image = this.isimage() && !isLoading;
+        const is_thumbnail_icon = isLoading || !is_thumbnail_image;
         return (
             <div className="media-item">
                 <MediaView toggle={this.toggleView} isOpen={this.state.isView} {...this.props} onChoose={this.handleChoose}/>
                 <div className={classnames('media-item-container', {checked})}>
                     {is_thumbnail_image && this.renderThumnailImage()}
                     {is_thumbnail_icon && this.renderThumbnailIcon()}
-                    {!is_uploading && this.renderOverlay()}
-                    {is_uploading && this.renderProgress()}
+                    {!isLoading && this.renderOverlay()}
+                    {isLoading && this.renderProgress()}
                 </div>
             </div>
         )
@@ -129,7 +129,7 @@ MediaItem.defaultProps = {
 
 MediaItem.propTypes = {
     ...mediaItemPropType,
-    is_uploading: PropTypes.bool,
+    isLoading: PropTypes.bool,
     progress: PropTypes.number,
     checked: PropTypes.bool,
     onRemove: PropTypes.func,

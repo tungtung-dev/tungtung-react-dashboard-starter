@@ -2,19 +2,19 @@ import {api} from '../config';
 import path from 'path';
 
 export function getAuthApi(urlQuery){
-    return path.join(api.auth, 'auth', urlQuery);
+    return api.auth + path.join('/auth', urlQuery);
 }
 
 export function getUserApi(urlQuery){
-    return path.join(api.default, 'users', urlQuery);
+    return api.default + path.join('/users', urlQuery);
 }
 
 export function getPostApi(urlQuery){
-    return path.join(api.default, 'post', urlQuery)
+    return api.default + path.join('/post', urlQuery);
 }
 
 export function getMediaApi(urlQuery){
-    return path.join(api.media, 'media', urlQuery);
+    return api.media + path.join('/media', urlQuery);
 }
 
 export default {

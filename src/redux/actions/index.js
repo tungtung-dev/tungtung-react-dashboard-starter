@@ -8,7 +8,6 @@ import postAction from './postAction';
 export {
     alertAction,
     authAction,
-    alertAction,
     awaitAction,
     defaultLoadAction,
     userAction,
@@ -18,7 +17,6 @@ export {
 export default {
     alertAction,
     authAction,
-    alertAction,
     awaitAction,
     defaultLoadAction,
     userAction,

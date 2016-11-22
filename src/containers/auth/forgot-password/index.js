@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {Container, Col, Card, CardHeader, CardBlock} from 'reactstrap';
 import {reduxForm} from 'redux-form';
 import validator from 'validator';
-import {UIForm} from '../../components/index';
-import {AuthApi} from '../../api/index';
+import {UIForm} from '../../../components';
+import {AuthApi} from '../../../api';
 
 class ForgotPassword extends Component {
     constructor() {

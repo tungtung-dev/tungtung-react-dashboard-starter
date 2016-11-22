@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {Container, Col, Card, CardHeader, CardBlock} from 'reactstrap';
 import {reduxForm} from 'redux-form';
 import {push} from 'react-router-redux';
-import {UIForm} from '../../components/index';
-import {AuthApi} from '../../api/index';
-import {addAlertToast} from '../../redux/actions/AlertAction'
+import {UIForm} from '../../../components';
+import {AuthApi} from '../../../api/index';
+import {addAlertToast} from '../../../redux/actions/alertAction'
 
 class NewPassword extends Component {
     constructor() {

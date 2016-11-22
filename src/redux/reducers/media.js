@@ -98,7 +98,7 @@ export function getFolders(state: MediaReducerState, action): MediaReducerState 
 
 export function getFolderPhotos(state: MediaReducerState, action): MediaReducerState {
     let currentFolder = state.folders.find((f) => f.id === action.id);
-    return update(updateMedia(state, action.payload.getFolderPhotos), {
+    return update(updateMediaData(state, action.payload.getFolderPhotos), {
         currentFolder: {$set: currentFolder}
     })
 }

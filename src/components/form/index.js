@@ -30,7 +30,6 @@ import MarkdownDisplay from './markdown-display';
 import EmojioneDisplay from './emojione-display';
 
 import Loader from './loader';
-import Toaster from './toaster';
 
 export {
     InputText, InputTextGroup, Textarea, Switch, Checkbox, RadioGroup,
@@ -39,7 +38,7 @@ export {
     MDEditor, CodeEditor, DraftjsEditor,
     ValidateWrapControl, TooltipWrapper, DialogConfirm, PopoverConfirm,
     MarkdownDisplay, EmojioneDisplay,
-    Loader, Toaster
+    Loader
 }
 export default {
     InputText, InputTextGroup, Textarea, Switch, Checkbox, RadioGroup,
@@ -48,5 +47,5 @@ export default {
     MDEditor, CodeEditor, DraftjsEditor,
     ValidateWrapControl, TooltipWrapper, DialogConfirm, PopoverConfirm,
     MarkdownDisplay, EmojioneDisplay,
-    Loader, Toaster
+    Loader
 }

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Container, Col, Card, CardHeader, CardBlock} from 'reactstrap';
 import {reduxForm} from 'redux-form';
-import {UIForm} from '../../components/index';
-import {AuthApi} from '../../api/index';
+import {UIForm} from '../../../components';
+import {AuthApi} from '../../../api';
 
 class ChangePassword extends Component {
     constructor() {
@@ -12,9 +12,9 @@ class ChangePassword extends Component {
         }
 
         this._handleChangePassword = (values, dispatch) => {
-            const {password} = values;
+            const {oldPassword, password} = values;
             return new Promise((resolve, reject) => {
-                AuthApi.updatePassword(password).then(() => {
+                AuthApi.updatePassword(oldPassword, password).then(() => {
                     this.setState({success: true});
                     resolve();
                 }).catch((errors) => {
@@ -26,21 +26,21 @@ class ChangePassword extends Component {
     }
 
     render() {
-        const {fields: {old_password, password}, handleSubmit, submitting} = this.props;
+        const {fields: {oldPassword, password}, handleSubmit, submitting} = this.props;
         return (
             <Container className="margin-top-50">
                 <Col md={{size: 6, offset: 3}}>
                     <Card>
-                        <CardHeader>Thay đổi mật khẩu</CardHeader>
+                        <CardHeader>Change password</CardHeader>
                         <CardBlock>
                             {this.state.success &&
-                            <div className="alert alert-success">Thay đổi mật khẩu thành công</div>
+                            <div className="alert alert-success">Change password succesed</div>
                             }
                             <form onSubmit={handleSubmit(this._handleChangePassword)}>
-                                <UIForm.InputText title="Mật khẩu cũ" tyoe="password" {...old_password}/>
-                                <UIForm.InputText title="Mật khẩu mới" type="password" {...password}/>
+                                <UIForm.InputText title="Old password" type="password" {...oldPassword}/>
+                                <UIForm.InputText title="New Password" type="password" {...password}/>
                                 <button className="btn btn-primary btn-block" disabled={submitting}>
-                                    Thay đổi
+                                    Change
                                 </button>
                             </form>
                         </CardBlock>
@@ -51,8 +51,8 @@ class ChangePassword extends Component {
     }
 }
 
-const fields = ['old_password', 'password', 'email'];
-const asyncBlurFields = ['old_password'];
+const fields = ['oldPassword', 'password', 'email'];
+const asyncBlurFields = ['oldPassword'];
 
 const asyncValidate = (values, dispatch, props)=> {
     let errors = {};
@@ -65,15 +65,20 @@ const asyncValidate = (values, dispatch, props)=> {
         return {};
     })
     switch (props.form._active) {
-        case 'old_password':
+        case 'oldPassword':
             return new Promise((relsove, reject) => {
-                AuthApi.checkPassword(values.email, values.old_password).then(() => {
-                }).catch((err) => {
-                    reject({
-                        ...errors,
-                        old_password: 'Mật khẩu cũ không đúng'
-                    });
-                })
+                const user = {
+                    email: values.email,
+                    password: values.oldPassword
+                }
+                AuthApi.authLogin(user).then((userRes) => {
+                    if(userRes.success === false){
+                        reject({
+                            ...errors,
+                            oldPassword: 'Old password incorrect'
+                        });
+                    }
+                });
             });
         default:
             return new Promise((resolve, reject) => {
@@ -85,8 +90,8 @@ const asyncValidate = (values, dispatch, props)=> {
 
 const validate = (values) => {
     let errors = {};
-    if (!values.old_password) errors.old_password = 'Vui lòng nhập mật khẩu cũ';
-    if (!values.password) errors.password = 'Vui lòng nhập mật khẩu mới';
+    if (!values.oldPassword) errors.oldPassword = 'Please enter old password';
+    if (!values.password) errors.password = 'Please enter new password';
     return errors;
 }
 

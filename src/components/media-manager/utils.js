@@ -3,11 +3,11 @@ import React from 'react';
 /**
  * Clean file from props, because props have multiple field not need
  * @param file
- * @returns {{id: *, name: *, thumbnail_url: *, original_url: *, type: *}}
+ * @returns {{id: *, name: *, thumbnailUrl: *, originalUrl: *, type: *}}
  */
 export function cleanFile(file){
-    const {id, name, thumbnail_url, original_url, type} = file;
-    return {id, name, thumbnail_url, original_url, type}
+    const {id, name, thumbnailUrl, originalUrl, type} = file;
+    return {id, name, thumbnailUrl, originalUrl, type}
 }
 
 /**

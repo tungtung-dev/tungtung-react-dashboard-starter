@@ -2,7 +2,7 @@ import update from 'react-addons-update';
 import {
     AUTH_SET_AUTHENTICATION, AUTH_GET_USER, AUTH_UPDATE_PROFILE, 
     AUTH_LOGOUT, AUTH_UPDATE_AVATAR
-} from '../actions/AuthAction';
+} from '../actions/authAction';
 import {storageKey} from '../../config';
 
 const getInitialState = () => {
@@ -43,7 +43,7 @@ export function setAuthentication(state, action){
 export function getAuthUser(state, action) {
     const userRes = action.payload.getCurrentUser;
     return update(state, {
-        token: {$set: userRes.token ? state.token : null},
+        token: {$set: userRes.id ? state.token : null},
         user: {
             $merge: userRes
         }

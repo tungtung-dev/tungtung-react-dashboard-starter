@@ -5,13 +5,11 @@ import {push} from 'react-router-redux';
 import {Col, Container, Card, CardHeader, CardBlock} from 'reactstrap';
 import validator from 'validator';
 
-import {InputText} from '../../components/form/index';
-import {AuthApi} from '../../api/index';
-import {AuthAction, AlertAction} from '../../redux/actions/index';
-import {AlertsContainer} from '../libs/index';
-
-const {setAuthToken} = AuthAction;
-const {addAlertToast} = AlertAction;
+import {InputText} from '../../../components/form';
+import {Toaster} from '../../../components/layouts';
+import {AuthApi} from '../../../api';
+import {storageKey} from '../../../config';
+import {setAuthToken} from '../../../redux/actions/authAction';
 
 class Login extends Component {
     constructor() {
@@ -19,20 +17,23 @@ class Login extends Component {
         this._onLogin = (values, dispatch) => {
             const {email, password} = values;
             return new Promise((resolve, reject) => {
-                AuthApi.authLogin({email, password}).then(data => {
-                    if (data.success) {
-                        const {token, user} = data;
+                AuthApi.authLogin({email, password}).then(userRes => {
+                    if (userRes.success) {
+                        const {token, user} = userRes;
                         dispatch(setAuthToken(token, user));
-                        dispatch(addAlertToast('login_success', 'Thông báo', 'Đăng nhập thành công', 'success'));
-                        if (localStorage.getItem('redirect_back')) {
-                            dispatch(push(localStorage.getItem('redirect_back')));
-                            localStorage.removeItem('redirect_back');
+                        Toaster.show({message: 'Login successed', timeout: 3000, intent: 1});
+                        resolve(user);
+
+                        const redirectUrl = localStorage.getItem(storageKey.redirect);
+                        if (redirectUrl) {
+                            dispatch(push(redirectUrl));
+                            localStorage.removeItem(storageKey.redirect);
                         }
                         else dispatch(push('/'));
-                        resolve(user);
                     }
                     else {
-                        reject(data.errors);
+                        Toaster.show({message: 'Login failed', timeout: 3000, intent: 3});
+                        reject(userRes.errors);
                     }
                 })
             })
@@ -45,17 +46,16 @@ class Login extends Component {
             <Container className="margin-top-50">
                 <Col md={{size: 6, offset: 3}}>
                     <Card>
-                        <CardHeader><i className="icon-login"/> Đăng nhập</CardHeader>
+                        <CardHeader><i className="icon-login"/> Login</CardHeader>
                         <CardBlock>
-                            <AlertsContainer/>
                             <form onSubmit={handleSubmit(this._onLogin)}>
                                 <InputText title="Email" {...email} />
                                 <InputText title="Mật khẩu" type="password" {...password} />
-                                <button className="btn btn-primary btn-block" disabled={submitting}>Đăng nhập</button>
+                                <button className="btn btn-primary btn-block" disabled={submitting}>Login</button>
                             </form>
                             <div className="text-center margin-top-20">
-                                <Link to="auth/register">Bạn chưa có tài khoản ?</Link><br/>
-                                <Link to="auth/forgot-password">Quên mật khẩu</Link>
+                                <Link to="/auth/register">Register account</Link><br/>
+                                <Link to="/auth/forgot-password">Forgot password</Link>
                             </div>
                         </CardBlock>
                     </Card>
@@ -69,10 +69,10 @@ const fields = ['email', 'password'];
 
 const validate = (values) => {
     let errors = {};
-    if (!values.email) errors.email = 'Vui lòng nhập email';
-    if (!values.password) errors.password = 'Vui lòng nhập mật khẩu';
+    if (!values.email) errors.email = 'Please enter email';
+    if (!values.password) errors.password = 'Please enter password';
     if (values.email && !validator.isEmail(values.email)) {
-        errors.email = 'Định dạng email không đúng';
+        errors.email = 'Email incorrect';
     }
     return errors;
 }

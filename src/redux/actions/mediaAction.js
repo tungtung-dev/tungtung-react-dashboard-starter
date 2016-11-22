@@ -65,7 +65,7 @@ export function addFolder(name) {
     }
 }
 
-export function mediaFilter(filter){
+export function changeMediaFilter(filter){
     return {
         type: MEDIA_FILTER,
         filter
@@ -139,7 +139,7 @@ export function removeMediaChecked(medias_id){
 }
 
 export default {
-    getFolders, getFolderPhotos, addFolder, updateFolder, removeFolder, mediaFilter,
+    getFolders, getFolderPhotos, addFolder, updateFolder, removeFolder, changeMediaFilter,
     resetMediaFilter, addMedia, updateMedia, removeMedia, checkedMedia, unCheckedMedia,
     checkedAllMedia, unCheckedAllMedia, removeMediaChecked
 }

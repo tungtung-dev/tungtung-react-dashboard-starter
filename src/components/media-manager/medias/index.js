@@ -2,9 +2,9 @@ import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import Fuse from 'fuse.js';
 import {connect} from '../../../utils/reduxAwait';
-import {Flex} from '../../layouts/index';
+import {Flex, Title, Icon} from '../../layouts/index';
 import {Spinner} from '@blueprintjs/core';
-import MediaActions from '../../../redux/actions/MediaActions';
+import mediaAction from '../../../redux/actions/mediaAction';
 import {mediaItemPropType} from '../proptypes';
 import MediaItem from './media_item';
 import MediaToolbar from './media_toolbar';
@@ -20,29 +20,29 @@ const filterData = (data, filter) => {
 }
 
 const mapStateToProps = (state) => {
-    const {medias: {data, filter}, current_folder} = state.media;
+    const {medias: {data, filter}, currentFolder} = state.media;
     return {
         medias: filterData(data, filter),
-        media_filter: filter,
-        medias_checked: data.filter(m => m.checked),
-        current_folder_id: current_folder.id,
+        mediaFilter: filter,
+        mediasChecked: data.filter(m => m.checked),
+        currentFolderId: currentFolder.id,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators(MediaActions, dispatch);
+    return bindActionCreators(mediaAction, dispatch);
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Folders extends Component {
     static propTypes = {
         medias: PropTypes.arrayOf(PropTypes.shape(mediaItemPropType)),
-        medias_checked: PropTypes.arrayOf(PropTypes.shape(mediaItemPropType)),
-        media_filter: PropTypes.string,
-        current_folder_id: PropTypes.string,
+        mediasChecked: PropTypes.arrayOf(PropTypes.shape(mediaItemPropType)),
+        mediaFilter: PropTypes.string,
+        currentFolderId: PropTypes.string,
         onChooseMedia: PropTypes.func,
         customToolbar: PropTypes.func,
-        mediaFilter: PropTypes.func,
+        changeMediaFilter: PropTypes.func,
         addMedia: PropTypes.func.isRequired,
         updateMedia: PropTypes.func.isRequired,
         removeMedia: PropTypes.func.isRequired,
@@ -55,21 +55,34 @@ export default class Folders extends Component {
 
     renderToolbar(){
         return  <MediaToolbar
-            filter={this.props.media_filter}
-            onFilter={this.props.mediaFilter}
+            filter={this.props.mediaFilter}
+            onFilter={this.props.changeMediaFilter}
             customToolbar={this.props.customToolbar}
             onUpload={() => this.refs.dropzone.openDropzone()}
             onCheckedAll={this.props.checkedAllMedia}
             onUnCheckedAll={this.props.unCheckedAllMedia}
             onRemoveChecked={this.props.removeMediaChecked}
-            medias_checked={this.props.medias_checked}
+            mediasChecked={this.props.mediasChecked}
         />
+    }
+
+    renderEmpty(){
+        return <div className="empty-media">
+            <Flex width="100%" alignItems="center" justifyContent="center" flexDirection="column">
+                <Title element="h2" marginTop={10} styleColor="black-white">
+                    <Icon name="folder-open" fontSize={20} bluePrintIcon/>
+                </Title>
+                <Title element="h2" marginTop={15} styleColor="black-white">This Folder Is Empty</Title>
+                <p style={{marginTop: 10}}>Drag file to here.</p>
+            </Flex>
+        </div>
     }
 
     renderMediasDropzone(){
         const { awaitStatuses:{ getFolderPhotos }, medias} = this.props;
-        return <MediaDropzone folder_id={this.props.current_folder_id} ref="dropzone" onAddMedia={this.props.addMedia} onUpdateMedia={this.props.updateMedia}>
+        return <MediaDropzone folderId={this.props.currentFolderId} ref="dropzone" onAddMedia={this.props.addMedia} onUpdateMedia={this.props.updateMedia}>
             <div className="media-lists">
+                {getFolderPhotos === 'success' && medias.length === 0 && this.renderEmpty()}
                 {getFolderPhotos === 'success' && medias.map(media =>
                     <MediaItem key={media.id}
                                onChoose={this.props.onChooseMedia}

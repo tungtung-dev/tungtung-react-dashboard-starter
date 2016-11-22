@@ -54,7 +54,7 @@ export function getUserInfo(state, action){
 
 export function updateUserInfo(state, action){
     let usersList = state.lists.data;
-    let userIndex = users.findIndex((u) => u._id === action.userId);
+    let userIndex = usersList.findIndex((u) => u._id === action.userId);
     if (userIndex >= 0) {
         usersList[userIndex] = action.user;
     }

@@ -3,7 +3,7 @@ import {autobind} from 'core-decorators';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ChooseImagePopoverWrap} from '../../media-manager/index';
-import {addAlertToast} from '../../../redux/actions/AlertAction';
+import {addAlertToast} from '../../../redux/actions/alertAction';
 import ValidateWrapControl from '../validate-wrap-control';
 
 @connect(() => ({}), (dispatch) => bindActionCreators({addAlertToast}, dispatch))

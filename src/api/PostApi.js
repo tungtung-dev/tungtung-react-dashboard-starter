@@ -1,4 +1,3 @@
-import {MEDIA_API} from '../config/index';
 import {randomPosts} from '../utils/mock_data';
 import {getPostApi} from './utils';
 

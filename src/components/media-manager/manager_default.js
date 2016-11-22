@@ -1,18 +1,18 @@
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from '../../utils/reduxAwait';
-import MediaActions from '../../redux/actions/MediaActions';
+import mediaAction from '../../redux/actions/mediaAction';
 import Folders from './folders';
 import Medias from './medias';
 import "./style.scss";
 
 const mapStateToProps = (state) => {
-    const {first_loaded} = state.media;
-    return {first_loaded};
+    const {firstLoaded} = state.media;
+    return {firstLoaded};
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators(MediaActions, dispatch);
+    return bindActionCreators(mediaAction, dispatch);
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -25,7 +25,7 @@ export default class MediaManager extends Component {
     }
 
     componentDidMount() {
-        if(!this.props.first_loaded && this.props.awaitStatuses.getFolders !== 'pending'){
+        if(!this.props.firstLoaded && this.props.awaitStatuses.getFolders !== 'pending'){
             this.props.getFolders();
             this.props.getFolderPhotos('all');
         }

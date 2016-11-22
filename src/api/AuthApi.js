@@ -21,12 +21,12 @@ export function updateProfile(profile) {
     return putFetch(getAuthApi('profile'), profile);
 }
 
-export function updatePassword(password, new_password) {
-    return putFetch(getAuthApi('password'), {password, new_password});
+export function updatePassword(password, newPassword) {
+    return putFetch(getAuthApi('password'), {password, newPassword});
 }
 
-export function updateAvatar(image_base64) {
-    return putFetch(getAuthApi('avatar'), {image_base64});
+export function updateAvatar(imageBase64) {
+    return putFetch(getAuthApi('avatar'), {imageBase64});
 }
 
 export default {

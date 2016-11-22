@@ -26,7 +26,7 @@ export default class UploadFile extends Component {
             id: uuid.v4(),
             name: file.name,
             type: file.type,
-            is_uploading: true
+            isLoading: true
         }
         this.props.onAddMedia(newFile);
         data.append('uploads[]', file, file.name);
@@ -46,7 +46,7 @@ export default class UploadFile extends Component {
         uploadMedia(data, (xhr) => callback_xhr(xhr, this.props.onUpdateMedia)).then((file) => {
             this.props.onUpdateMedia(newFile.id, {
                 ...file,
-                is_uploading: false
+                isLoading: false
             })
         })
     }

@@ -5,18 +5,18 @@ import {autobind} from 'core-decorators';
 import ManagerDefault from '../manager_default';
 import {mediaItemPropType} from '../proptypes';
 import {bindActionCreators} from 'redux';
-import {unCheckedAllMedia} from '../../../redux/actions/MediaActions';
+import {unCheckedAllMedia} from '../../../redux/actions/mediaAction';
 
 import "./style.scss";
 
 @connect((state) => ({
-    medias_checked: state.media.medias.data.filter(m => m.checked),
+    mediasChecked: state.media.medias.data.filter(m => m.checked),
 }), (dispatch) => bindActionCreators({unCheckedAllMedia}, dispatch))
 export default class ManagerModal extends Component {
     static propTypes = {
         isOpen: PropTypes.bool,
         toggle: PropTypes.func,
-        medias_cheked: PropTypes.arrayOf(PropTypes.shape(mediaItemPropType)),
+        mediasChecked: PropTypes.arrayOf(PropTypes.shape(mediaItemPropType)),
         onChooseMedia: PropTypes.func,
         onChooseMediaChecked: PropTypes.func,
         unCheckedAllMedia: PropTypes.func,
@@ -26,15 +26,15 @@ export default class ManagerModal extends Component {
     @autobind
     handleChooseMediaChecked(e){
         e.preventDefault();
-        this.props.onChooseMediaChecked(this.props.medias_checked);
+        this.props.onChooseMediaChecked(this.props.mediasChecked);
         this.props.unCheckedAllMedia();
     }
 
     customToolbar(){
-        const {medias_checked} = this.props;
-        if(medias_checked.length === 0) return null;
+        const {mediasChecked} = this.props;
+        if(mediasChecked.length === 0) return null;
         return <button className="btn btn-transparent" onClick={this.handleChooseMediaChecked}>
-            Import {medias_checked.length} files
+            Import {mediasChecked.length} files
         </button>
     }
 

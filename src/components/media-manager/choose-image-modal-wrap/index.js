@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {autobind} from 'core-decorators';
 import Equal from 'deep-equal';
 import MediaManagerModal from '../manager-modal/index';
-import {Toaster} from '../../form';
+import {Toaster} from '../../layouts';
 
 const Div = ({children, className}) => <div className={className}>{children}</div>
 const Span = ({children, className}) => <span className={className}>{children}</span>

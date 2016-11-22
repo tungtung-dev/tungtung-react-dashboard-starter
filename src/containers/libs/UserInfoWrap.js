@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
-import {getUserInfo} from '../../redux/actions/DefaultLoadAction';
+import {getUserInfo} from '../../redux/actions/userAction';
 import {connect} from '../../utils/reduxAwait';
 
 class UserInfoWrap extends Component {
@@ -38,8 +38,8 @@ UserInfoWrap.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    var user = {};
-    var keySearch = "_id";
+    let user = {};
+    let keySearch = "_id";
     if (!ownProps.user_id.match(/^[0-9a-fA-F]{24}$/)) {
         keySearch = "username";
     }

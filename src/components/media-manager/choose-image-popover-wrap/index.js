@@ -5,7 +5,7 @@ import Equal from 'deep-equal';
 import { Popover, PopoverInteractionKind, Position } from '@blueprintjs/core';
 import classnames from 'classnames';
 import MediaManager from '../manager_default';
-import {Toaster} from '../../form';
+import {Toaster} from '../../layouts';
 import "./style.scss";
 
 const Div = ({children, className}) => <div className={className}>{children}</div>

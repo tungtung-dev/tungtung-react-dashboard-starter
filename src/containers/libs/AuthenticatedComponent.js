@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from '../../utils/reduxAwait'
 import {push} from 'react-router-redux';
-import {addAlertText} from '../../redux/actions/AlertAction';
+import {addAlertText} from '../../redux/actions/alertAction';
 
 export default function requireAuth(ComponentChild) {
     class AuthenticatedComponent extends Component {

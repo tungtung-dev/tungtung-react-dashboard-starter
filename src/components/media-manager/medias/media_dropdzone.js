@@ -27,12 +27,12 @@ export default class MediaDropdzone extends Component {
             id: uuid.v4(),
             name: file.name,
             type: file.type,
-            is_uploading: true
+            isLoading: true
         }
         this.props.onAddMedia(newFile);
         data.append('uploads[]', file, file.name);
         data.append('id', newFile.id);
-        data.append('folder_id', this.props.folder_id);
+        data.append('folderId', this.props.folderId);
         const callback_xhr = function (xhr, onUpdateMedia) {
             xhr.upload.onprogress = function (evt) {
                 if (evt.lengthComputable) {
@@ -48,7 +48,7 @@ export default class MediaDropdzone extends Component {
         uploadMedia(data, (xhr) => callback_xhr(xhr, this.props.onUpdateMedia)).then((file) => {
             this.props.onUpdateMedia(newFile.id, {
                 ...file,
-                is_uploading: false
+                isLoading: false
             })
         })
     }
@@ -67,5 +67,5 @@ export default class MediaDropdzone extends Component {
 MediaDropdzone.propTypes = {
     onAddMedia: PropTypes.func,
     onUpdateMedia: PropTypes.func,
-    folder_id: PropTypes.string
+    folderId: PropTypes.string
 }

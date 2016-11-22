@@ -17,34 +17,34 @@ export default class MediaView extends Component {
 
     renderImageView(){
         return <center>
-            <img src={this.props.original_url} style={{maxWidth: '100%'}} alt=""/>
+            <img src={this.props.originalUrl} style={{maxWidth: '100%'}} alt=""/>
         </center>
     }
 
     renderVideoView(){
         return <video width="100%" controls>
-            <source src={this.props.original_url} type="video/mp4" />
+            <source src={this.props.originalUrl} type="video/mp4" />
             Your browser does not support HTML5 video.
         </video>
     }
 
     renderPdfView(){
-        return <object data={this.props.original_url} type="application/pdf" width="100%" height="600" scrolling="auto" internalinstanceid="11">
-            <embed src={this.props.original_url} type="application/pdf"/>
+        return <object data={this.props.originalUrl} type="application/pdf" width="100%" height="600" scrolling="auto" internalinstanceid="11">
+            <embed src={this.props.originalUrl} type="application/pdf"/>
         </object>
     }
 
     renderDefaultLink(){
-        const rightComponent = <Clipboard text={this.props.original_url} onCopy={this.onCopy}>
+        const rightComponent = <Clipboard text={this.props.originalUrl} onCopy={this.onCopy}>
             <span>
                 <a href="#" onClick={(e) => e.preventDefault()}><i className="icon-link"/> Copy link</a>
                 <span className="text-green"> {this.state.copied ? 'Đã copied' : ''}</span>
-                {' '}<a href={this.props.original_url} target="_blank"><i className="icon-cloud-download"/> Download</a>
+                {' '}<a href={this.props.originalUrl} target="_blank"><i className="icon-cloud-download"/> Download</a>
             </span>
         </Clipboard>
         return <div >
             <p>File isn't support view</p>
-            <InputText rightComponent={rightComponent} title="Link original" value={this.props.original_url}/>
+            <InputText rightComponent={rightComponent} title="Link original" value={this.props.originalUrl}/>
         </div>
     }
 

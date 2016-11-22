@@ -3,7 +3,7 @@ import {connect} from '../utils/reduxAwait';
 import {bindActionCreators} from 'redux';
 import {ToastsContainer} from './libs/index';
 
-import {getCurrenUser} from '../redux/actions/AuthAction';
+import {getCurrenUser} from '../redux/actions/authAction';
 
 class AppContainer extends Component {
     componentDidMount() {
