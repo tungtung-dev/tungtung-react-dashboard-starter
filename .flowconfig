@@ -11,9 +11,9 @@ flow/decls
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable
 
-module.name_mapper='^\(.*\)\.css$' -> '<PROJECT_ROOT>/flow/css_module.js.flow'
-module.name_mapper='^\(.*\)\.scss$' -> '<PROJECT_ROOT>/flow/css_module.js.flow'
-module.name_mapper='^\(.*\)\.\(jpg\|png\|gif\|eot\|svg\|ttf\|woff\|woff2\|mp4\|webm\)$' -> '<PROJECT_ROOT>/flow/file_module.js.flow'
+module.name_mapper='^\(.*\)\.css$' -> '<PROJECT_ROOT>/config/flow/css_module.js.flow'
+module.name_mapper='^\(.*\)\.scss$' -> '<PROJECT_ROOT>/config/flow/css_module.js.flow'
+module.name_mapper='^\(.*\)\.\(jpg\|png\|gif\|eot\|svg\|ttf\|woff\|woff2\|mp4\|webm\)$' -> '<PROJECT_ROOT>/config/flow/file_module.js.flow'
 
 suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe
 suppress_comment=\\(.\\|\n\\)*\\$FlowIssue
