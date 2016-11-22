@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 import {reducer as formReducer} from 'redux-form';
 import {i18nReducer} from 'react-redux-i18n';
 import {routerReducer} from 'react-router-redux';
-import await from './await';
+import awaitReducer from './await';
 import auth from './auth';
 import users from './users';
 import authSocial from './authSocial';
@@ -16,7 +16,7 @@ export default combineReducers({
     form: formReducer,
     i18n: i18nReducer,
     routing: routerReducer,
-    await,
+    await: awaitReducer,
     media,
     defaultLoad,
     auth,

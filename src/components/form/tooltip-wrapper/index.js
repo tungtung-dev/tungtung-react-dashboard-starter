@@ -8,7 +8,7 @@ export default class TooltipWrapper extends PureComponent{
         return <Popover content={popoverContent}
                         interactionKind={PopoverInteractionKind.HOVER}
                         popoverClassName="tooltip-content-sizing pt-dark"
-                        position={this.props.placement}
+                        position={this.props.position}
                         useSmartPositioning={false}
                         >
             {this.props.children}
@@ -17,13 +17,14 @@ export default class TooltipWrapper extends PureComponent{
 }
 
 TooltipWrapper.defaultProps = {
-    placement: Position.BOTTOM
+    position: Position.BOTTOM
 }
 
-export const  tooltipPropType = {
-    placement: PropTypes.any,
+export const tooltipPropType = {
+    position: PropTypes.any,
     tooltip: PropTypes.any
 }
+
 TooltipWrapper.propTypes = tooltipPropType
 
 
