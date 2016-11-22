@@ -5,7 +5,7 @@
 <PROJECT_ROOT>/node_modules/.*
 
 [libs]
-flow/decls
+config/flow/decls
 
 [options]
 esproposal.class_static_fields=enable

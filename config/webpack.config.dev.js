@@ -96,7 +96,7 @@ module.exports = {
         loader: 'eslint',
         include: paths.appSrc,
       },
-      {test: /\.(js|jsx)$/, loader: "flowtype", exclude: /node_modules/}
+      // {test: /\.(js|jsx)$/, loader: "flowtype", exclude: /node_modules/}
     ],
     loaders: [
       // Process JS with Babel.
