@@ -92,6 +92,9 @@ export function getFolders(state: MediaReducerState, action): MediaReducerState 
     return update(state, {
         folders: {
             $push: action.payload.getFolders
+        },
+        firstLoaded: {
+            $set: true
         }
     })
 }

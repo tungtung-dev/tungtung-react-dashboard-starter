@@ -25,13 +25,13 @@ export default class SelectImage extends PureComponent {
         const media = this.getMedia();
         return <ValidateWrapControl {...this.props}>
             <div>
-            {media.thumbnail_url && <img src={media.original_url} style={{width: '100%', marginBottom: 5}} alt=""/>}
+            {media.thumbnailUrl && <img src={media.originalUrl} style={{width: '100%', marginBottom: 5}} alt=""/>}
             <div className="flex justify-space-between">
                 <ChooseImageModalWrap onChoose={this.chooseMedia}>
                     <a className="tt-link-gray" href="#" onClick={this.toggleModal}><i className="fa fa-file-image-o"/> Select image</a>
                 </ChooseImageModalWrap>
                 &nbsp;
-                {media.thumbnail_url && <a className="tt-link-red" href="#" onClick={this.deleteMedia}>Remove</a>}
+                {media.thumbnailUrl && <a className="tt-link-red" href="#" onClick={this.deleteMedia}>Remove</a>}
             </div>
             </div>
         </ValidateWrapControl>

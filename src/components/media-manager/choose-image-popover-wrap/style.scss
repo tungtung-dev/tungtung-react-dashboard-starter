@@ -19,6 +19,9 @@
       flex-direction: column;
       align-items: flex-start;
     }
+    .media-lists .empty-media{
+      margin-top: 0px;
+    }
     .dropzone-manager{
       height: calc(100% - 90px);
     }

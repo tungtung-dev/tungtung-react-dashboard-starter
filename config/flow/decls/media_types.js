@@ -7,8 +7,8 @@ declare type MediaType = {
     id: string,
     type: string,
     name: string,
-    thumbnail_url: string,
-    original_url: string,
+    thumbnailUrl: string,
+    originalUrl: string,
     checked: boolean
 }
 

@@ -41,7 +41,7 @@ export default class Folders extends Component {
         mediaFilter: PropTypes.string,
         currentFolderId: PropTypes.string,
         onChooseMedia: PropTypes.func,
-        customToolbar: PropTypes.func,
+        customToolbar: PropTypes.any,
         changeMediaFilter: PropTypes.func,
         addMedia: PropTypes.func.isRequired,
         updateMedia: PropTypes.func.isRequired,

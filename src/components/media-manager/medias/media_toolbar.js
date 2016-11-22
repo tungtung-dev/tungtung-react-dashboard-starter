@@ -48,5 +48,5 @@ MediaToolbar.propTypes = {
     onUnCheckedAll: PropTypes.func.isRequired,
     onRemoveChecked: PropTypes.func.isRequired,
     onFilter: PropTypes.func.isRequired,
-    customToolbar: PropTypes.func
+    customToolbar: PropTypes.any
 }

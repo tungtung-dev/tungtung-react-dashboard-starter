@@ -164,7 +164,7 @@ button:focus {
   background: transparent;
   border: 1px solid transparent;
   color: #08f;
-  @extend .btn-super-sm;
+  padding: 5px 10px;
   &:hover, &:focus, &:active {
     background: transparent;
     color: darken(#08f, 10);
