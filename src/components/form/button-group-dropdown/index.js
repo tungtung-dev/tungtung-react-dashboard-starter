@@ -16,7 +16,7 @@ export default class ButtonGroupDropdown extends Component {
 
     render() {
         return <div className="btn-group tt-btn-group-dropdown">
-            <Button {...cleanProps(['dropdownIcon','options'], this.props)}>{this.props.children}</Button>
+            <Button {...cleanProps(['dropdownIcon','options','position'], this.props)}>{this.props.children}</Button>
             <Popover
                 interactionKind={PopoverInteractionKind.CLICK}
                 position={this.props.position}

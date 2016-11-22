@@ -6,9 +6,9 @@ import {connect} from '../../../utils/reduxAwait';
 import PostForm from '../post-form';
 
 const mapStateToProps = (state, ownProps) => {
-    const {current_post} = state.post;
+    const {currentPost} = state.post;
     return {
-        post: current_post
+        post: currentPost
     }
 }
 
