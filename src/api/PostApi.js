@@ -1,12 +1,6 @@
 import {MEDIA_API} from '../config/index';
-import {getFetch, postFetch, putFetch, deleteFetch} from '../utils/fetch';
 import {randomPosts} from '../utils/mock_data';
-
-const url = MEDIA_API;
-
-export function getUrl(path) {
-    return url + '/posts/' + path;
-}
+import {getPostApi} from './utils';
 
 export function getPosts(page = 1, item_per_page = 10) {
     return new Promise((resolve, reject) =>{
@@ -36,4 +30,9 @@ export function deletePost(){
         resolve();
     });
 }
-export default {getPosts, getPost, getPostsByFilter, deletePost}
+export default {
+    getPosts,
+    getPost,
+    getPostsByFilter,
+    deletePost
+}

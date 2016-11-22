@@ -12,10 +12,13 @@ class Register extends Component {
     constructor() {
         super(...arguments);
         this._onRegister = (values, dispatch) => {
-            const {email, displayName, password} = values;
+            const {email, fullName, password} = values;
+            const userinfo = {
+                email, password, fullName
+            }
             return new Promise((resolve, reject) => {
-                AuthApi.createUser(email, password, displayName).then(user => {
-                    dispatch(AuthAction.setAuthToken(user.token, user));
+                AuthApi.authRegister(userinfo).then(userRes => {
+                    dispatch(AuthAction.setAuthToken(userRes.token, userRes));
                     dispatch(AlertAction.addAlertToast('register_success', 'Đăng ký thành công', 'Chúc mừng bạn đã đăng ký thành công', 'success'));
                     if (localStorage.getItem('redirect_back')) {
                         dispatch(push(localStorage.getItem('redirect_back')));
@@ -31,7 +34,7 @@ class Register extends Component {
     }
 
     render() {
-        const {fields: {email, displayName, password}, handleSubmit, submitting} = this.props;
+        const {fields: {email, fullName, password}, handleSubmit, submitting} = this.props;
         return (
             <Container className="margin-top-50">
                 <Col md={{size: 6, offset: 3}}>
@@ -40,7 +43,7 @@ class Register extends Component {
                         <CardBlock>
                             <form action="" onSubmit={handleSubmit(this._onRegister)}>
                                 <InputText title="Email" {...email} />
-                                <InputText title="Fullname" {...displayName} />
+                                <InputText title="Fullname" {...fullName} />
                                 <InputText title="Mật khẩu" type="password" {...password} />
                                 <button className="btn btn-primary btn-block" disabled={submitting}>Đăng ký</button>
                             </form>
@@ -55,15 +58,15 @@ class Register extends Component {
     }
 }
 
-const fields = ['email', 'displayName', 'password'];
+const fields = ['email', 'fullName', 'password'];
 
 const validate = (values) => {
     let errors = {};
     if (!values.email) errors.email = 'Vui lòng nhập email';
     if (!values.password) errors.password = 'Vui lòng nhập mật khẩu';
-    if (!values.displayName) errors.displayName = "Vui lòng nhập họ và tên";
-    if (values.displayName && !(new RegExp(/^([^1-9/<>!@#$%^&*+"'\\\/\[\]`.,~?])+$/g)).test(values.fullname)) {
-        errors.displayName = "Tên không được chứa các ký tự đặc biệt";
+    if (!values.fullName) errors.fullName = "Vui lòng nhập họ và tên";
+    if (values.fullName && !(new RegExp(/^([^1-9/<>!@#$%^&*+"'\\\/\[\]`.,~?])+$/g)).test(values.fullname)) {
+        errors.fullName = "Tên không được chứa các ký tự đặc biệt";
     }
     if (values.email && !validator.isEmail(values.email)) {
         errors.email = 'Định dạng email không đúng';

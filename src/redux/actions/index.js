@@ -1,14 +1,26 @@
-import AlertAction from './AlertAction';
-import AuthAction from './AuthAction';
-import AuthSocialAction from './AuthSocialAction';
-import AwaitAction from './AwaitAction';
-import DefaultLoadAction from './DefaultLoadAction';
-import UserAction from './UsersAction';
-import PostAction from './PostAction';
+import alertAction from './alertAction';
+import authAction from './authAction';
+import awaitAction from './awaitAction';
+import defaultLoadAction from './defaultLoadAction';
+import userAction from './userAction';
+import postAction from './postAction';
 
 export {
-    AlertAction, AuthAction, AuthSocialAction, AwaitAction, DefaultLoadAction, UserAction, PostAction
+    alertAction,
+    authAction,
+    alertAction,
+    awaitAction,
+    defaultLoadAction,
+    userAction,
+    postAction
 };
+
 export default {
-    AlertAction, AuthAction, AuthSocialAction, AwaitAction, DefaultLoadAction, UserAction, PostAction
+    alertAction,
+    authAction,
+    alertAction,
+    awaitAction,
+    defaultLoadAction,
+    userAction,
+    postAction
 };

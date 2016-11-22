@@ -1,40 +1,42 @@
-import {MEDIA_API} from '../config/index';
 import {getFetch, postFetch, putFetch, deleteFetch} from '../utils/fetch';
-
-const url = MEDIA_API;
-
-export function getUrl(path) {
-    return url + '/media/' + path;
-}
+import {getMediaApi} from './utils';
 
 export function getFolders() {
-    return getFetch(getUrl('folders'));
+    return getFetch(getMediaApi('folders'));
 }
 
 export function getFolderPhotos(id) {
-    return getFetch(getUrl(`folders/${id}`));
+    return getFetch(getMediaApi(`folders/${id}`));
 }
 
 export function updateFolder(id, name) {
-    return putFetch(getUrl(`folders/${id}`), {name});
+    return putFetch(getMediaApi(`folders/${id}`), {name});
 }
 
 export function addFolder(name) {
-    return postFetch(getUrl(`folders`), {name});
+    return postFetch(getMediaApi(`folders`), {name});
 }
 
 export function removeFolder(id) {
-    return deleteFetch(getUrl(`folders/${id}`))
+    return deleteFetch(getMediaApi(`folders/${id}`))
 }
 
 export function uploadMedia(data, callback){
-    return postFetch(getUrl(`upload`),data, {
+    return postFetch(getMediaApi(`upload`),data, {
         dataType: 'formdata',
     }, callback);
 }
 
 export function removeMedia(id) {
-    return deleteFetch(getUrl(`files/${id}`));
+    return deleteFetch(getMediaApi(`files/${id}`));
 }
 
-export default {getFolders, getFolderPhotos, addFolder, updateFolder, removeFolder, uploadMedia, removeMedia}
+export default {
+    getFolders,
+    getFolderPhotos,
+    addFolder,
+    updateFolder,
+    removeFolder,
+    uploadMedia,
+    removeMedia
+}

@@ -1,5 +1,5 @@
 import {reducer as awaitReducer} from 'redux-await';
-import {AWAIT_RESET} from '../actions/AwaitAction';
+import {AWAIT_RESET} from '../actions/awaitAction';
 
 export default (state = {statuses: [], errors: []}, action) => {
     const {statuses, errors} = awaitReducer(state, action);

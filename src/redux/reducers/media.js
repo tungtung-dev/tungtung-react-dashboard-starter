@@ -1,136 +1,50 @@
 /* eslint-disable */
 // @flow
 import update from 'react-addons-update';
-
 import {
     GET_FOLDER_PHOTOS, GET_FOLDERS, UPDATE_FOLDER, REMOVE_FOLDER, ADD_FOLDER,
     MEDIA_FILTER, RESET_MEDIA_FILTER, ADD_MEDIA, UPDATE_MEDIA, REMOVE_MEDIA,
     CHECKED_MEDIA, UNCHECKED_MEDIA, CHECKED_ALL_MEDIA, UNCHECKED_ALL_MEDIA, REMOVE_MEDIA_CHECKED
-} from '../actions/MediaActions';
+} from '../actions/mediaAction';
 
-const folderAllDefault : FolderType = {
+const folderAllDefault: FolderType = {
     id: 'all',
     name: 'All'
 }
 
-const initialState : MediaReducerState = {
+const initialState: MediaReducerState = {
     folders: [folderAllDefault],
-    current_folder: folderAllDefault,
+    currentFolder: folderAllDefault,
     medias: {
         data: [],
         pagination: {},
         filter: ''
     },
-    first_loaded: false
+    firstLoaded: false
 }
 
-const updateMedia = (state: MediaReducerState, mediaIndex : number, data : Object) : MediaReducerState => {
-    return update(state, {
-        medias: {
-            data: {
-                [mediaIndex]: {
-                    $set: {
-                        ...state.medias.data[mediaIndex],
-                        ...data
-                    }
-                }
-            }
-        }
-    });
-}
-
-const updateMediaData = (state: MediaReducerState, data : Array<MediaType>) : MediaReducerState => {
-    return update(state, {
-        medias: {
-            data: {
-                $set: data
-            }
-        }
-    });
-}
-
-export default function createReducer(state : MediaReducerState = initialState, action : Object) : MediaReducerState {
+export default function createReducer(state: MediaReducerState = initialState, action: Object): MediaReducerState {
     switch (action.type) {
         case GET_FOLDERS:
-            return {
-                ...state,
-                folders: [
-                    ...state.folders,
-                    ...action.payload.getFolders
-                ],
-                first_loaded: true
-            }
+            return getFolders(state, action);
 
         case GET_FOLDER_PHOTOS:
-            var current_folder = state.folders.find((f) => f.id === action.id);
-            return {
-                ...state,
-                current_folder,
-                medias: {
-                    ...state.medias,
-                    data: action.payload.getFolderPhotos
-                }
-            }
+            return getFolderPhotos(state, action);
 
         case ADD_FOLDER:
-            if(action.payload.addFolder.success === false) return state;
-            return update(state, {
-                folders: {
-                    $push: [action.payload.addFolder]
-                }
-            })
+            return addFolder(state, action);
 
         case REMOVE_FOLDER:
-            var folderIndex = state.folders.findIndex((f) => f.id === action.id);
-            return update(state, {
-                folders: {
-                    $splice: [[folderIndex, 1]]
-                }
-            });
+            return removeFoler(state, action);
 
         case UPDATE_FOLDER:
-            var folderIndex = state.folders.findIndex((f) => f.id === action.id);
-            var current_folder = state.current_folder;
-            if (current_folder.id === action.id) {
-                current_folder = {
-                    ...current_folder,
-                    id: action.name,
-                    name: action.name
-                }
-            }
-            return update(state, {
-                folders: {
-                    [folderIndex]: {
-                        name: {
-                            $set: action.name
-                        },
-                        id: {
-                            $set: action.name
-                        }
-                    }
-                },
-                current_folder: {
-                    $set: current_folder
-                }
-            });
+            return updateFolder(state, action);
 
         case MEDIA_FILTER:
-            return update(state, {
-                medias: {
-                    filter: {
-                        $set: action.filter
-                    }
-                }
-            });
+            return updateMediaFilter(state, action.filter);
 
         case RESET_MEDIA_FILTER:
-            return update(state, {
-                medias: {
-                    filter: {
-                        $set: ''
-                    }
-                }
-            })
+            return updateMediaFilter(state, '');
 
         case ADD_MEDIA:
             return updateMediaData(state, [
@@ -172,4 +86,94 @@ export default function createReducer(state : MediaReducerState = initialState, 
         default:
             return state;
     }
+}
+
+export function getFolders(state: MediaReducerState, action): MediaReducerState {
+    return update(state, {
+        folders: {
+            $push: action.payload.getFolders
+        }
+    })
+}
+
+export function getFolderPhotos(state: MediaReducerState, action): MediaReducerState {
+    let currentFolder = state.folders.find((f) => f.id === action.id);
+    return update(updateMedia(state, action.payload.getFolderPhotos), {
+        currentFolder: {$set: currentFolder}
+    })
+}
+
+export function addFolder(state: MediaReducerState, action): MediaReducerState {
+    if (action.payload.addFolder.success === false) return state;
+    return update(state, {
+        folders: {
+            $push: [action.payload.addFolder]
+        }
+    })
+}
+
+export function updateFolder(state: MediaReducerState, action): MediaReducerState {
+    var folderIndex = state.folders.findIndex((f) => f.id === action.id);
+    var currentFolder = state.currentFolder;
+    if (currentFolder.id === action.id) {
+        currentFolder = {
+            ...currentFolder,
+            name: action.name
+        }
+    }
+    return update(state, {
+        folders: {
+            [folderIndex]: {
+                name: {
+                    $set: action.name
+                }
+            }
+        },
+        currentFolder: {
+            $set: currentFolder
+        }
+    });
+}
+
+export function removeFoler(state: MediaReducerState, action): MediaReducerState {
+    var folderIndex = state.folders.findIndex((f) => f.id === action.id);
+    return update(state, {
+        folders: {
+            $splice: [[folderIndex, 1]]
+        }
+    });
+}
+
+export function updateMediaFilter(state: MediaReducerState, filter: string = ''): MediaReducerState {
+    return update(state, {
+        medias: {
+            filter: {$set: filter}
+        }
+    })
+}
+
+export function updateMediaData(state: MediaReducerState, data: Array<MediaType>): MediaReducerState {
+    return update(state, {
+        medias: {
+            data: {
+                $set: data
+            }
+        }
+    });
+}
+
+
+export function updateMedia(state: MediaReducerState, mediaIndex: number, data: Object): MediaReducerState {
+    return update(state, {
+        medias: {
+            data: {
+                [mediaIndex]: {
+                    $set: {
+                        ...state.medias.data[mediaIndex],
+                        ...data
+                    }
+                }
+            }
+        }
+    });
 }

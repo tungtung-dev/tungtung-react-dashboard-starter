@@ -1,4 +1,10 @@
-export const AUTH_API = 'http://188.166.255.80:3000';
-export const QUIZ_API = 'http://188.166.255.80:6022';
-export const MEDIA_API = 'http://localhost:3333';
-export const DOMAIN_PUBLIC = 'http://tungtung.vn';
+export const api = {
+    default: 'http://localhost:3333',
+    auth: 'http://localhost:3333',
+    media: 'http://localhost:3333',
+}
+
+export const storageKey = {
+    auth: 'auth_token',
+    redirect: 'redirect_url'
+}

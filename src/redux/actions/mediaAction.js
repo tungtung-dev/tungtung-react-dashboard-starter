@@ -1,5 +1,5 @@
 import {AWAIT_MARKER} from 'redux-await';
-import MediaApi from '../../api/MediaApi';
+import {MediaApi} from '../../api';
 
 export const GET_FOLDERS = 'MEDIA/get-folders';
 export const GET_FOLDER_PHOTOS = 'MEDIA/get-folder-information';

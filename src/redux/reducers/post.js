@@ -1,6 +1,6 @@
 import {
     GET_POSTS, GET_POST, CLEAR_POST, GET_POSTS_FILTER
-} from '../actions/PostAction';
+} from '../actions/postAction';
 import update from 'react-addons-update';
 
 const initialState : PostReducerState = {
@@ -9,7 +9,7 @@ const initialState : PostReducerState = {
         pagination: {},
         filter: ''
     },
-    current_post: {}
+    currentPost: {}
 }
 
 export default function createReducer(state : PostReducerState = initialState, action) {
@@ -40,17 +40,18 @@ function updatePosts(state : PostReducerState, data: Array<PostType>, pagination
 }
 
 function getPosts(state : PostReducerState, action){
-    return updatePosts(state, action.payload.getPosts.data, action.payload.getPosts.pagination)
+    const {data, pagination} = action.payload.getPosts;
+    return updatePosts(state, data, pagination)
 }
 
 function getPostsByFilter(state: PostReducerState, action){
-    return updatePosts(state, action.payload.getPostsByFilter.data, action.payload.getPostsByFilter.pagination)
+    const {data, pagination} = action.payload.getPostsByFilter;
+    return updatePosts(state,data,pagination)
 }
 
 function getPost(state: PostReducerState, action){
-    console.log(action.payload);
     return update(state, {
-        current_post: {
+        currentPost: {
             $set: action.payload.getPost
         }
     })
@@ -58,7 +59,7 @@ function getPost(state: PostReducerState, action){
 
 function clearPost(state: PostReducerState){
     return update(state, {
-        current_post: {
+        currentPost: {
             $set: {}
         }
     })

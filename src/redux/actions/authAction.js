@@ -1,5 +1,7 @@
-import {AuthApi} from '../../api/index';
 import {AWAIT_MARKER} from 'redux-await';
+
+import {AuthApi} from '../../api/index';
+import {storageKey} from '../../config';
 
 export const AUTH_SET_AUTHENTICATION = 'AUTH/set-authentication';
 export const AUTH_GET_USER = 'AUTH/get-user';
@@ -9,7 +11,7 @@ export const AUTH_UPDATE_AVATAR = 'AUTH/update-avatar';
 
 export function setAuthToken(token, user = {}) {
     return dispatch => {
-        localStorage.setItem('auth_token', token);
+        localStorage.setItem(storageKey.auth, token);
         dispatch({
             type: AUTH_SET_AUTHENTICATION,
             token,
@@ -48,14 +50,16 @@ export function updateProfile(user) {
     }
 }
 
-export function updateAvatar(avatar, avatar_url) {
+export function updateAvatar(avatar, avatarUrl) {
     return dispatch => {
         dispatch({
             type: AUTH_UPDATE_AVATAR,
             avatar,
-            avatar_url
+            avatarUrl
         })
     }
 }
 
-export default {setAuthToken, getCurrenUser, authLogout, updateProfile, updateAvatar}
+export default {
+    setAuthToken, getCurrenUser, authLogout, updateProfile, updateAvatar
+}

@@ -1,26 +1,40 @@
-import {ADD_ALERT, REMOVE_ALERT, RESET_ALERT} from '../actions/AlertAction';
+import {
+    ADD_ALERT, REMOVE_ALERT, RESET_ALERT
+} from '../actions/alertAction';
+import update from 'react-addons-update';
 
-const getInitialState = () => ([
+const getInitialState = () => {
+    return [];
+};
 
-]);
-
-export default function createReducer(state = getInitialState(), action) {
+export default function createReducer(state : AlertReducerState = getInitialState(), action) {
     switch (action.type) {
         case ADD_ALERT:
-            const {id, title, content, status, alert_type} = action;
-            return [
-                ...state,
-                {id, title, content, status, alert_type, time: new Date()}
-            ]
+            return addAlert(state, action);
         case REMOVE_ALERT:
-            var alertIndex = state.findIndex((a) => a.id === action.id);
-            return [
-                ...state.slice(0, alertIndex),
-                ...state.slice(alertIndex + 1, state.length)
-            ];
+            return removeAlert(state, action);
         case RESET_ALERT:
-            return [];
+            return resetAlert();
         default:
             return state;
     }
+}
+
+export function addAlert(state : AlertReducerState, action) {
+    const {id, title, content, status, alertType} = action;
+    const alertInfo = {id, title, content, status, alertType}
+    return update(state, {
+        $push: [alertInfo]
+    })
+}
+
+export function removeAlert(state : AlertReducerState, action) {
+    const alertIndex = state.findIndex((alert) => alert.id === action.id);
+    return update(state, {
+        $slice: [[alertIndex, 1]]
+    })
+}
+
+export function resetAlert() {
+    return [];
 }

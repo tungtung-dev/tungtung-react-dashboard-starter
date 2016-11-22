@@ -11,7 +11,7 @@ import {CenterPaddingBox, Flex, Title, Pagination} from '../../../components/lay
 import {UserAvatar} from '../../../components/partials/index';
 
 const mapStateToProps = (state) => {
-    const {data, pagination} = state.users;
+    const {data, pagination} = state.user.lists;
     return {
         users: data,
         pagination: pagination

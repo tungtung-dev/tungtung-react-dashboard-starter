@@ -4,11 +4,11 @@ export const ADD_ALERT = 'ALERT/add-alert';
 export const REMOVE_ALERT = 'ALERT/remove-alert';
 export const RESET_ALERT = 'ALERT/reset-alert';
 
-export function addAlert(dispatch, alert_type = ALERT_TEXT, id, title, content, status) {
+export function addAlert(dispatch, alertType = ALERT_TEXT, id, title, content, status) {
     dispatch({
         type: ADD_ALERT,
         id,
-        alert_type,
+        alertType,
         title,
         content,
         status
@@ -49,4 +49,6 @@ export function resetAlert() {
     }
 }
 
-export default {addAlert, addAlertText, addAlertToast, addAlertNotification, removeAlert, resetAlert}
+export default {
+    addAlert, addAlertText, addAlertToast, addAlertNotification, removeAlert, resetAlert
+}

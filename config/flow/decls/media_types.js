@@ -20,7 +20,7 @@ declare type MediasType = {
 
 declare type MediaReducerState = {
     folders: Array<FolderType>,
-    current_folder: FolderType,
+    currentFolder: FolderType,
     medias: MediasType,
-    first_loaded: boolean
+    firstLoaded: boolean
 }
