@@ -19,10 +19,10 @@ export function updateBreadcrumb(breadcrumb : BreadcrumbType){
 }
 
 
-export function removeBreadcrumb(key : string){
+export function removeBreadcrumb(id : string){
     return {
         type: REMOVE_BREADCRUMB,
-        key
+        id
     }
 }
 

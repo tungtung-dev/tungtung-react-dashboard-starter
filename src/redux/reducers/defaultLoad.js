@@ -53,8 +53,8 @@ function updateBreadcrumb(state, breadcrumb){
     return state;
 }
 
-function removeBreadcrumb(state, breadcrumb_key){
-    var indexBreadcrumb = state.breadcrumbs.findIndex(breadcrumb => breadcrumb.key === breadcrumb_key)
+function removeBreadcrumb(state, breadcrumbId){
+    var indexBreadcrumb = state.breadcrumbs.findIndex(breadcrumb => breadcrumb.id === breadcrumbId)
     return update(state, {
         breadcrumbs: {
             $splice: [[indexBreadcrumb, 1]]
