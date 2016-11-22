@@ -116,9 +116,9 @@ export default class CodeEditor extends Component {
     }
 
     render() {
-        var editorClassName = classNames('CodeEditor', {'CodeEditor--focused': this.state.isFocused});
+        var editorClassName = classNames('tt-code-editor', {'tt-code-editor-focused': this.state.isFocused});
         return (
-            <div className="CodeEditor">
+            <div className="tt-code-editor-wrapper">
                 {this.renderToolbar()}
                 <div className={editorClassName}>
                     <textarea ref={(node) => {this.codeMirrorNode = node}} name={this.props.path} defaultValue={this.props.value} autoComplete="off"/>

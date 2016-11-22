@@ -10,11 +10,11 @@ import createPlugins from '../create_plugins';
 
 import {draftjsPropType} from '../proptypes';
 
-if(!process.env.SERVER_RENDER){
+if (!process.env.SERVER_RENDER) {
     require("./style.scss");
 }
 
-var {convertToRaw, convertFromRaw, ContentState, CompositeDecorator,EditorState, RichUtils} = Draft;
+var {convertToRaw, convertFromRaw, ContentState, CompositeDecorator, EditorState, RichUtils} = Draft;
 
 const blockPlugins = {
     codeEditor: 'liveCodeEditorEdit',
@@ -31,31 +31,50 @@ export default class DraftjsEditor extends React.Component {
         }, [], this.getEditMode());
     }
 
-    getEditMode(){
+    toggleBlockType(blockType) {
+        this._onChange(
+            RichUtils.toggleBlockType(
+                this.state.editorState,
+                blockType
+            )
+        );
+    }
+
+    toggleInlineStyle(inlineStyle) {
+        this._onChange(
+            RichUtils.toggleInlineStyle(
+                this.state.editorState,
+                inlineStyle
+            )
+        );
+    }
+
+    getEditMode() {
         return true;
     }
 
     @autobind
-    _focus(e){
-        if(this.editor && this.editor.focus){
+    _focus(e) {
+        if (this.editor && this.editor.focus) {
             this.editor.focus();
         }
-        if(this.props.onFocus){
+        if (this.props.onFocus) {
             this.props.onFocus(e);
         }
     }
 
     @autobind
-    _blur(e){
+    _blur(e) {
         if (this.props.onBlur) {
             this.props.onBlur(e);
         }
     }
 
     @autobind
-    _onChange(editorState, change = true){
+    _onChange(editorState, change = true) {
         this.setState({editorState});
-        if(editorState){
+        return ;
+        if (editorState) {
             let contentState = editorState.getCurrentContent();
             if (contentState.getPlainText()) {
                 if (change) this.props.onChange(convertToRaw(contentState));
@@ -67,7 +86,7 @@ export default class DraftjsEditor extends React.Component {
     }
 
     @autobind
-    _handleKeyCommand(command){
+    _handleKeyCommand(command) {
         var {editorState} = this.state;
         var newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
@@ -78,7 +97,7 @@ export default class DraftjsEditor extends React.Component {
     }
 
     @autobind
-    insertBlock(keyStateBlock, insertBlockFunc){
+    insertBlock(keyStateBlock, insertBlockFunc) {
         this.setState({
             [keyStateBlock]: Map(),
         });
@@ -86,7 +105,7 @@ export default class DraftjsEditor extends React.Component {
     }
 
     @autobind
-    getBlockConfig(keyStateBlock, removeBlockFunc){
+    getBlockConfig(keyStateBlock, removeBlockFunc) {
         const removeBlock = (blockKey) => {
             this.setState({
                 [keyStateBlock]: this.state[keyStateBlock].remove(blockKey),
@@ -129,12 +148,12 @@ export default class DraftjsEditor extends React.Component {
         return new CompositeDecorator(strategies);
     }
 
-    disableDraftjs(){
+    disableDraftjs() {
         var disable = false;
         Object.keys(blockPlugins).map(key => {
             let keyBlockEdit = blockPlugins[key];
             let liveBlockEdit = this.state[keyBlockEdit];
-            if(liveBlockEdit && liveBlockEdit.count()){
+            if (liveBlockEdit && liveBlockEdit.count()) {
                 disable = true;
             }
             return {};
@@ -143,12 +162,12 @@ export default class DraftjsEditor extends React.Component {
     }
 
     @autobind
-    insertCodeEditor(){
+    insertCodeEditor() {
         this.insertBlock(blockPlugins.codeEditor, insertCodeBlock);
     }
 
     @autobind
-    insertImage(image){
+    insertImage(image) {
         const addImage = () => {
             return insertImage(this.state.editorState, image);
         }

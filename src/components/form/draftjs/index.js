@@ -42,7 +42,18 @@ export default class EditorFull extends PureComponent {
 
     @autobind
     _insertImage(media) {
-        this.refs.editor.insertImage(media.original_url)
+        this.refs.editor.insertImage(media.originalUrl)
+    }
+
+    @autobind
+    _toggleBlockType(e, type){
+        e.preventDefault();
+        this.refs.editor.toggleBlockType(type);
+    }
+
+    @autobind
+    _toggleInlineStyle(type){
+        this.refs.editor.toggleInlineStyle(type);
     }
 
     @autobind
@@ -57,6 +68,8 @@ export default class EditorFull extends PureComponent {
         return <Toolbar
             onInsertCodeEditor={this._insertCodeEditor}
             onInsertImage={this._insertImage}
+            onToggleInlineStyle={this._toggleInlineStyle}
+            onToggleBlockType={this._toggleBlockType}
             onRead={this._onToggleRead}
             showRead={isShowRead}
             position={this.props.toolbarPosition}

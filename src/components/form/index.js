@@ -9,6 +9,7 @@ import Button from './button';
 import ButtonDropdown from './button-dropdown';
 import ButtonGroupDropdown from './button-group-dropdown'
 import Link from './link';
+import Span from './span';
 
 import Select from './select';
 import SelectDropdown from './select-dropdown';
@@ -33,7 +34,7 @@ import Loader from './loader';
 
 export {
     InputText, InputTextGroup, Textarea, Switch, Checkbox, RadioGroup,
-    Button, ButtonDropdown, ButtonGroupDropdown, Link,
+    Button, ButtonDropdown, ButtonGroupDropdown, Link, Span,
     Select, SelectDropdown, SelectTag, SelectImage, SelectImagePopover, SelectMultipleMedia,
     MDEditor, CodeEditor, DraftjsEditor,
     ValidateWrapControl, TooltipWrapper, DialogConfirm, PopoverConfirm,
@@ -42,7 +43,7 @@ export {
 }
 export default {
     InputText, InputTextGroup, Textarea, Switch, Checkbox, RadioGroup,
-    Button, ButtonDropdown, ButtonGroupDropdown, Link,
+    Button, ButtonDropdown, ButtonGroupDropdown, Link, Span,
     Select, SelectDropdown, SelectTag, SelectImage, SelectImagePopover, SelectMultipleMedia,
     MDEditor, CodeEditor, DraftjsEditor,
     ValidateWrapControl, TooltipWrapper, DialogConfirm, PopoverConfirm,

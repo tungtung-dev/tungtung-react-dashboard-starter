@@ -3,8 +3,9 @@ import {findDOMNode} from 'react-dom';
 import classnames from 'classnames';
 import Link from '../../link';
 import dataTooltip from '../../../../constants/tooltipType';
-import {ChooseImageModalWrap} from '../../../media-manager/index';
 import {Icon} from '../../../layouts/index';
+import {InsertImage, InsertCode} from './items';
+import BlockTypes from './block-types';
 
 import "./style.scss";
 
@@ -57,12 +58,9 @@ export default class Toolbar extends Component {
             {[this.props.position]: this.props.position ? this.props.position : ''},
         )
         return <div className={className} style={this.state.style}>
-            {this.renderToolbarItem(this.props.onInsertCodeEditor, 'code', dataTooltip.draft_editor.insert_code_editor)}
-            <ChooseImageModalWrap className="item" onChoose={this.props.onInsertImage}>
-                <Link to="#" tabIndex="-1" tooltip={dataTooltip.draft_editor.insert_image}>
-                    <Icon name="camera" bluePrintIcon/>
-                </Link>
-            </ChooseImageModalWrap>
+            <InsertImage onChooseImage={this.props.onInsertImage}/>
+            <InsertCode onInsert={this.props.onInsertCodeEditor}/>
+            <BlockTypes onToggle={this.props.onToggleBlockType}/>
             <Link tooltip={dataTooltip.draft_editor.preview} href="#" className={this.props.showRead ? 'active': ''} tabIndex="-1" onClick={this.props.onRead}>
                 <Icon name="eye" bluePrintIcon/>
             </Link>
@@ -75,6 +73,8 @@ Toolbar.propTypes = {
     onRead: PropTypes.func,
     onInsertImage: PropTypes.func,
     onInsertCodeEditor: PropTypes.func,
+    onToggleBlockType: PropTypes.func,
+    onToggleInlineStyle: PropTypes.func,
     editorDOM: PropTypes.object
 }
 

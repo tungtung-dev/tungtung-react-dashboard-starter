@@ -6,7 +6,7 @@ import {Toaster} from '../../../components/layouts';
 import {authLogout} from '../../../redux/actions/authAction'
 
 @connect(() => ({}), (dispatch) => bindActionCreators({authLogout, push}, dispatch))
-class Logout extends Component {
+export default class Logout extends Component {
     componentDidMount() {
         this.props.authLogout();
         this.props.push('/auth/login');
