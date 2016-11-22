@@ -14,7 +14,6 @@ const Span = ({children, className}) => <span className={className}>{children}</
 export default class ChooseImageWrap extends Component {
     static propTypes = {
         element: PropTypes.oneOf(['div','span']),
-        addAlertToast: PropTypes.func,
         onChoose: PropTypes.func,
     }
 

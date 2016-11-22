@@ -2,31 +2,18 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
-import {authAction, alertAction} from '../../../redux/actions/index'
+import {Toaster} from '../../../components/layouts';
+import {authLogout} from '../../../redux/actions/authAction'
 
+@connect(() => ({}), (dispatch) => bindActionCreators({authLogout, push}, dispatch))
 class Logout extends Component {
     componentDidMount() {
         this.props.authLogout();
-        this.props.addAlertToast('logout_success', 'Đăng xuất', 'Đăng xuất thành công', 'success');
         this.props.push('/auth/login');
+        Toaster.show({message: 'Logout successed', intent: 1})
     }
 
     render() {
-        return (
-            <div>
-
-            </div>
-        )
+        return null;
     }
 }
-
-const mapStateToProps = () => ({});
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
-        authLogout: authAction.authLogout,
-        addAlertToast: alertAction.addAlertToast,
-        push
-    }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Logout)

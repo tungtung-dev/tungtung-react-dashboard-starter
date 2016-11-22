@@ -1,12 +1,8 @@
 import React, {PureComponent, PropTypes} from 'react';
 import {autobind} from 'core-decorators';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {ChooseImagePopoverWrap} from '../../media-manager/index';
-import {addAlertToast} from '../../../redux/actions/alertAction';
 import ValidateWrapControl from '../validate-wrap-control';
 
-@connect(() => ({}), (dispatch) => bindActionCreators({addAlertToast}, dispatch))
 export default class SelectImage extends PureComponent {
     getMedia(){
         const {media} = this.props;
