@@ -6,7 +6,7 @@ import {autobind} from 'core-decorators';
 import {insertCodeBlock, removeCodeBlock} from '../plugins/code-editor-block/modifiers';
 import strategiesCustom from '../strategies';
 import {insertImage} from '../plugins/modifiers';
-import createPlugins from '../create_plugins';
+import createPlugins from '../plugins/create_plugins';
 
 import {draftjsPropType} from '../proptypes';
 
@@ -73,15 +73,12 @@ export default class DraftjsEditor extends React.Component {
     @autobind
     _onChange(editorState, change = true) {
         this.setState({editorState});
-        return ;
-        if (editorState) {
-            let contentState = editorState.getCurrentContent();
-            if (contentState.getPlainText()) {
-                if (change) this.props.onChange(convertToRaw(contentState));
-            }
-            else {
-                if (change) this.props.onChange(null);
-            }
+        let contentState = editorState.getCurrentContent();
+        if (contentState.getPlainText()) {
+            if (change) this.props.onChange(convertToRaw(contentState));
+        }
+        else {
+            if (change) this.props.onChange(null);
         }
     }
 

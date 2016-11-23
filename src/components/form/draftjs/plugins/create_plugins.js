@@ -1,33 +1,21 @@
 import createCleanupEmptyPlugin from 'draft-js-cleanup-empty-plugin';
-import createImagePlugin, { imageCreator, imageStyles } from 'draft-js-image-plugin';
-import { DraggableDecorator } from 'draft-js-dnd-plugin';
-import createResizeablePlugin, { ResizeableDecorator } from 'draft-js-resizeable-plugin';
-import createFocusPlugin, { FocusDecorator } from 'draft-js-focus-plugin';
-import createAlignmentPlugin, { AlignmentDecorator } from 'draft-js-alignment-plugin';
-import createToolbarPlugin, { ToolbarDecorator } from 'draft-js-toolbar-plugin';
+import createImagePlugin from 'draft-js-image-plugin';
+import createResizeablePlugin  from 'draft-js-resizeable-plugin';
+import createFocusPlugin  from 'draft-js-focus-plugin';
+import createAlignmentPlugin  from 'draft-js-alignment-plugin';
+import createToolbarPlugin  from 'draft-js-toolbar-plugin';
 import createEntityPropsPlugin from 'draft-js-entity-props-plugin';
-import createCodeEditorBlockPlugin from './plugins/code-editor-block/index';
-import strategyCustom from './strategies/index';
-
-
+import createCodeEditorBlockPlugin from './code-editor-block/index';
+import strategyCustom from '../strategies/index';
+import {ImageComponent} from './image-block';
 
 if(!process.env.SERVER_RENDER) {
     require('draft-js-focus-plugin/lib/plugin.css');
     require('draft-js-image-plugin/lib/plugin.css');
     require('draft-js-alignment-plugin/lib/plugin.css');
     require('draft-js-toolbar-plugin/lib/plugin.css');
-    require('./plugins/code-editor-block/style.scss')
+    require('./code-editor-block/style.scss')
 }
-
-const ImageComponent = ResizeableDecorator({
-    resizeSteps: 20,
-    handles: true,
-    vertical: 'auto'
-})(DraggableDecorator(FocusDecorator(
-    AlignmentDecorator(
-        ToolbarDecorator()(imageCreator({theme: imageStyles}))
-    )
-)));
 
 const cleanupEmptyPlugin = createCleanupEmptyPlugin({
     types: ['block-image', 'block-table']

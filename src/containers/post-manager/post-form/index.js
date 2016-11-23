@@ -72,7 +72,7 @@ export default class PostForm extends Component {
         const {fields: {title, description, tags}} = this.props;
         return <div>
             <InputText title="Title" {...title}/>
-            <SelectTag title="Tags" {...tags}/>
+            <SelectTag title="Tags" {...tags} value={Array.isArray(tags.value) ? tags.value : []}/>
             <Textarea title="Description" {...description}/>
             {this.renderTabContent()}
         </div>

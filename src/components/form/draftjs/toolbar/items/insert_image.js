@@ -9,10 +9,12 @@ export default class InsertCode extends PureComponent {
     }
     render() {
         const ChooseImageWrap = this.getComponent();
-        return <ChooseImageWrap className="item" onChoose={this.props.onChooseImage}>
-            <span className="item-icon">
-                <Icon name="camera" bluePrintIcon/>
-            </span>
+        return <ChooseImageWrap onChoose={this.props.onChooseImage}>
+            <div className="item">
+                <span className="item-icon">
+                    <Icon name="camera" bluePrintIcon/>
+                </span>
+            </div>
         </ChooseImageWrap>
     }
 }

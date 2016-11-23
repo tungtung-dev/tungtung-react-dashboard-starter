@@ -5,11 +5,10 @@ import {autobind} from 'core-decorators';
 import postAction from '../../../redux/actions/postAction';
 import {connect} from '../../../utils/reduxAwait';
 import QueryManager from '../../../utils/location_queries';
-import {Link, Button, ButtonDropdown, ButtonGroupDropdown, Checkbox, SelectTag} from '../../../components/form/index';
+import {Link, Button, ButtonDropdown, ButtonGroupDropdown, SelectTag} from '../../../components/form/index';
 import {CenterPaddingBox, Box, Icon, Title, Tabs} from '../../../components/layouts/index';
 import {Table, Column, SearchFilterPagination} from '../../../components/manager/index';
 import {UserAvatar} from '../../../components/partials/index';
-import update from 'react-addons-update';
 import Equal from 'deep-equal';
 import {Position} from '@blueprintjs/core';
 
@@ -85,9 +84,9 @@ export default class PostManager extends Component {
     }
 
     getPosts(){
-        const query = this.query_manager.getQueryObject({
-            tab: TAB_ALL
-        });
+        // const query = this.query_manager.getQueryObject({
+        //     tab: TAB_ALL
+        // });
         this.props.getPosts();
     }
 

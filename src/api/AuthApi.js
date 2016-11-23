@@ -1,4 +1,4 @@
-import {postFetch, getFetch, putFetch, deleteFetch} from '../utils/fetch';
+import {postFetch, getFetch, putFetch} from '../utils/fetch';
 import {getAuthApi} from './utils';
 
 export function checkFieldExists(field, value) {

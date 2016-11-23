@@ -1,5 +1,5 @@
 import {randomPosts} from '../utils/mock_data';
-import {getPostApi} from './utils';
+//import {getPostApi} from './utils';
 
 export function getPosts(page = 1, item_per_page = 10) {
     return new Promise((resolve, reject) =>{
