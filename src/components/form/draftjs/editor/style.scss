@@ -19,11 +19,14 @@
     line-height: 1.6em;
     letter-spacing: 0.01em;
   }
+  div[data-block=true]{
+    margin-bottom: 10px;
+  }
 }
 
 .DraftEditor-editorContainer {
-  figure {
-    margin: 0rem;
+  figure, div[data-block=true], blockquote {
+    margin-bottom: 10px;
   }
 }
 

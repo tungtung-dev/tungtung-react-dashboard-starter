@@ -5,7 +5,8 @@ import "./style.scss";
 export default class Icon extends Component {
     render() {
         const {fontAwesome, simepleLineIcon, bluePrintIcon, name, styleColor} = this.props;
-        const classColor = styleColor ? `tt-text-color-${styleColor}` : '';
+        const className = this.props.className ? this.props.className : '';
+        const classColor = styleColor ? `tt-text-color-${styleColor} ${className}` : className;
         const style = getStyleFromProps(['fontSize'], this.props);
         if(bluePrintIcon) return <i style={style} className={`pt-icon-standard pt-icon-${name} ${classColor}`}/>
         if(fontAwesome) return <i style={style} className={`fa fa-${name} ${classColor}`}/>

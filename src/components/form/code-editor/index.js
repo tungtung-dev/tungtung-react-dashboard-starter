@@ -102,7 +102,7 @@ export default class CodeEditor extends Component {
         const valueMode = this.props.valueMode ? this.props.valueMode : this.state.mode;
         const {valueName, onChangeName, readOnly} = this.props;
         return (
-            <div className="MDEditor_toolbar">
+            <div className="tt-code-editor-toolbar">
                 {readOnly && <div>
                     <i className="fa fa-code"/> <i>{valueName} - {valueMode}</i>
                 </div>}

@@ -14,6 +14,7 @@
       margin-left: -250px;
       max-height: 100%;
       overflow: scroll;
+      display: none;
     }
     .media-toolbar{
       flex-direction: column;
@@ -44,6 +45,7 @@
         width: 100%;
       }
       .folders-sidebar{
+        display: block;
         animation: sidebar_show .5s infinite;
         animation-iteration-count: 1;
         animation-fill-mode: both;

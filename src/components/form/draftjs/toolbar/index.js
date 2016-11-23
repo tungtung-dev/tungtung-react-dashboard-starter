@@ -12,27 +12,24 @@ import "./style.scss";
 export default class Toolbar extends Component {
     state = {
         fixed: false,
-        style : {}
-    }
-
-    renderToolbarItem(onClick, icon, tooltip){
-        return <div className="item">
-            <Link to="#" tabIndex="-1" tooltip={tooltip} onClick={onClick}>
-                <Icon name={icon} bluePrintIcon/>
-            </Link>
-        </div>
+        style : {},
+        height: 30
     }
 
     getEditorRect(){
         const editorRect = findDOMNode(this.props.editorDOM).getBoundingClientRect();
-        if(editorRect.top < 0 && editorRect.bottom - 20 > 0){
+        const toolbarRect = findDOMNode(this.refs.toolbar).getBoundingClientRect();
+        const toolbarHeight = toolbarRect.bottom - toolbarRect.top;
+
+        if(editorRect.top < 0 && editorRect.bottom - 100 > 0){
             this.setState({
                 fixed: true,
                 style: {
                     left: editorRect.left,
                     width: editorRect.right - editorRect.left,
                     top: '45.5px'
-                }
+                },
+                height: toolbarHeight
             });
         }
         else{
@@ -55,15 +52,17 @@ export default class Toolbar extends Component {
         const className = classnames(
             `tt-draftjs-editor-toolbar`,
             {[`tt-draftjs-editor-toolbar-fixed`]: this.state.fixed},
-            {[this.props.position]: this.props.position ? this.props.position : ''},
         )
-        return <div className={className} style={this.state.style}>
-            <InsertImage onChooseImage={this.props.onInsertImage}/>
-            <InsertCode onInsert={this.props.onInsertCodeEditor}/>
-            <BlockTypes onToggle={this.props.onToggleBlockType}/>
-            <Link tooltip={dataTooltip.draft_editor.preview} href="#" className={this.props.showRead ? 'active': ''} tabIndex="-1" onClick={this.props.onRead}>
-                <Icon name="eye" bluePrintIcon/>
-            </Link>
+        return <div>
+            {this.state.fixed && <div style={{height: this.state.height}}/>}
+            <div ref="toolbar" className={className} style={this.state.style}>
+                <InsertImage onChooseImage={this.props.onInsertImage}/>
+                <InsertCode onInsert={this.props.onInsertCodeEditor}/>
+                <BlockTypes onToggle={this.props.onToggleBlockType}/>
+                <Link tooltip={dataTooltip.draft_editor.preview} href="#" className={this.props.showRead ? 'active': ''} tabIndex="-1" onClick={this.props.onRead}>
+                    <Icon name="eye" bluePrintIcon/>
+                </Link>
+            </div>
         </div>
     }
 }

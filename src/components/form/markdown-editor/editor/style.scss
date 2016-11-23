@@ -1,0 +1,19 @@
+.tt-markdown-editor {
+  border: 1px solid #eeeeee;
+  line-height: 1.6em;
+  pading: 5px 10px;
+  .CodeMirror {
+    border: 0px;
+    height: auto;
+  }
+  .CodeMirror pre{
+    box-shadow: none;
+    font-family: 'Bookerly';
+  }
+}
+
+.tt-markdown-editor-preview{
+  img{
+    max-width: 75%;
+  }
+}
