@@ -4,6 +4,7 @@ import {mediaItemPropType} from '../proptypes';
 import MediaView from './media_view';
 import {PopoverConfirm} from '../../../components/form/index';
 import {cleanFile, getIcon, getColor} from '../utils';
+import {ProgressBar, Intent} from '@blueprintjs/core';
 import classnames from 'classnames';
 import Equal from 'deep-equal';
 
@@ -100,9 +101,8 @@ export default class MediaItem extends Component {
 
     renderProgress() {
         const {progress} = this.props;
-        return <div className="progress-container">
-            <progress className="progress progress-success progress-striped progress-animated" value={progress} max="100"/>
-        </div>
+        const value =  progress ? (parseFloat(progress) / 100).toFixed(1) : 0;
+        return <ProgressBar className="progress-container" value={value} intent={Intent.SUCCESS}/>
     }
 
     render() {
