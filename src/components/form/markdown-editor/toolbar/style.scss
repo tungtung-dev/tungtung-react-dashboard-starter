@@ -9,6 +9,9 @@
     &:hover{
       cursor: pointer;
     }
+    &.pressed{
+      color: #08f;
+    }
   }
   .item-text{
     font-weight: 600;

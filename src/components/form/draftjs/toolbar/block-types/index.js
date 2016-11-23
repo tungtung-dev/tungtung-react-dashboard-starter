@@ -12,9 +12,12 @@ const BLOCK_TYPES = [
 ];
 
 export default class BlockTypes extends Component {
-    getClassName(label){
-        if(typeof label === 'string') return 'item-text';
-        return 'item-icon';
+    getClassName(blockType){
+        let className = '';
+        if(blockType.style === this.props.currentBlockType) className += 'pressed ';
+        if(typeof blockType.label === 'string') className += 'item-text ';
+        else className += 'item-icon';
+        return className;
     }
 
     render() {
@@ -22,7 +25,7 @@ export default class BlockTypes extends Component {
             {BLOCK_TYPES.map((blockType, index) =>
                 <ItemWrapper
                     key={index}
-                    className={this.getClassName(blockType.label)}
+                    className={this.getClassName(blockType)}
                     onClick={(e) => this.props.onToggle(e, blockType.style)}
                 >
                     {blockType.label}
@@ -33,6 +36,7 @@ export default class BlockTypes extends Component {
 }
 
 BlockTypes.propTypes = {
-    onToggle: PropTypes.func
+    onToggle: PropTypes.func,
+    currentBlockType: PropTypes.string
 }
 

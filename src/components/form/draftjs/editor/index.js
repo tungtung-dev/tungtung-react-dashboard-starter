@@ -1,6 +1,6 @@
 import Draft from 'draft-js';
 import {Map} from 'immutable';
-import React from 'react';
+import React, {PropTypes} from 'react';
 import Editor from 'draft-js-plugins-editor';
 import {autobind} from 'core-decorators';
 import {insertCodeBlock, removeCodeBlock} from '../plugins/code-editor-block/modifiers';
@@ -49,6 +49,15 @@ export default class DraftjsEditor extends React.Component {
         );
     }
 
+    changeBlockTypeSelection(editorState){
+        const selection = editorState.getSelection();
+        const blockType = editorState
+            .getCurrentContent()
+            .getBlockForKey(selection.getStartKey())
+            .getType();
+        this.props.onChangeBlockTypeSelection(blockType);
+    }
+
     getEditMode() {
         return true;
     }
@@ -73,6 +82,7 @@ export default class DraftjsEditor extends React.Component {
     @autobind
     _onChange(editorState, change = true) {
         this.setState({editorState});
+        this.changeBlockTypeSelection(editorState);
         let contentState = editorState.getCurrentContent();
         if (contentState.getPlainText()) {
             if (change) this.props.onChange(convertToRaw(contentState));
@@ -191,6 +201,9 @@ export default class DraftjsEditor extends React.Component {
     }
 }
 
-DraftjsEditor.propTypes = draftjsPropType
+DraftjsEditor.propTypes = {
+    ...draftjsPropType,
+    onChangeBlockTypeSelection: PropTypes.func
+}
 
 //                            blockRendererFn={this._blockRenderer}

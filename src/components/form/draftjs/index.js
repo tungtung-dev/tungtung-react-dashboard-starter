@@ -12,7 +12,8 @@ import "./style.scss";
 export default class EditorFull extends PureComponent {
     state = {
         haveRead: false,
-        isFocus: false
+        isFocus: false,
+        blockTypeSelection: 'unstyled'
     }
 
     constructor() {
@@ -27,6 +28,16 @@ export default class EditorFull extends PureComponent {
                 this.props.onBlur(e);
         }
     };
+
+    @autobind
+    _getBlockTypeSelection(){
+        return this.state.blockTypeSelection
+    }
+
+    @autobind
+    _hanleChangeBlockTypeSelection(blockTypeSelection){
+        this.setState({blockTypeSelection});
+    }
 
     @autobind
     _handleFocus (e){
@@ -66,6 +77,7 @@ export default class EditorFull extends PureComponent {
         if(this.props.readOnly) return null;
         const isShowRead = this.props.readOnly || this.state.haveRead;
         return <Toolbar
+            blockTypeSelection={this._getBlockTypeSelection()}
             onInsertCodeEditor={this._insertCodeEditor}
             onInsertImage={this._insertImage}
             onToggleInlineStyle={this._toggleInlineStyle}
@@ -82,7 +94,13 @@ export default class EditorFull extends PureComponent {
         const isShowRead = this.props.readOnly || this.state.haveRead;
         return <div ref="editor_wrap" className={classnames({'border': isBorder}, 'clearfix','tt-draftjs-editor-wrapper')}>
             {!readOnly && <div className="write">
-                <Editor ref="editor" {...this.props} onFocus={this._handleFocus} onBlur={this._handleBlur}/>
+                <Editor
+                    ref="editor"
+                    {...this.props}
+                    onFocus={this._handleFocus}
+                    onBlur={this._handleBlur}
+                    onChangeBlockTypeSelection={this._hanleChangeBlockTypeSelection}
+                />
             </div>}
             {isShowRead && <div className="read">
                 <EditorView {...this.props} onChange={() => {}} onFocus={()=>{}}/>
