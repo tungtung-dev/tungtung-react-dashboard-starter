@@ -80,15 +80,17 @@ export default class DraftjsEditor extends React.Component {
     }
 
     @autobind
-    _onChange(editorState, change = true) {
+    _onChange(editorState) {
         this.setState({editorState});
-        this.changeBlockTypeSelection(editorState);
         let contentState = editorState.getCurrentContent();
         if (contentState.getPlainText()) {
-            if (change) this.props.onChange(convertToRaw(contentState));
+            if (this.getEditMode()) {
+                this.changeBlockTypeSelection(editorState);
+                this.props.onChange(convertToRaw(contentState));
+            }
         }
         else {
-            if (change) this.props.onChange(null);
+            if (this.getEditMode()) this.props.onChange(null);
         }
     }
 

@@ -103,7 +103,11 @@ export default class EditorFull extends PureComponent {
                 />
             </div>}
             {isShowRead && <div className="read">
-                <EditorView {...this.props} onChange={() => {}} onFocus={()=>{}}/>
+                <EditorView
+                    value={this.props.value}
+                    onChange={() => {}}
+                    onFocus={()=>{}}
+                />
             </div>}
         </div>
     }

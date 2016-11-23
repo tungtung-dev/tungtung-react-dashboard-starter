@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import classnames from 'classnames';
-import Link from '../../link';
+import Span from '../../span';
 import dataTooltip from '../../../../constants/tooltipType';
 import {Icon} from '../../../layouts/index';
-import {InsertImage, InsertCode} from './items';
+import {InsertImage, InsertCode, ItemWrapper} from './items';
 import BlockTypes from './block-types';
 
 import "./style.scss";
@@ -59,9 +59,11 @@ export default class Toolbar extends Component {
                 <BlockTypes onToggle={this.props.onToggleBlockType} currentBlockType={this.props.blockTypeSelection}/>
                 <InsertImage onChooseImage={this.props.onInsertImage} popover/>
                 <InsertCode onInsert={this.props.onInsertCodeEditor}/>
-                <Link tooltip={dataTooltip.draft_editor.preview} href="#" className={this.props.showRead ? 'active': ''} tabIndex="-1" onClick={this.props.onRead}>
-                    <Icon name="eye" bluePrintIcon/>
-                </Link>
+                <ItemWrapper onClick={this.props.onRead}>
+                    <span className={classnames('item-icon',this.props.showRead ? 'active': '')}>
+                        <Icon name="eye-open" bluePrintIcon/>
+                    </span>
+                </ItemWrapper>
             </div>
         </div>
     }

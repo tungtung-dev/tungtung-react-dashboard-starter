@@ -15,20 +15,23 @@
  */
 
 import Draft from 'draft-js';
+import {Map} from 'immutable';
+import {autobind} from 'core-decorators';
 import React, {PropTypes} from 'react';
-import Editor from '../editor';
+import Editor from 'draft-js-plugins-editor';
+import EditorBase from '../editor';
 
 var {EditorState, ContentState, convertFromRaw} = Draft;
 
-export default class EditorView extends Editor {
+export default class EditorView extends EditorBase {
     getEditMode() {
         return false;
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.value != this.props.value) {
-            let newContentState = '';
-            if (this.props.value && typeof this.props.value == 'object') {
+            let newContentState = Map();
+            if (this.props.value && typeof this.props.value === 'object') {
                 newContentState = convertFromRaw(this.props.value);
                 this._onChange(EditorState.createWithContent(newContentState, this.getDecorator()), false);
             }
@@ -45,11 +48,11 @@ export default class EditorView extends Editor {
                 <div className="tt-draftjs-editor" onClick={this._focus}>
                     <Editor
                         editorState={this.state.editorState}
-                        onBlur={this._onBlur}
                         plugins={this.plugins}
+                        onChange={() => {}}
                         placeholder={this.props.placeholder}
                         readOnly={true}
-                        ref="editor"
+                        ref={(ref) => this.editor = ref}
                         spellCheck={true}
                     />
                 </div>
