@@ -60,7 +60,7 @@ export default class Toolbar extends Component {
                 <InsertImage onChooseImage={this.props.onInsertImage} popover/>
                 <InsertCode onInsert={this.props.onInsertCodeEditor}/>
                 <ItemWrapper onClick={this.props.onRead}>
-                    <span className={classnames('item-icon',this.props.showRead ? 'active': '')}>
+                    <span className={classnames('item-icon',this.props.showRead ? 'pressed': '')}>
                         <Icon name="eye-open" bluePrintIcon/>
                     </span>
                 </ItemWrapper>

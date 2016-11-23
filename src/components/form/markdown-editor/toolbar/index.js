@@ -9,15 +9,17 @@ import {applyFormat} from '../format.js';
 import {insertImage} from '../replace.js';
 import "./style.scss";
 
-const SpanFormat = ({onToggle, cursor, toggleFormat, formatKey, children}) => {
-    let action = () => {
-    };
+const SpanFormat = ({onToggle, cursor = {}, className, toggleFormat, formatKey, children}) => {
+    let action = onToggle;
     if (!onToggle) action = (e) => toggleFormat(formatKey, e);
 
-    var className = classNames('item', {
-        'pressed': cursor[formatKey]
-    });
-    return <span className={className} onClick={action} title={formatKey}>
+    var customClassName = classNames('item',
+        {
+            'pressed': cursor[formatKey]
+        },
+        {[className]: className}
+    );
+    return <span className={customClassName} onClick={action} title={formatKey}>
         {children}
     </span>
 }
@@ -110,6 +112,11 @@ export default class Toolbar extends PureComponent {
                             </span>
                         </span>
                     </ChooseImagePopoverWrap>
+                    <SpanFormat className={this.props.isPreivew ? 'pressed':''} onToggle={this.props.onTogglePreview}>
+                        <span className="item-icon">
+                            <Icon name="eye-open" bluePrintIcon/>
+                        </span>
+                    </SpanFormat>
                 </div>
             </div>
         );
@@ -117,9 +124,11 @@ export default class Toolbar extends PureComponent {
 }
 
 Toolbar.propTypes = {
+    onTogglePreview: PropTypes.func,
     onToggleFormat: PropTypes.func,
     onAddImage: PropTypes.func,
     cursor: PropTypes.object,
+    isPreivew: PropTypes.bool,
     editorDOM: PropTypes.any,
     codeMirror: PropTypes.any,
 }

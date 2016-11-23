@@ -13,7 +13,7 @@ import 'codemirror/mode/xml/xml';
 import 'codemirror/mode/markdown/markdown';
 import 'codemirror/addon/edit/continuelist';
 
-import { getCursorState } from '../format.js';
+import {getCursorState} from '../format.js';
 
 export default class MarkdownEditor extends Component {
     constructor() {
@@ -83,34 +83,34 @@ export default class MarkdownEditor extends Component {
     codemirrorValueChanged(doc, change) {
         var newValue = doc.getValue();
         this._currentCodemirrorValue = newValue;
-        if(this.props.onChange) this.props.onChange(newValue);
+        if (this.props.onChange) this.props.onChange(newValue);
     }
 
     @autobind
     togglePreview() {
+        console.log('preview');
         this.setState({preview: !this.state.preview});
     }
 
     render() {
         var editorClassName = classNames('tt-markdown-editor', {'focused': this.state.isFocused});
         return (
-            <div className="tt-markdown-editor-wrapper">
+            <div className="tt-markdown-editor-container">
                 <Toolbar
+                    isPreivew={this.state.preview}
                     cursor={this.state.cursor}
                     codeMirror={this.codeMirror}
+                    onTogglePreview={this.togglePreview}
                     editorDOM={this.refs.editor_wrap}
                 />
-                <div ref="editor_wrap">
-                    <Row>
-                    <Col md={this.state.preview ? 6 : 12}>
-                        <div className={editorClassName}>
-                            <textarea ref="codemirror" name={this.props.path} defaultValue={this.props.value} autoComplete="off"/>
-                        </div>
-                    </Col>
-                    {this.state.preview && <Col md={6}>
-                        <div className="tt-markdown-editor-preview" dangerouslySetInnerHTML={{__html: marked(this.props.value)}}/>
-                    </Col>}
-                    </Row>
+                <div ref="editor_wrap" className={classNames('tt-markdown-editor-wrapper',{'has-preview': this.state.preview})}>
+                    <div className={editorClassName}>
+                        <textarea ref="codemirror" name={this.props.path} defaultValue={this.props.value}
+                                  autoComplete="off"/>
+                    </div>
+                    {this.state.preview && <div className="tt-markdown-editor-preview"
+                         dangerouslySetInnerHTML={{__html: marked(this.props.value)}}/>
+                    }
                 </div>
             </div>
         );
