@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import {autobind} from 'core-decorators';
 import classnames from 'classnames';
 import {Icon} from '../../../layouts';
-import {ChooseImageModalWrap} from '../../../media-manager/index';
+import {ChooseImageModalWrap, ChooseImagePopoverWrap} from '../../../media-manager/index';
 import {applyFormat} from '../format.js';
 import {insertImage} from '../replace.js';
 import "./style.scss";
@@ -37,6 +37,7 @@ export default class Toolbar extends PureComponent {
 
     @autobind
     insertImage(media) {
+
         insertImage(this.props.codeMirror, media.originalUrl);
     }
 
@@ -102,13 +103,13 @@ export default class Toolbar extends PureComponent {
                     {this.renderSpanFormat('oList', <Icon name="list-ul" fontAwesome/>)}
                     {this.renderSpanFormat('uList', <Icon name="list-ol" fontAwesome/>, false)}
                     {this.renderSpanFormat('quote', <Icon name="quote-right" fontAwesome/>)}
-                    <ChooseImageModalWrap onChoose={this.insertImage}>
+                    <ChooseImagePopoverWrap onChoose={this.insertImage}>
                         <span className="item">
                             <span className="item-icon">
                                 <Icon name="camera" bluePrintIcon/>
                             </span>
                         </span>
-                    </ChooseImageModalWrap>
+                    </ChooseImagePopoverWrap>
                 </div>
             </div>
         );

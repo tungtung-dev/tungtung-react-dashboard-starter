@@ -57,7 +57,7 @@ export default class Toolbar extends Component {
             {this.state.fixed && <div style={{height: this.state.height}}/>}
             <div ref="toolbar" className={className} style={this.state.style}>
                 <BlockTypes onToggle={this.props.onToggleBlockType}/>
-                <InsertImage onChooseImage={this.props.onInsertImage}/>
+                <InsertImage onChooseImage={this.props.onInsertImage} popover/>
                 <InsertCode onInsert={this.props.onInsertCodeEditor}/>
                 <Link tooltip={dataTooltip.draft_editor.preview} href="#" className={this.props.showRead ? 'active': ''} tabIndex="-1" onClick={this.props.onRead}>
                     <Icon name="eye" bluePrintIcon/>
