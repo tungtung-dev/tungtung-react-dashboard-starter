@@ -72,7 +72,9 @@ export default class Folders extends Component {
                 <Title element="h2" marginTop={10} styleColor="black-white">
                     <Icon name="folder-open" fontSize={20} bluePrintIcon/>
                 </Title>
-                <Title element="h2" marginTop={15} styleColor="black-white">This Folder Is Empty</Title>
+                <Title element="h2" marginTop={15} styleColor="black-white">
+                    {this.props.mediaFilter ? `${this.props.mediaFilter} not found` : 'This Folder Is Empty'}
+                </Title>
                 <p style={{marginTop: 10}}>Drag file to here.</p>
             </Flex>
         </div>
