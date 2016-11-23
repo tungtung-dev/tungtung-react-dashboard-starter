@@ -42,7 +42,7 @@ export default class MediaView extends Component {
                 {' '}<a href={this.props.originalUrl} target="_blank"><i className="icon-cloud-download"/> Download</a>
             </span>
         </Clipboard>
-        return <div >
+        return <div>
             <p>File isn't support view</p>
             <InputText rightComponent={rightComponent} title="Link original" value={this.props.originalUrl}/>
         </div>

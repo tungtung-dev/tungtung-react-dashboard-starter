@@ -1,9 +1,25 @@
-.media-manager-popover.pt-popover{
-  .pt-popover-content{
-    padding: 0px !important;
-    width: 350px !important;
-
+.popover{
+  max-width: 400px;
+  border: 0px;
+  padding: 0px;
+  background: transparent;
+  .popover-inner{
+    top: -1px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   }
+}
+
+.popover.bs-tether-element-attached-top::before, .popover.popover-bottom::before{
+  border-bottom-color: transparent;
+}
+.popover.bs-tether-element-attached-top::after, .popover.popover-bottom::after{
+  border-bottom-color: #f2f2f2;
+}
+
+.media-manager-popover.popover-content{
+  width: 400px;
+  padding: 0px;
+  overflow: hidden;
   .media-manager-popover-container{
     height: 300px;
   }

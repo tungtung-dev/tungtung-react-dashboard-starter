@@ -1,8 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import {autobind} from 'core-decorators';
+import uuid from 'uuid';
 import Equal from 'deep-equal';
-import { Popover, PopoverInteractionKind, Position } from '@blueprintjs/core';
+import {Popover, PopoverTitle, PopoverContent } from 'reactstrap';
 import classnames from 'classnames';
 import MediaManager from '../manager_default';
 import {Toaster} from '../../layouts';
@@ -14,11 +15,12 @@ const Span = ({children, className}) => <span className={className}>{children}</
 export default class ChooseImageWrap extends Component {
     static propTypes = {
         element: PropTypes.oneOf(['div','span']),
-        onChoose: PropTypes.func,
+        onChoose: PropTypes.func
     }
 
     state = {
-        showFoldersSidebar: false
+        showFoldersSidebar: false,
+        showPopover: false
     }
 
     shouldComponentUpdate(prevProps, prevState){
@@ -37,7 +39,7 @@ export default class ChooseImageWrap extends Component {
         }
         else{
             this.props.onChoose(media);
-            findDOMNode(this.refs.dismiss).click();
+            this.togglePopover();
         }
     }
 
@@ -60,18 +62,25 @@ export default class ChooseImageWrap extends Component {
         </div>
     }
 
+    @autobind
+    togglePopover(e){
+        if(e) e.preventDefault();
+        this.setState({showPopover: !this.state.showPopover});
+    }
+
     render() {
         const Wrap = this.getWrap();
+        const popoverName = `popover-${uuid.v4()}`;
+        const cloneChildren = React.cloneElement(this.props.children, {
+            id: popoverName,
+            onClick: this.togglePopover
+        })
         return <Wrap className={this.props.className}>
-            <button ref="dismiss" className="pt-popover-dismiss" style={{display: 'none'}}>Dissmiss</button>
-            <Popover
-                content={this.renderMediaManager()}
-                interactionKind={PopoverInteractionKind.CLICK}
-                popoverClassName={classnames('pt-popover-content-sizing media-manager-popover',{'show-folder-sidebars': this.state.showFoldersSidebar})}
-                position={Position.BOTTOM}
-                useSmartPositioning={false}
-            >
-                {this.props.children}
+            {cloneChildren}
+            <Popover placement="bottom" isOpen={this.state.showPopover} target={popoverName} toggle={this.togglePopover}>
+                <PopoverContent className={classnames('media-manager-popover', {'show-folder-sidebars': this.state.showFoldersSidebar})}>
+                    {this.renderMediaManager()}
+                </PopoverContent>
             </Popover>
         </Wrap>
     }
