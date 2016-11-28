@@ -6,7 +6,7 @@ import postAction from '../../../redux/actions/postAction';
 import {connect} from '../../../utils/reduxAwait';
 import QueryManager from '../../../utils/location_queries';
 import {Link, Button, ButtonDropdown, ButtonGroupDropdown, SelectTag} from '../../../components/form/index';
-import {CenterPaddingBox, Box, Icon, Title, Tabs} from '../../../components/layouts/index';
+import {CenterPaddingBox, Box, Icon, Title, TabsFilter} from '../../../components/layouts/index';
 import {Table, Column, SearchFilterPagination} from '../../../components/manager/index';
 import {UserAvatar} from '../../../components/partials/index';
 import Equal from 'deep-equal';
@@ -101,11 +101,11 @@ export default class PostManager extends Component {
     }
 
     renderTabs(){
-        return <Tabs tabs={TABS} tabSelected={this.query_manager.getQuery('tab', TAB_ALL)} onChange={this.handleChangeTab}>
+        return <TabsFilter tabs={TABS} tabSelected={this.query_manager.getQuery('tab', TAB_ALL)} onChange={this.handleChangeTab}>
             <li className="pull-right">
                 <Link to="/posts/create"><i className="icon-plus"/> New post</Link>
             </li>
-        </Tabs>
+        </TabsFilter>
     }
 
     renderSearchFilterPagination(){

@@ -21,7 +21,7 @@ import {
     RadioGroup,
     TooltipWrapper
 } from '../form/index';
-import {Box, Flex, Title, Icon, CenterPaddingBox, Breadcrumb, Tabs} from '../layouts/index';
+import {Box, Flex, Title, Icon, CenterPaddingBox, Breadcrumb, TabsFilter} from '../layouts/index';
 import {Spinner} from '@blueprintjs/core';
 
 const DRAFTJS_CONTENT_TYPE = 'CONTENT-TYPE/draftjs';
@@ -49,7 +49,7 @@ export default class PostForm extends Component {
     renderTabContent(){
         const {fields: {content_type}} = this.props;
         return <div>
-            <Tabs tabs={TABS_CONTENT_TYPE} tabSelected={content_type.value ? content_type.value : DRAFTJS_CONTENT_TYPE} onChange={content_type.onChange}/>
+            <TabsFilter tabs={TABS_CONTENT_TYPE} tabSelected={content_type.value ? content_type.value : DRAFTJS_CONTENT_TYPE} onChange={content_type.onChange}/>
             {this.renderContentType()}
         </div>
     }

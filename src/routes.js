@@ -3,7 +3,7 @@ import React from 'react';
 import {Route, IndexRoute} from 'react-router';
 
 // Import components
-import {AppContainer, AuthContainer, UserManager, Layout, PostManager} from './containers/index';
+import {AppContainer, AuthContainer, UserManager, Layout, PostManager, Examples} from './containers/index';
 import MediaManager from './components/media-manager/index'
 import {AuthenticatedComponent as requireAuth} from './containers/libs/index';
 
@@ -21,6 +21,7 @@ export default () => {
                     <IndexRoute component={UserManager.Lists}/>
                 </Route>
                 <Route path="/media" component={MediaManager}></Route>
+                <Route path="/examples/page-tabs" components={Examples.PageTabs}/>
             </Route>
             <Route path="/auth">
                 <Route path="login" component={AuthContainer.Login}/>

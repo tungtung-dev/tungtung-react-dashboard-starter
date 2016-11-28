@@ -1,39 +1,21 @@
-import React, {PureComponent, PropTypes} from 'react';
-import {autobind} from 'core-decorators';
-import classname from 'classnames';
-import './style.scss';
+import React, {Component, PropTypes} from 'react';
+import classnames from 'classnames';
+import {Tabs} from '@blueprintjs/core';
+import Flex from '../flex';
 
-export default class Tabs extends PureComponent{
-    @autobind
-    handleClickTab (e, tab_value){
-        e.preventDefault();
-        this.props.onChange(tab_value);
-    }
+import "./style.scss";
 
-    render(){
-        const {tabSelected, tabs} = this.props;
-        return (
-            <ul className="tt-manager-tabs clearfix">
-                {tabs.map((tab, index) =>
-                    <li key={index} className={classname({'active': tab.value === tabSelected})}>
-                        <a onClick={(e) => this.handleClickTab(e, tab.value)}>
-                            <span><i className={tab.icon} style={{color: tab.color}}/>{' '} {tab.text}</span>
-                        </a>
-                    </li>
-                )}
+export default class TabsCustom extends Component {
+    render() {
+        const className = classnames('tt-tabs',{'pt-vertical': this.props.vertical});
+        return  <Tabs className={className}>
                 {this.props.children}
-            </ul>
-        )
+            </Tabs>
     }
 }
 
 Tabs.propTypes = {
-    tabs: PropTypes.arrayOf(PropTypes.shape({
-        value: PropTypes.string,
-        text: PropTypes.string,
-        icon: PropTypes.string,
-        color: PropTypes.string
-    })),
-    tabSelected: PropTypes.string,
-    onChange: PropTypes.func.isRequired
+    vertical: PropTypes.bool,
+    rightComponent: PropTypes.any
 }
+

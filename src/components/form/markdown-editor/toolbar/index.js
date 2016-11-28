@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import {autobind} from 'core-decorators';
 import classnames from 'classnames';
 import {Icon} from '../../../layouts';
-import {ChooseImageModalWrap, ChooseImagePopoverWrap} from '../../../media-manager/index';
+import {ChooseImagePopoverWrap} from '../../../media-manager/index';
 import {applyFormat} from '../format.js';
 import {insertImage} from '../replace.js';
 import "./style.scss";

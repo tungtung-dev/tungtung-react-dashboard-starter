@@ -16,7 +16,7 @@ import {
     Switch,
     Checkbox
 } from '../../../components/form/index';
-import {Box, Flex, Title, Icon, CenterPaddingBox, SpinnerOverlay, Tabs} from '../../../components/layouts/index';
+import {Box, Flex, Title, Icon, CenterPaddingBox, SpinnerOverlay, TabsFilter} from '../../../components/layouts/index';
 import {Spinner, Position} from '@blueprintjs/core';
 
 const DRAFTJS_CONTENT_TYPE = 'CONTENT-TYPE/draftjs';
@@ -63,7 +63,7 @@ export default class PostForm extends Component {
     renderTabContent(){
         const {fields: {content_type}} = this.props;
         return <div>
-            <Tabs tabs={TABS_CONTENT_TYPE} tabSelected={content_type.value ? content_type.value : DRAFTJS_CONTENT_TYPE} onChange={content_type.onChange}/>
+            <TabsFilter tabs={TABS_CONTENT_TYPE} tabSelected={content_type.value ? content_type.value : DRAFTJS_CONTENT_TYPE} onChange={content_type.onChange}/>
             {this.renderContentType()}
         </div>
     }

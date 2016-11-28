@@ -1,0 +1,30 @@
+.tt-manager-tabs {
+  padding-left: 0px;
+  border-bottom: 1px solid #EEEEEE;
+  margin-bottom: 10px;
+  li {
+    list-style: none;
+    float: left;
+    font-weight: 600;
+    &.pull-right {
+      float: right;
+    }
+    &.active a, a:hover {
+      text-decoration: none;
+      cursor: pointer;
+      color: #08f;
+      border-bottom: 3px solid #08f;
+    }
+    a {
+      display: block;
+      padding: 5px 15px;
+      color: lighten(#08f, 10);
+      border-bottom: 3px solid transparent;
+      -webkit-transition: all .3s linear;
+      -moz-transition: all .3s linear;
+      -ms-transition: all .3s linear;
+      -o-transition: all .3s linear;
+      transition: all .3s linear;
+    }
+  }
+}

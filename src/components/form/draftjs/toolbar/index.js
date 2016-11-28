@@ -1,8 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import classnames from 'classnames';
-import Span from '../../span';
-import dataTooltip from '../../../../constants/tooltipType';
 import {Icon} from '../../../layouts/index';
 import {InsertImage, InsertCode, ItemWrapper} from './items';
 import BlockTypes from './block-types';

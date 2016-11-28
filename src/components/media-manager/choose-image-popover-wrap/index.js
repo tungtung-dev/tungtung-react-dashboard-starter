@@ -1,9 +1,8 @@
 import React, {Component, PropTypes} from 'react';
-import {findDOMNode} from 'react-dom';
 import {autobind} from 'core-decorators';
 import uuid from 'uuid';
 import Equal from 'deep-equal';
-import {Popover, PopoverTitle, PopoverContent } from 'reactstrap';
+import {Popover, PopoverContent } from 'reactstrap';
 import classnames from 'classnames';
 import MediaManager from '../manager_default';
 import {Toaster} from '../../layouts';

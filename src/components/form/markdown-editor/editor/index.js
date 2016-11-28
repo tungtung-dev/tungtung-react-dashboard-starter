@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import {autobind} from 'core-decorators';
-import {Row, Col} from 'reactstrap';
 import ReactDOM from 'react-dom';
 import marked from 'marked';
 import classNames from 'classnames';
