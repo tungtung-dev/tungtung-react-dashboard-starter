@@ -5,9 +5,12 @@ import {Box, Flex, Pagination} from '../../layouts';
 import {InputTextGroup, Button} from '../../form';
 
 export default class SearchFilterPagination extends PureComponent {
-    state = {
-        collapse: false,
-        search: ''
+    constructor(){
+        super(...arguments);
+        this.state = {
+            filterOpen: this.props.filterOpen,
+            search: ''
+        }
     }
 
     @autobind
@@ -20,19 +23,15 @@ export default class SearchFilterPagination extends PureComponent {
         if(e.keyCode === 13) this.props.onSearch(this.state.search)
     }
 
-    changeSearch(search){
-        this.setState({search});
-    }
-
     @autobind
     toggleFilters(e){
         if(e) e.preventDefault();
-        this.setState({collapse: !this.state.collapse})
+        this.setState({filterOpen: !this.state.filterOpen})
     }
 
     renderFilterCollapse(){
         if (this.props.isFilter)
-            return <Collapse isOpen={this.state.collapse}>
+            return <Collapse isOpen={this.state.filterOpen}>
                 <Box backgroundStyle="gray" style={{marginBottom: 10}} sm>
                     {this.props.children}
                 </Box>

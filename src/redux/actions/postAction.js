@@ -2,17 +2,20 @@ import {AWAIT_MARKER} from 'redux-await';
 import {PostApi} from '../../api';
 
 export const GET_POSTS = 'POST/get-posts';
+export const CREATE_POST = 'POST/create-post';
+export const UPDATE_POST = 'POST/update-post';
+export const UPDATE_CURRENT_POST = 'POST/update-current-post';
 export const GET_POSTS_FILTER = 'POST/get-posts';
 export const GET_POST = 'POST/get-post';
 export const CLEAR_POST = 'POST/clear-post';
 export const DELETE_POST = 'POST/delete-post';
 
-export function getPosts(page = 1, item_per_page = 10){
+export function getPosts(...args){
     return {
         type: GET_POSTS,
         AWAIT_MARKER,
         payload: {
-            getPosts: PostApi.getPosts(page, item_per_page)
+            getPosts: PostApi.getPosts(...args)
         }
     }
 }
@@ -37,6 +40,33 @@ export function getPost(id){
     }
 }
 
+export function updateCurrentPost(dataPost){
+    return {
+        type: UPDATE_CURRENT_POST,
+        dataPost
+    }
+}
+
+export function createPost(dataPost){
+    return {
+        type: CREATE_POST,
+        AWAIT_MARKER,
+        payload: {
+            createPost: PostApi.createPost(dataPost)
+        }
+    }
+}
+
+export function updatePost(postSlug, dataPost){
+    return {
+        type: UPDATE_POST,
+        AWAIT_MARKER,
+        payload: {
+            updatePost: PostApi.updatePost(postSlug, dataPost)
+        }
+    }
+}
+
 export function clearPost(){
     return {
         type: CLEAR_POST
@@ -54,4 +84,8 @@ export function deleteMultiplePosts(){
 
 }
 
-export default {getPosts, getPostsByFilter, getPost, clearPost, deletePost}
+export default {
+    getPosts, getPostsByFilter, getPost,
+    createPost, updatePost, clearPost, deletePost,
+    updateCurrentPost
+}

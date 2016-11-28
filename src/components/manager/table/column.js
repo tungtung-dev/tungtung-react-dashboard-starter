@@ -15,8 +15,9 @@ Column.propTypes = {
         onChange: PropTypes.func
     }),
     pagination: PropTypes.shape({
-        page: PropTypes.number,
+        page: PropTypes.any,
         item_per_page: PropTypes.number
     }),
-    showIndex: PropTypes.bool
+    showIndex: PropTypes.bool,
+    showCheckbox: PropTypes.bool,
 }

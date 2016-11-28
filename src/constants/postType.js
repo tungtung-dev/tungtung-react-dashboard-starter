@@ -1,0 +1,5 @@
+export const POST_STATE = {
+    DRAFT: "POST_STATE_DRAFT",
+    PUBLIC: "POST_STATE_PUBLIC",
+    TRASH: "POST_STATE_TRASH"
+};

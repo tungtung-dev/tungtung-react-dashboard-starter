@@ -1,5 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react';
-import {Creatable} from 'react-select';
+import Select, {Creatable} from 'react-select';
 import {autobind} from 'core-decorators';
 import ValidateWrapControl from '../validate-wrap-control/index';
 import 'react-select/dist/react-select.css';
@@ -30,10 +30,16 @@ export default class SelectTag extends PureComponent {
         );
     }
 
+    getComponent(){
+        if(this.props.createable) return Creatable;
+        else return Select;
+    }
+
     render() {
+        const Component = this.getComponent();
         return (
             <ValidateWrapControl {...this.props}>
-                <Creatable multi
+                <Component multi
                             {...this.props}
                            options={this.state.defaultTags}
                            value={this.getValue()}
@@ -46,10 +52,12 @@ export default class SelectTag extends PureComponent {
 }
 
 SelectTag.defaultProps = {
-    defaultTags: []
+    defaultTags: [],
+    createable: false
 }
 SelectTag.propTypes = {
     defaultTags: PropTypes.arrayOf(PropTypes.string),
     value: PropTypes.arrayOf(PropTypes.string),
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    createable: PropTypes.bool
 }

@@ -1,5 +1,6 @@
 import {
-    GET_POSTS, GET_POST, CLEAR_POST, GET_POSTS_FILTER
+    GET_POSTS, GET_POST, CLEAR_POST, GET_POSTS_FILTER,
+    CREATE_POST, UPDATE_POST, UPDATE_CURRENT_POST
 } from '../actions/postAction';
 import update from 'react-addons-update';
 
@@ -22,6 +23,12 @@ export default function createReducer(state : PostReducerState = initialState, a
             return getPost(state, action);
         case CLEAR_POST:
             return clearPost(state);
+        case CREATE_POST:
+            return createPost(state, action);
+        case UPDATE_POST:
+            return updatePost(state, action);
+        case UPDATE_CURRENT_POST:
+            return updateCurrentPost(state, action);
         default: return state;
     }
 }
@@ -56,6 +63,31 @@ function getPost(state: PostReducerState, action){
         }
     })
 }
+
+function createPost(state: PostReducerState, action){
+    return update(state, {
+        currentPost: {
+            $set: action.payload.createPost
+        }
+    })
+}
+
+function updatePost(state: PostReducerState, action){
+    return update(state, {
+        currentPost: {
+            $set: action.payload.updatePost
+        }
+    })
+}
+
+function updateCurrentPost(state: PostReducerState, action){
+    return update(state, {
+        currentPost: {
+            $set: action.dataPost
+        }
+    })
+}
+
 
 function clearPost(state: PostReducerState){
     return update(state, {

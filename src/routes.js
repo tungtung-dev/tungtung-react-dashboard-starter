@@ -15,7 +15,8 @@ export default () => {
                 <Route path="/posts"component={PostManager.Wrapper}>
                     <IndexRoute components={PostManager.Lists}/>
                     <Route path="create" component={PostManager.Create}/>
-                    <Route path="edit/:postId" component={PostManager.Edit}/>
+                    <Route path="edit/:postSlug" component={PostManager.Edit}/>
+                    <Route path=":postSlug" component={PostManager.View}/>
                 </Route>
                 <Route path="/users" component={UserManager.Wrapper}>
                     <IndexRoute component={UserManager.Lists}/>

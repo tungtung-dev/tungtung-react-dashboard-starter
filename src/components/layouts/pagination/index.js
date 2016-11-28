@@ -34,7 +34,7 @@ Pagination.defaultProps = {
 Pagination.propTypes = {
     total_item: PropTypes.number,
     item_per_page: PropTypes.number,
-    page: PropTypes.number,
+    page: PropTypes.any,
     page_range_displayed: PropTypes.number,
     onChange: PropTypes.func
 }

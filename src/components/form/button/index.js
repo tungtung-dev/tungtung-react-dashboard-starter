@@ -16,7 +16,7 @@ export default class Button extends PureComponent {
                 'fill': this.props.fill,
             }
         );
-        return <button {...cleanProps(['tooltip','shadow','fill'], this.props)} className={className}>
+        return <button {...cleanProps(['tooltip','shadow','fill','position'], this.props)} className={className}>
             {this.props.children}
         </button>
     }

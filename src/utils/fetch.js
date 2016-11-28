@@ -14,10 +14,13 @@ const getHeaders = () => {
 }
 
 export function postFetch(url, data, props,  callback = () => {}) {
+    console.log(url);
+
     let attributes = Object.assign({
         cache: true,
         headers: getHeaders()
     }, props);
+
 
     return qwest.post(url, data, attributes, callback).then((xhr, res) => {
         return new Promise((resolve, reject) => {
