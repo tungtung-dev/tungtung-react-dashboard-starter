@@ -22,7 +22,7 @@ export function swalDraft(onCallback = () => {}){
  * @param onDelete
  * @param onDeleteSuccess
  */
-export function swalConfirmTrash(onDelete, onDeleteSuccess = () => {}){
+export function swalConfirmTrash(onDelete, onDeleteSuccess = () => {}, onCancel = () => {}){
     swal({
         title: 'Trashed',
         text: 'Your post move to trash, do you want delete forever?',
@@ -35,7 +35,7 @@ export function swalConfirmTrash(onDelete, onDeleteSuccess = () => {}){
         onDeleteSuccess();
         swal({title: 'Deleted', text: 'Your post deleted', type: 'success'});
     }, () => {
-        onDeleteSuccess();
+        onCancel();
     })
 }
 
@@ -101,6 +101,7 @@ export function getOptionsCheckedListsFromState(state, totalSelected, {onRevert,
     const getTextAction = (action) => {
         return `${action} ${totalSelected} ${totalSelected > 1 ? 'posts' : 'post'}`;
     }
+    console.log(state);
     switch (state) {
         case POST_STATE.TRASH:
             options = [

@@ -5,6 +5,7 @@ import {autobind} from 'core-decorators';
 import {POST_STATE} from '../../../constants/postType'
 import postAction from '../../../redux/actions/postAction';
 import {connect} from '../../../utils/reduxAwait';
+import {toShortString} from '../../../utils';
 import QueryManager from '../../../utils/location_queries';
 import {Link, Button, ButtonDropdown, ButtonGroupDropdown, SelectTag} from '../../../components/form/index';
 import {CenterPaddingBox, Box, Icon, Title, TabsFilter} from '../../../components/layouts/index';
@@ -17,11 +18,7 @@ import {
     getOptionsButtonFromState, getOptionsCheckedListsFromState
 } from '../utils';
 
-
-const TAB_ALL = '';
-
 const TABS = [
-    {value: TAB_ALL, text: 'All'},
     {value: POST_STATE.PUBLIC, text: "Publish"},
     {value: POST_STATE.DRAFT, text: "Draft"},
     {value: POST_STATE.TRASH, text: "Trash"}
@@ -88,13 +85,14 @@ export default class PostListsManager extends Component {
         this.updateLocationPage('tagSlugs', this.state.tagSlugs.concat(','))
     }
 
-    getPosts() {
+    getPosts(resetChecked = false) {
         const query = this.query_manager.getQueryObject({
-            state: TAB_ALL,
+            state: POST_STATE.PUBLIC,
             page: 1,
             item_per_page: 10,
         });
         this.props.getPosts(query);
+        if(resetChecked) this.resetPostsChecked();
     }
 
     componentDidMount() {
@@ -112,7 +110,7 @@ export default class PostListsManager extends Component {
     }
 
     renderTabs() {
-        return <TabsFilter tabs={TABS} tabSelected={this.query_manager.getQuery('state', TAB_ALL)}
+        return <TabsFilter tabs={TABS} tabSelected={this.query_manager.getQuery('state', POST_STATE.PUBLIC)}
                            onChange={this.handleChangeTab}>
             <li className="pull-right">
                 <Link to="/posts/create"><i className="icon-plus"/> New post</Link>
@@ -147,21 +145,23 @@ export default class PostListsManager extends Component {
             checkedData: this.state.postsChecked,
             onChange: this.handleChangeChecked
         };
-        const buttonActions = getOptionsCheckedListsFromState(this.state.state, this.state.postsChecked.length, {
+        const state = this.query_manager.getQuery('state', POST_STATE.PUBLIC);
+        const totalChecked = this.state.postsChecked.length;
+        const buttonActions = getOptionsCheckedListsFromState(state, totalChecked, {
             onRevert: () => {
-                swalRevert();
+                swalRevert(this.getPosts.bind(this, true));
             },
             onTrash: () => {
-                swalConfirmTrash(() => {}, this.resetPostsChecked.bind(this));
+                swalConfirmTrash(() => {}, this.getPosts.bind(this, true));
             },
             onDelete: () => {
-                swalConfirmDelete(() => {});
+                swalConfirmDelete(() => {}, this.getPosts.bind(this, true));
             },
             onPublish: () => {
-                swalPublish();
+                swalPublish(this.getPosts.bind(this, true));
             },
             onDraft: () => {
-                swalDraft();
+                swalDraft(this.getPosts.bind(this, true));
             }
         });
         const buttonDropDown = <ButtonDropdown
@@ -188,7 +188,7 @@ export default class PostListsManager extends Component {
                     swalConfirmTrash(() => {}, this.getPosts.bind(this))
                 },
                 onDelete: () => {
-                    swalConfirmTrash(() => {}, this.getPosts.bind(this))
+                    swalConfirmDelete(() => {}, this.getPosts.bind(this))
                 },
                 onPublish: () => {
                     swalPublish(this.getPosts.bind(this));
@@ -239,7 +239,7 @@ export default class PostListsManager extends Component {
             />
             <Column
                 header={() => 'Description'}
-                cell={(post) => post.description ? post.description.slice(0, 100) + ' ...' : ''}
+                cell={(post) => toShortString(post.description, 70, 50)}
             />
             <Column
                 header={() => 'Author'}

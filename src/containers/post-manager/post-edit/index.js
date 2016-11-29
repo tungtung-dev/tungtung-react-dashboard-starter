@@ -5,6 +5,7 @@ import {autobind} from 'core-decorators';
 import {Breadcrumb, Toaster} from '../../../components/layouts/index';
 import {getPost, updateCurrentPost, clearPost} from '../../../redux/actions/postAction';
 import {connect} from '../../../utils/reduxAwait';
+import {toShortString} from '../../../utils';
 import {PostApi} from '../../../api';
 import PostForm from '../post-form';
 
@@ -65,7 +66,7 @@ export default class PostEdit extends Component {
     render() {
         const {awaitStatuses: {getPost}, currentPost} = this.props;
         return <div>
-            <Breadcrumb id="edit-post" name={currentPost.title}/>
+            <Breadcrumb id="edit-post" name={toShortString(currentPost.title, 10, 20)}/>
             <PostForm
                 isLoading={getPost === 'pending'}
                 isUpdating={this.state.isUpdating}
