@@ -16,6 +16,10 @@ a.tt-link-gray{
   @include linkColor($text-color-gray);
 }
 
+a.tt-link-black{
+  @include linkColor($text-color-black);
+}
+
 a.tt-link-black-white {
   @include linkColor($text-color-black-white);
 }

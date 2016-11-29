@@ -58,6 +58,30 @@ export function getStyleFromProps(prop_style_keys = [], props = {}){
     return style;
 }
 
+export function getDeepObject(object, defaultValue, ...keysDeep){
+    let cloneObject = object;
+    let value = defaultValue;
+
+    for(var i = 0; i < keysDeep.length; i++){
+        const keyDeep = keysDeep[i];
+        if(i > 0){
+            if(cloneObject[keyDeep]){
+                value = cloneObject[keyDeep];
+                cloneObject = cloneObject[keyDeep];
+            }
+        }
+        else{
+            if(object && object[keyDeep]) {
+                value = object[keyDeep];
+                cloneObject = object[keyDeep];
+            } else{
+                value = defaultValue;
+            }
+        }
+    }
+    return value;
+}
+
 export function cleanProps(clean_key_props, props){
     let newProps = {...props};
     clean_key_props.map(key => {

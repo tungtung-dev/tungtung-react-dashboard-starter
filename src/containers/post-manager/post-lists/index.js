@@ -12,6 +12,11 @@ import {Table, Column, SearchFilterPagination} from '../../../components/manager
 import {UserAvatar} from '../../../components/partials/index';
 import Equal from 'deep-equal';
 import {Position} from '@blueprintjs/core';
+import {
+    swalConfirmDelete, swalConfirmTrash, swalRevert, swalPublish, swalDraft,
+    getOptionsButtonFromState, getOptionsCheckedListsFromState
+} from '../utils';
+
 
 const TAB_ALL = '';
 
@@ -19,7 +24,7 @@ const TABS = [
     {value: TAB_ALL, text: 'All'},
     {value: POST_STATE.PUBLIC, text: "Publish"},
     {value: POST_STATE.DRAFT, text: "Draft"},
-    {value: POST_STATE.TRASH, text: "Trash"},
+    {value: POST_STATE.TRASH, text: "Trash"}
 ];
 
 @connect((state) => ({
@@ -41,7 +46,7 @@ export default class PostListsManager extends Component {
             state: []
         });
         this.state = {
-            state: TAB_ALL,
+            state: POST_STATE.PUBLIC,
             tagSlugs: this.query_manager.getQuery('tagSlugs', '').split(','),
             keyword: '',
             postsChecked: []
@@ -96,6 +101,10 @@ export default class PostListsManager extends Component {
         this.getPosts();
     }
 
+    componentWillUnmount() {
+        this.props.clearPost();
+    }
+
     componentDidUpdate(prevProps) {
         if (!Equal(prevProps.location.query, this.props.location.query)) {
             this.getPosts();
@@ -112,6 +121,7 @@ export default class PostListsManager extends Component {
     }
 
     renderSearchFilterPagination() {
+        if (this.props.data.length === 0) return;
         return <SearchFilterPagination
             onSearch={this.handleSearch}
             paginationProps={{...this.props.pagination, page: this.query_manager.getQuery('page', 1), onChange: this.handleChangePage}}
@@ -127,21 +137,80 @@ export default class PostListsManager extends Component {
         </SearchFilterPagination>
     }
 
+    resetPostsChecked(){
+        this.setState({postsChecked: []})
+    }
+
     renderColumnCheckbox() {
         const checkboxProps = {
-            keyData: 'id',
+            keyData: 'slug',
             checkedData: this.state.postsChecked,
             onChange: this.handleChangeChecked
         };
+        const buttonActions = getOptionsCheckedListsFromState(this.state.state, this.state.postsChecked.length, {
+            onRevert: () => {
+                swalRevert();
+            },
+            onTrash: () => {
+                swalConfirmTrash(() => {}, this.resetPostsChecked.bind(this));
+            },
+            onDelete: () => {
+                swalConfirmDelete(() => {});
+            },
+            onPublish: () => {
+                swalPublish();
+            },
+            onDraft: () => {
+                swalDraft();
+            }
+        });
         const buttonDropDown = <ButtonDropdown
             className="btn-black btn-super-sm"
-            options={[{icon: 'trash', text: `Trash ${this.state.postsChecked.length} posts`}]}
+            options={buttonActions}
             position={Position.BOTTOM_LEFT}
         >
             <Icon name="caret-down" bluePrintIcon/>
         </ButtonDropdown>;
 
         return <Column header={() => buttonDropDown} checkboxProps={checkboxProps} showCheckbox/>
+    }
+
+    renderColumnActions() {
+        const context = this;
+
+        const getActions = (post) => {
+            const {slug} = post;
+            return {
+                onRevert: () => {
+                    swalRevert();
+                },
+                onTrash: () => {
+                    swalConfirmTrash(() => {}, this.getPosts.bind(this))
+                },
+                onDelete: () => {
+                    swalConfirmTrash(() => {}, this.getPosts.bind(this))
+                },
+                onPublish: () => {
+                    swalPublish(this.getPosts.bind(this));
+                },
+                onDraft: () => {
+                    swalDraft(this.getPosts.bind(this));
+                }
+            }
+        }
+
+        return <Column header={() => 'Actions'} cell={(post) =>
+                <ButtonGroupDropdown
+                    className="btn-default"
+                    position={Position.BOTTOM_RIGHT}
+                    onClick={(e) => this.props.push(`/posts/edit/${post.slug}`)}
+                    dropdownIcon={{name: 'caret-down', bluePrintIcon: true}}
+                    options={getOptionsButtonFromState(post.state, getActions(post))}
+                >
+                    Edit
+                </ButtonGroupDropdown>
+            }
+        />
     }
 
     renderTable() {
@@ -159,34 +228,24 @@ export default class PostListsManager extends Component {
                 pagination={this.props.pagination}
             />
             <Column
+                header={() => {}}
+                cell={(post) => {
+                    return <img src={post.featuredImage.thumbnailUrl} style={{width: 40}} alt=""/>
+                }}
+            />
+            <Column
                 header={() => 'Title'}
-                cell={(post) => post.title}
+                cell={(post) => <Link styleColor="primary" fontWeight={600} to={`/posts/${post.slug}`}>{post.title}</Link>}
             />
             <Column
                 header={() => 'Description'}
-                cell={(post) => post.description}
+                cell={(post) => post.description ? post.description.slice(0, 100) + ' ...' : ''}
             />
             <Column
                 header={() => 'Author'}
                 cell={(post) => <UserAvatar username={post.user.username} label="fullname" fullname={post.user.fullname}/>}
             />
-            <Column
-                header={() => 'Actions'}
-                cell={(post) =>
-                    <ButtonGroupDropdown
-                        className="btn-default"
-                        position={Position.BOTTOM_RIGHT}
-                        onClick={(e) => this.props.push(`/posts/edit/${post.slug}`)}
-                        dropdownIcon={{name: 'caret-down', bluePrintIcon: true}}
-                        options={[
-                            {icon: 'trash', text: 'Trash', onClick: this.handleClick},
-                            {icon: 'trash', text: 'Enable publish', onClick: this.handleClick},
-                        ]}
-                    >
-                        Edit
-                    </ButtonGroupDropdown>
-                }
-            />
+            {this.renderColumnActions()}
         </Table>
     }
 
@@ -196,7 +255,7 @@ export default class PostListsManager extends Component {
     }
 
     render() {
-        return <CenterPaddingBox>
+        return <CenterPaddingBox paddingLeft={30}>
             <Box sm>
                 {this.renderTabs()}
                 {this.renderSearchFilterPagination()}

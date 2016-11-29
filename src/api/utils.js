@@ -10,7 +10,7 @@ export function getUserApi(urlQuery){
 }
 
 export function getPostApi(urlQuery = ''){
-    return api.default + path.join('/posts', urlQuery);
+    return api.default + path.join('/admin/posts', urlQuery);
 }
 
 export function getMediaApi(urlQuery){

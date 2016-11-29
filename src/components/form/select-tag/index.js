@@ -3,16 +3,21 @@ import Select, {Creatable} from 'react-select';
 import {autobind} from 'core-decorators';
 import ValidateWrapControl from '../validate-wrap-control/index';
 import 'react-select/dist/react-select.css';
+import Equal from 'deep-equal';
 import "./style.scss"
+
+const convertTagsToOptions = (tags) => {
+    return tags.map(tag => ({
+        label: tag,
+        value: tag
+    }))
+}
 
 export default class SelectTag extends PureComponent {
     constructor(){
         super(...arguments);
         this.state = {
-            defaultTags: this.props.defaultTags.map(tag => ({
-                label: tag,
-                value: tag
-            }))
+            defaultTags: convertTagsToOptions(this.props.defaultTags)
         }
     }
 
@@ -33,6 +38,12 @@ export default class SelectTag extends PureComponent {
     getComponent(){
         if(this.props.createable) return Creatable;
         else return Select;
+    }
+
+    componentDidUpdate(prevProps){
+        if(!Equal(prevProps.defaultTags, this.props.defaultTags)){
+            this.setState({defaultTags: convertTagsToOptions(this.props.defaultTags)});
+        }
     }
 
     render() {

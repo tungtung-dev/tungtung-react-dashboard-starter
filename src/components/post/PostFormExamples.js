@@ -12,7 +12,7 @@ const OurToaster = Toaster.create({
     position: Position.TOP
 });;
 
-export default class PostForm extends Component {
+export default class PostFormExamples extends Component {
     constructor() {
         super(...arguments);
         this.state = {

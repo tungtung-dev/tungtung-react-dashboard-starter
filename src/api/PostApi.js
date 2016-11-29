@@ -18,12 +18,6 @@ export function updatePost(postSlug, data) {
 
 export function getPost(postId) {
     return getFetch(getPostApi(postId));
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            const posts = randomPosts(1, 2);
-            resolve(posts.data[1]);
-        }, 300)
-    });
 }
 
 export function getPostsByFilter(filter = '', page = 1, item_per_page = 10) {
@@ -32,10 +26,8 @@ export function getPostsByFilter(filter = '', page = 1, item_per_page = 10) {
     });
 }
 
-export function deletePost() {
-    return new Promise((resolve, reject) => {
-        resolve();
-    });
+export function deletePost(postSlug) {
+    return deleteFetch(getPostApi(postSlug))
 }
 export default {
     getPosts,

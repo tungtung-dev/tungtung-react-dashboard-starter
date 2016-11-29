@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import classnames from 'classnames';
 import {Tabs} from '@blueprintjs/core';
-import Flex from '../flex';
 
 import "./style.scss";
 

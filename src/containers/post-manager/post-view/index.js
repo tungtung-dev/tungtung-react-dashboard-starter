@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import marked from 'marked';
 import {Link} from 'react-router';
 import {Tab, TabList, TabPanel} from '@blueprintjs/core';
-import {CenterPaddingBox, Tabs, Box, Flex, Title, SpinnerOverlay} from '../../../components/layouts';
+import {CenterPaddingBox, Tabs, Box, Flex, Title, SpinnerOverlay, Breadcrumb} from '../../../components/layouts';
 import {connect} from '../../../utils/reduxAwait';
 import {Button, ButtonGroupDropdown} from '../../../components/form';
 import {getPost, clearPost} from '../../../redux/actions/postAction';
@@ -43,6 +43,7 @@ export default class PostView extends Component {
     render() {
         const {currentPost: {title, slug, content}, awaitStatuses} = this.props;
         return <CenterPaddingBox paddingTop={30}>
+            <Breadcrumb id="post_view_title" name={title}/>
             {awaitStatuses.getPost === 'pending' && <SpinnerOverlay backgroundColor="rgba(255,255,255,.7)" fixed/>}
             <Flex marginBottom={10} alignItems="center" justifyContent="space-between">
                 <Title styleColor="black-white" element="h2">

@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {CenterPaddingBox, Tabs, Box, Flex, Title} from '../../../components/layouts';
-import {Button, ButtonGroupDropdown} from '../../../components/form';
+import {Button} from '../../../components/form';
 import {Tab, TabList, TabPanel} from '@blueprintjs/core';
 
 export default class PageTabs extends Component {

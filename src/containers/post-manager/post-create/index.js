@@ -8,18 +8,18 @@ import PostForm from '../post-form';
 
 export default class PostCreate extends Component {
     state = {
-        isLoading: false
+        isUpdating: false
     }
 
     @autobind
     handleSubmit(dataPost, dispatch){
-        this.setState({isLoading: true});
+        this.setState({isUpdating: true});
 
         return new Promise((resolve, reject) => {
-            this.setState({isLoading: true});
+            this.setState({isUpdating: true});
             PostApi.createPost(dataPost).then(postRes => {
                 if(postRes.slug){
-                    this.setState({isLoading: false});
+                    this.setState({isUpdating: false});
                     dispatch(updateCurrentPost(postRes));
                     dispatch(push(`/posts/edit/${postRes.slug}`));
                     Toaster.show({message: 'Created post success', intent: 1})
@@ -35,7 +35,7 @@ export default class PostCreate extends Component {
     render() {
         return <div>
             <Breadcrumb id="new-post" name="New Post"/>
-            <PostForm isLoading={this.state.isLoading} onSave={this.handleSubmit}/>
+            <PostForm isUpdating={this.state.isUpdating} onSave={this.handleSubmit}/>
         </div>
     }
 }

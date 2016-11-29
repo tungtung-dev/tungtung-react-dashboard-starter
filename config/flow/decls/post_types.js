@@ -3,6 +3,7 @@ declare type PostType = {
     title: string,
     description: string,
     content: Object|string,
+    state: string,
     user: UserType
 }
 

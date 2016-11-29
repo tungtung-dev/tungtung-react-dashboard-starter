@@ -25,5 +25,7 @@ export default class PopoverConfirm extends PureComponent {
 }
 
 PopoverConfirm.propTypes = {
+    title: PropTypes.string,
+    message: PropTypes.string,
     onConfirm: PropTypes.func.isRequired
 }
