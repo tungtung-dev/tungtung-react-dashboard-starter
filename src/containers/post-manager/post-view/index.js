@@ -7,6 +7,7 @@ import {CenterPaddingBox, Tabs, Box, Flex, Title, SpinnerOverlay, Breadcrumb} fr
 import {connect} from '../../../utils/reduxAwait';
 import {toShortString} from '../../../utils';
 import {Button, ButtonGroupDropdown} from '../../../components/form';
+import  DraftjsView from '../../../components/form/draftjs/editor-view';
 import {getPost, clearPost} from '../../../redux/actions/postAction';
 
 import "./style.scss";
@@ -61,7 +62,8 @@ export default class PostView extends Component {
                         <Tab>By draftjs</Tab>
                     </TabList>
                     <TabPanel>
-                        {content && <div className="tt-post-view" dangerouslySetInnerHTML={{__html: marked(content)}}/>}
+                        {content && typeof content === 'string' && <div className="tt-post-view" dangerouslySetInnerHTML={{__html: marked(content)}}/>}
+                        {content && typeof content === 'object' && <DraftjsView value={content}/>}
                     </TabPanel>
                     <TabPanel>
                         <h4>No content</h4>

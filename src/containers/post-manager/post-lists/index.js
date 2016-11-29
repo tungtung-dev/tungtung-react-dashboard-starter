@@ -120,7 +120,6 @@ export default class PostListsManager extends Component {
     }
 
     renderSearchFilterPagination() {
-        if (this.props.data.length === 0) return;
         return <SearchFilterPagination
             onSearch={this.handleSearch}
             paginationProps={{...this.props.pagination, page: this.query_manager.getQuery('page', 1), onChange: this.handleChangePage}}
