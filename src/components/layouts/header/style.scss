@@ -1,6 +1,7 @@
 .header.tt-header {
   background: darken(#fafafa, .5);
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
+  padding: 5px 10px;
   position: fixed;
   width: 100%;
   z-index: 5;
@@ -9,6 +10,9 @@
   }
   .navbar-brand {
     font-size: 16px;
+    img{
+      height: 30px;
+    }
   }
   .dropdown-transparent {
     padding: 0;
@@ -20,6 +24,12 @@
     }
   }
   .tt-breadcrumb-bar-wrap{
-    padding-left: 40px;
+    padding-left: 20px;
+    position: relative;
+    top: 5px;
+  }
+  .tt-user-avatar-wrap{
+    position: relative;
+    top: 5px;
   }
 }
