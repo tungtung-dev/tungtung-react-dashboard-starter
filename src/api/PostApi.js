@@ -2,8 +2,8 @@ import {getFetch, postFetch, putFetch, deleteFetch} from '../utils/fetch';
 import {randomPosts} from '../utils/mock_data';
 import {getPostApi, convertObjectToQueryString} from './utils';
 
-export function getPosts({page = 1, item_per_page = 10, state = '', keyword}) {
-    const query = {page, item_per_page, state, keyword}
+export function getPosts({page = 1, tags, itemPerPage = 10, state = '', keyword}) {
+    const query = {page, itemPerPage, tags, state, keyword}
     const queryString = convertObjectToQueryString(query);
     return getFetch(getPostApi(`?${queryString}`));
 }
@@ -20,9 +20,9 @@ export function getPost(postId) {
     return getFetch(getPostApi(postId));
 }
 
-export function getPostsByFilter(filter = '', page = 1, item_per_page = 10) {
+export function getPostsByFilter(filter = '', page = 1, itemPerPage = 10) {
     return new Promise((resolve, reject) => {
-        resolve(randomPosts(page, item_per_page))
+        resolve(randomPosts(page, itemPerPage))
     });
 }
 

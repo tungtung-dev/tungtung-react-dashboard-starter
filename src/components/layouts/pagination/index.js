@@ -11,12 +11,12 @@ export default class Pagination extends PureComponent{
     }
 
     render(){
-        const {total_item, item_per_page, page, page_range_displayed, className} = this.props;
+        const {totalItem, itemPerPage, page, page_range_displayed, className} = this.props;
         return <Paginate
             containerClassName={classnames('tt-paginate', className)}
             previousLabel={<i className="fa fa-chevron-circle-left"/>}
             nextLabel={<i className="fa fa-chevron-circle-right"/>}
-            pageNum={total_item / item_per_page}
+            pageNum={totalItem / itemPerPage}
             forceSelected={page - 1}
             pageRangeDisplayed={page_range_displayed}
             clickCallback={this.handleChangePage}
@@ -25,15 +25,15 @@ export default class Pagination extends PureComponent{
 }
 
 Pagination.defaultProps = {
-    total_item: 0,
-    item_per_page: 0,
+    totalItem: 0,
+    itemPerPage: 0,
     page: 1,
     page_range_displayed: 5
 }
 
 Pagination.propTypes = {
-    total_item: PropTypes.number,
-    item_per_page: PropTypes.number,
+    totalItem: PropTypes.number,
+    itemPerPage: PropTypes.number,
     page: PropTypes.any,
     page_range_displayed: PropTypes.number,
     onChange: PropTypes.func

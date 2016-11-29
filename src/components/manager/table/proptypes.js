@@ -6,6 +6,6 @@ export const COLUMN_PROPTYPES = {
     showIndex: PropTypes.bool,
     pagination: PropTypes.shape({
         page: PropTypes.number,
-        item_per_page: PropTypes.number
+        itemPerPage: PropTypes.number
     })
 }

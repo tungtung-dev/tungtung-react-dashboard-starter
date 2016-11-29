@@ -1,23 +1,53 @@
 import React, {PureComponent, PropTypes} from 'react';
 import Select, {Creatable} from 'react-select';
+import {connect} from 'react-redux';
 import {autobind} from 'core-decorators';
 import ValidateWrapControl from '../validate-wrap-control/index';
 import 'react-select/dist/react-select.css';
 import Equal from 'deep-equal';
 import "./style.scss"
 
-const convertTagsToOptions = (tags) => {
+const convertTagsFromApi = (tags) => {
+    return tags.map(tag => ({
+        label: tag.name,
+        value: tag.name
+    }))
+}
+
+const convertTagsFromArrayString = (tags) => {
     return tags.map(tag => ({
         label: tag,
         value: tag
     }))
 }
 
+@connect((state) => {
+    return {
+        tagsFromApi: state.defaultLoad.tags
+    }
+})
 export default class SelectTag extends PureComponent {
+    static defaultProps = {
+        defaultTags: [],
+        tagsFromApi: [],
+        createable: false,
+        onBlur: () => {}
+    }
+
+    static propTypes = {
+        defaultTags: PropTypes.arrayOf(PropTypes.string),
+        value: PropTypes.arrayOf(PropTypes.string),
+        onChange: PropTypes.func,
+        createable: PropTypes.bool
+    }
+
     constructor(){
         super(...arguments);
         this.state = {
-            defaultTags: convertTagsToOptions(this.props.defaultTags)
+            defaultTags: [
+                ...convertTagsFromApi(this.props.tagsFromApi),
+                ...convertTagsFromArrayString(this.props.defaultTags)
+            ]
         }
     }
 
@@ -41,8 +71,11 @@ export default class SelectTag extends PureComponent {
     }
 
     componentDidUpdate(prevProps){
-        if(!Equal(prevProps.defaultTags, this.props.defaultTags)){
-            this.setState({defaultTags: convertTagsToOptions(this.props.defaultTags)});
+        if(!Equal(prevProps.defaultTags, this.props.defaultTags) || !Equal(prevProps.tagsFromApi, this.props.tagsFromApi)){
+            this.setState({defaultTags: [
+                ...convertTagsFromApi(this.props.tagsFromApi),
+                ...convertTagsFromArrayString(this.props.defaultTags)
+            ]});
         }
     }
 
@@ -60,15 +93,4 @@ export default class SelectTag extends PureComponent {
             </ValidateWrapControl>
         )
     }
-}
-
-SelectTag.defaultProps = {
-    defaultTags: [],
-    createable: false
-}
-SelectTag.propTypes = {
-    defaultTags: PropTypes.arrayOf(PropTypes.string),
-    value: PropTypes.arrayOf(PropTypes.string),
-    onChange: PropTypes.func,
-    createable: PropTypes.bool
 }

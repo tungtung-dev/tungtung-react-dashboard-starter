@@ -1,8 +1,8 @@
 import {getFetch, deleteFetch} from '../utils/fetch';
 import {getUserApi} from './utils';
 
-export function getUsers(page = 1, item_per_page = 10) {
-    return getFetch(getUserApi(`users?page=${page}&item_per_page=${item_per_page}`));
+export function getUsers(page = 1, itemPerPage = 10) {
+    return getFetch(getUserApi(`users?page=${page}&itemPerPage=${itemPerPage}`));
 }
 
 export function getUserInfo(user_id) {

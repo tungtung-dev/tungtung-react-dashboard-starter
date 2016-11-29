@@ -17,6 +17,10 @@ export function getMediaApi(urlQuery){
     return api.media + path.join('/media', urlQuery);
 }
 
+export function getDefaultApi(urlQuery){
+    return api.media + path.join(urlQuery);
+}
+
 export function convertObjectToQueryString(queryObject){
     let queryArrayString = [];
     Object.keys(queryObject).map(key => {
@@ -32,5 +36,6 @@ export default {
     getAuthApi,
     getUserApi,
     getPostApi,
-    getMediaApi
+    getMediaApi,
+    getDefaultApi
 }

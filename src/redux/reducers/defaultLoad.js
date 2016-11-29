@@ -1,16 +1,19 @@
 /* eslint-disable */
 import {
-    ADD_BREADCRUMB, REMOVE_BREADCRUMB, RESET_BREADCRUMB, UPDATE_BREADCRUMB
+    ADD_BREADCRUMB, REMOVE_BREADCRUMB, RESET_BREADCRUMB, UPDATE_BREADCRUMB,
+    GET_TAGS
 } from '../actions/defaultLoadAction';
 import update from 'react-addons-update';
 
 type DefaultLoadType = {
     breadcrumbs: Array<BreadcrumbType>,
+    tags: Array
 }
 
 function getInitialState() {
     return {
-        breadcrumbs: []
+        breadcrumbs: [],
+        tags: []
     }
 }
 
@@ -25,7 +28,9 @@ export default function createReducer(state : DefaultLoadType = getInitialState(
         case RESET_BREADCRUMB:
             return update(state, {
                 breadcrumbs: []
-            })
+            });
+        case GET_TAGS:
+            return getTags(state, action)
         default:
             return state;
     }
@@ -60,4 +65,12 @@ function removeBreadcrumb(state, breadcrumbId){
             $splice: [[indexBreadcrumb, 1]]
         }
     })
+}
+
+function getTags(state, action){
+    return update(state, {
+        tags: {
+            $set: action.payload.getTags
+        }
+    });
 }

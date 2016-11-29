@@ -1,7 +1,7 @@
 import faker from 'Faker';
 import uuid from 'uuid';
 
-export function randomPosts(page = 1, item_per_page = 10, total_item = 100){
+export function randomPosts(page = 1, itemPerPage = 10, totalItem = 100){
     var posts : Array<PostType> = [];
     for(var i = 0; i < 20; i++){
         posts.push({
@@ -17,10 +17,10 @@ export function randomPosts(page = 1, item_per_page = 10, total_item = 100){
         })
     }
     return {
-        data: posts.slice(0, item_per_page),
+        data: posts.slice(0, itemPerPage),
         pagination: {
-            total_item,
-            item_per_page,
+            totalItem,
+            itemPerPage,
             page
         }
     };

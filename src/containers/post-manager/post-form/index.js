@@ -54,7 +54,7 @@ const mapStateToProps = (state, ownProps) => {
         initialValues: {
             ...ownProps.post,
             isPublic: getDeepObject(ownProps.post, {}, 'state') === POST_STATE.PUBLIC,
-            tags: getDeepObject(ownProps.post, [], 'tags').map(tag => tag.tagName)
+            tags: getDeepObject(ownProps.post, [], 'tags').map(tag => tag.name)
         },
         formValues: getValues(state.form.postForm)
     }

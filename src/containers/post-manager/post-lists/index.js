@@ -37,14 +37,14 @@ export default class PostListsManager extends Component {
     constructor() {
         super(...arguments);
         this.query_manager = new QueryManager({
-            page: ['keyword', 'state', 'tagSlugs'],
-            tagSlugs: ['keyword', 'state'],
+            page: ['keyword', 'state', 'tags'],
+            tags: ['keyword', 'state'],
             keyword: ['state'],
             state: []
         });
         this.state = {
             state: POST_STATE.PUBLIC,
-            tagSlugs: this.query_manager.getQuery('tagSlugs', '').split(','),
+            tags: this.query_manager.getQuery('tags', '').split(','),
             keyword: '',
             postsChecked: []
         }
@@ -76,20 +76,21 @@ export default class PostListsManager extends Component {
     }
 
     @autobind
-    handleChangeFilterTags(tagSlugs) {
-        this.setState({tagSlugs})
+    handleChangeFilterTags(tags) {
+        this.setState({tags})
     }
 
     @autobind
-    handleSubmitFilter(tagSlugs) {
-        this.updateLocationPage('tagSlugs', this.state.tagSlugs.concat(','))
+    handleSubmitFilter(tags) {
+        const tagsString = this.state.tags.length > 0 ? this.state.tags.concat(',') : '';
+        this.updateLocationPage('tags', tagsString)
     }
 
     getPosts(resetChecked = false) {
         const query = this.query_manager.getQueryObject({
             state: POST_STATE.PUBLIC,
             page: 1,
-            item_per_page: 10,
+            itemPerPage: 10,
         });
         this.props.getPosts(query);
         if(resetChecked) this.resetPostsChecked();
@@ -124,12 +125,12 @@ export default class PostListsManager extends Component {
             onSearch={this.handleSearch}
             paginationProps={{...this.props.pagination, page: this.query_manager.getQuery('page', 1), onChange: this.handleChangePage}}
             searchProps={{defaultValue: this.query_manager.getQuery('keyword','')}}
-            filterOpen={this.query_manager.getQuery('tagSlugs',false)}
+            filterOpen={this.query_manager.getQuery('tags',false)}
             isSearch
             isFilter
         >
             <Title element="h4" marginTop={10}>Tags filter</Title>
-            <SelectTag marginTop={15} defaultTags={['Đề thi','THPT quốc gia']} value={this.state.tagSlugs}
+            <SelectTag marginTop={15} defaultTags={['technology']} value={this.state.tags}
                        onChange={this.handleChangeFilterTags}/>
             <Button className="btn-default fill" onClick={this.handleSubmitFilter}>Submit</Button>
         </SearchFilterPagination>
@@ -230,7 +231,10 @@ export default class PostListsManager extends Component {
             <Column
                 header={() => {}}
                 cell={(post) => {
-                    return <img src={post.featuredImage.thumbnailUrl} style={{width: 40}} alt=""/>
+                    if(post.featuredImage){
+                            return <img src={post.featuredImage.thumbnailUrl} style={{width: 40}} alt=""/>
+                    }
+                    else return 'No image'
                 }}
             />
             <Column
@@ -243,7 +247,7 @@ export default class PostListsManager extends Component {
             />
             <Column
                 header={() => 'Author'}
-                cell={(post) => <UserAvatar username={post.user.username} label="fullname" fullname={post.user.fullname}/>}
+                cell={(post) => <UserAvatar username={post.owner.username} label="fullname" fullname={post.owner.fullname}/>}
             />
             {this.renderColumnActions()}
         </Table>

@@ -41,8 +41,8 @@ export default class TableCustom extends Component {
     }
 
     getIndex(pagination, rowIndex){
-        const {page, item_per_page} = pagination;
-        return (page-1) * item_per_page + rowIndex + 1;
+        const {page, itemPerPage} = pagination;
+        return (page-1) * itemPerPage + rowIndex + 1;
     }
 
     getCellShowIndex(cellProps, rowIndex){

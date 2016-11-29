@@ -52,8 +52,8 @@ export default class UserManagerContainer extends Component {
     }
 
     reloadUsers(){
-        const {page, item_per_page} = this.props.pagination;
-        this.props.getUsers(page, item_per_page);
+        const {page, itemPerPage} = this.props.pagination;
+        this.props.getUsers(page, itemPerPage);
     }
 
     render() {

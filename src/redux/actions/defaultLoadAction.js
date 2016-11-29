@@ -1,7 +1,12 @@
+import {AWAIT_MARKER} from 'redux-await';
+import {DefaultApi} from '../../api'
+
 export const ADD_BREADCRUMB = 'DEFAULT-LOAD/add-breadcrumb';
 export const UPDATE_BREADCRUMB = 'DEFAULT-LOAD/update-breadcrumb';
 export const REMOVE_BREADCRUMB = 'DEFAULT-LOAD/remove-breadcrumb';
 export const RESET_BREADCRUMB = 'DEFAULT-LOAD/reset-breadcrumb';
+
+export const GET_TAGS = 'DEFAULT-LOAD/add-tag';
 
 export function addBreadcrumb(breadcrumb : BreadcrumbType){
     return {
@@ -32,6 +37,23 @@ export function resetBreadcrumb(){
     }
 }
 
+export function getTags(){
+    return {
+        type: GET_TAGS,
+        AWAIT_MARKER,
+        payload: {
+            getTags: DefaultApi.getTags()
+        }
+    }
+}
+
+export function autoLoadData(){
+    return dispatch => {
+        dispatch(getTags())
+    }
+}
+
 export default {
-    addBreadcrumb, updateBreadcrumb, removeBreadcrumb, resetBreadcrumb
+    addBreadcrumb, updateBreadcrumb, removeBreadcrumb, resetBreadcrumb, getTags,
+    autoLoadData
 }

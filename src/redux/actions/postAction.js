@@ -20,12 +20,12 @@ export function getPosts(...args){
     }
 }
 
-export function getPostsByFilter(filter = '', page = 1, item_per_page = 10){
+export function getPostsByFilter(filter = '', page = 1, itemPerPage = 10){
     return {
         type: GET_POSTS_FILTER,
         AWAIT_MARKER,
         payload: {
-            getPosts: PostApi.getPostsByFilter(filter, page, item_per_page)
+            getPosts: PostApi.getPostsByFilter(filter, page, itemPerPage)
         }
     }
 }
