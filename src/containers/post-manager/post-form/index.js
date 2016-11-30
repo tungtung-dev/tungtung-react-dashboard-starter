@@ -6,23 +6,15 @@ import {bindActionCreators} from 'redux';
 import {reduxForm, getValues} from 'redux-form';
 import {push} from 'react-router-redux';
 import {autobind} from 'core-decorators';
-import {POST_STATE} from '../../../constants/postType';
-import swal from 'sweetalert2';
+import {POST_STATE} from 'constants/postType';
 import {
-    InputText,
-    MDEditor,
-    Button,
-    ButtonGroupDropdown,
-    Textarea,
-    SelectTag,
-    SelectImage,
-    SelectImagePopover,
-    DraftjsEditor,
-    Switch
-} from '../../../components/form/index';
-import {Box, Flex, Title, Icon, CenterPaddingBox, TabsFilter, SpinnerOverlay} from '../../../components/layouts';
+    InputText, MDEditor, Button, ButtonGroupDropdown, Textarea,
+    SelectTag, SelectImage, SelectImagePopover, DraftjsEditor, Switch
+} from 'components/form';
+import {Box, Flex, Title, Icon, CenterPaddingBox, TabsFilter, SpinnerOverlay} from 'components/layouts';
+import {getDeepObject} from 'utils';
 import {Spinner, Position} from '@blueprintjs/core';
-import {getDeepObject} from '../../../utils';
+
 import {
     swalConfirmDelete, swalConfirmTrash, swalRevert,
     getOptionsButtonFromState, getDataPost

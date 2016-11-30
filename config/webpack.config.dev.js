@@ -78,7 +78,11 @@ module.exports = {
     // These are the reasonable defaults supported by the Node ecosystem.
     // We also include JSX as a common component filename extension to support
     // some tools, although we do not recommend using it, see:
-    // https://github.com/facebookincubator/create-react-app/issues/290
+    // https://github.com/facebookincubator/create-react-app/issues/290,
+    modulesDirectories: [
+        'src',
+        'node_modules'
+    ],
     extensions: ['.js', '.json', '.jsx', ''],
     alias: {
       // Support React Native Web

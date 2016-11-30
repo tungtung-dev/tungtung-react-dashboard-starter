@@ -3,12 +3,11 @@ import {bindActionCreators} from 'redux';
 import marked from 'marked';
 import {Link} from 'react-router';
 import {Tab, TabList, TabPanel} from '@blueprintjs/core';
-import {CenterPaddingBox, Tabs, Box, Flex, Title, SpinnerOverlay, Breadcrumb} from '../../../components/layouts';
-import {connect} from '../../../utils/reduxAwait';
-import {toShortString} from '../../../utils';
-import {Button, ButtonGroupDropdown} from '../../../components/form';
-import  DraftjsView from '../../../components/form/draftjs/editor-view';
-import {getPost, clearPost} from '../../../redux/actions/postAction';
+import {CenterPaddingBox, Tabs, Box, Flex, Title, SpinnerOverlay, Breadcrumb} from 'components/layouts';
+import  DraftjsView from 'components/form/draftjs/editor-view';
+import {getPost, clearPost} from 'redux/actions/postAction';
+import {connect} from 'utils/reduxAwait';
+import {toShortString} from 'utils';
 
 import "./style.scss";
 
@@ -37,7 +36,7 @@ export default class PostView extends Component {
 
     componentDidMount() {
         const {params:{postSlug}, currentPost} = this.props;
-        if(currentPost.slug !== postSlug){
+        if (currentPost.slug !== postSlug) {
             this.props.getPost(postSlug);
         }
     }
@@ -62,7 +61,8 @@ export default class PostView extends Component {
                         <Tab>By draftjs</Tab>
                     </TabList>
                     <TabPanel>
-                        {content && typeof content === 'string' && <div className="tt-post-view" dangerouslySetInnerHTML={{__html: marked(content)}}/>}
+                        {content && typeof content === 'string' &&
+                        <div className="tt-post-view" dangerouslySetInnerHTML={{__html: marked(content)}}/>}
                         {content && typeof content === 'object' && <DraftjsView value={content}/>}
                     </TabPanel>
                     <TabPanel>

@@ -16,26 +16,26 @@ export function getParameterByName(name: string = '', url: string = '') {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-export function combineQueryAndValue(query_key, query_value) {
-    return `${query_key}=${encodeURIComponent(query_value)}`;
+export function combineQueryAndValue(queryKey, query_value) {
+    return `${queryKey}=${encodeURIComponent(query_value)}`;
 }
 
 /**
  * Combine queries from url
- * @param query_key
+ * @param queryKey
  * @param query_value
  * @param queries_need_combine
  * @returns {string}
  */
-export function combineQueries(query_key: string = '', query_value: string = '', queries_need_combine: Array<string> = []) {
-    return queries_need_combine.map(query_key => {
-        let query_value = getParameterByName(query_key);
+export function combineQueries(queryKey: string = '', query_value: string = '', queries_need_combine: Array<string> = []) {
+    return queries_need_combine.map(queryKey => {
+        let query_value = getParameterByName(queryKey);
         if (query_value) {
-            return combineQueryAndValue(query_key, query_value);
+            return combineQueryAndValue(queryKey, query_value);
         }
         return '';
     })
-        .concat([query_value ? combineQueryAndValue(query_key, query_value) : ''])
+        .concat([query_value ? combineQueryAndValue(queryKey, query_value) : ''])
         .filter(query => query !== '')
         .join('&');
 }
@@ -47,37 +47,40 @@ export default class QueryManager {
     /**
      * {[key] : Array<string>, ...}
      * Example: {page: ['filter', 'search'], filter: ['search']}
-     * @param query_level
+     * @param queryLevel
      */
-    constructor(query_level = {}) {
-        this.query_level = query_level;
+    constructor(queryLevel = {}) {
+        this.queryLevel = queryLevel;
     }
 
-    updateQuery(query_key = '', query_value = '') {
-        return combineQueries(query_key, query_value, this.query_level[query_key]);
+    updateQuery(queryKey = '', query_value = '') {
+        return combineQueries(queryKey, query_value, this.queryLevel[queryKey]);
     }
 
-    getQuery(query_key = '', default_value = '') {
-        return getParameterByName(query_key) ? getParameterByName(query_key) : default_value
+    getQuery(queryKey = '', defaultValue = '') {
+        return getParameterByName(queryKey) ? getParameterByName(queryKey) : defaultValue
     }
 
-    getQueryObject(default_values = {}){
+    getQueryObject(defaultValues = {}){
         const query = {};
-        Object.keys(this.query_level).map(query_key => {
-            let query_value = this.getQuery(query_key, default_values[query_key]);
+        Object.keys(this.queryLevel).map(queryKey => {
+            let query_value = this.getQuery(queryKey, defaultValues[queryKey]);
             if(query_value){
-                query[query_key] = query_value;
+                query[queryKey] = query_value;
             }
             return {
-                key: query_key,
+                key: queryKey,
                 value: query_value
             }
         });
-        return query;
+        return {
+            ...defaultValues,
+            ...query,
+        }
     }
 
     exportQueriesToString() {
-        return combineQueries('', '', Object.keys(this.query_level));
+        return combineQueries('', '', Object.keys(this.queryLevel));
     }
 }
 

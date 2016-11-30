@@ -31,7 +31,10 @@ export default class ButtonGroupDropdown extends Component {
 }
 ButtonGroupDropdown.defaultProps = {
     options: [],
-    position: Position.BOTTOM
+    position: Position.BOTTOM,
+    dropdownIcon: {
+        name: 'caret-down', bluePrintIcon: true
+    }
 }
 ButtonGroupDropdown.propTypes = {
     dropdownIcon: PropTypes.object,

@@ -1,6 +1,6 @@
 import swal from 'sweetalert2';
 import {convertData} from 'common-helper';
-import {POST_STATE} from '../../../constants/postType';
+import {POST_STATE} from 'constants/postType';
 
 /**
  * Alert reverted post

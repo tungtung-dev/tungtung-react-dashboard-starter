@@ -2,16 +2,17 @@ import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
 import {autobind} from 'core-decorators';
-import {POST_STATE} from '../../../constants/postType'
-import postAction from '../../../redux/actions/postAction';
-import {connect} from '../../../utils/reduxAwait';
-import {toShortString} from '../../../utils';
-import QueryManager from '../../../utils/location_queries';
-import {Link, Button, ButtonDropdown, ButtonGroupDropdown, SelectTag} from '../../../components/form/index';
-import {CenterPaddingBox, Box, Icon, Title, TabsFilter} from '../../../components/layouts/index';
-import {Table, Column, SearchFilterPagination} from '../../../components/manager/index';
-import {UserAvatar} from '../../../components/partials/index';
 import Equal from 'deep-equal';
+
+import {POST_STATE} from 'constants/postType'
+import postAction from 'redux/actions/postAction';
+import {toShortString} from 'utils';
+import {connect} from 'utils/reduxAwait';
+import QueryManager from 'utils/location_queries';
+import {Link, Button, ButtonDropdown, ButtonGroupDropdown, SelectTag} from 'components/form';
+import {CenterPaddingBox, Box, Icon, Title, TabsFilter} from 'components/layouts';
+import {Table, Column, SearchFilterPagination} from 'components/manager';
+import {UserAvatar} from 'components/partials';
 import {Position} from '@blueprintjs/core';
 import {
     swalConfirmDelete, swalConfirmTrash, swalRevert, swalPublish, swalDraft,
@@ -36,7 +37,7 @@ export default class PostListsManager extends Component {
 
     constructor() {
         super(...arguments);
-        this.query_manager = new QueryManager({
+        this.queryManager = new QueryManager({
             page: ['keyword', 'state', 'tags'],
             tags: ['keyword', 'state'],
             keyword: ['state'],
@@ -44,15 +45,15 @@ export default class PostListsManager extends Component {
         });
         this.state = {
             state: POST_STATE.PUBLIC,
-            tags: this.query_manager.getQuery('tags', '').split(','),
+            tags: this.queryManager.getQuery('tags', '').split(','),
             keyword: '',
             postsChecked: []
         }
     }
 
-    updateLocationPage(query_key, query_value) {
-        const queries_string = this.query_manager.updateQuery(query_key, query_value);
-        this.props.push(`/posts?${queries_string}`);
+    updateLocationPage(queryKey, queryValue) {
+        const queriesString = this.queryManager.updateQuery(queryKey, queryValue);
+        this.props.push(`/posts?${queriesString}`);
     }
 
     @autobind
@@ -87,7 +88,7 @@ export default class PostListsManager extends Component {
     }
 
     getPosts(resetChecked = false) {
-        const query = this.query_manager.getQueryObject({
+        const query = this.queryManager.getQueryObject({
             state: POST_STATE.PUBLIC,
             page: 1,
             itemPerPage: 10,
@@ -111,7 +112,7 @@ export default class PostListsManager extends Component {
     }
 
     renderTabs() {
-        return <TabsFilter tabs={TABS} tabSelected={this.query_manager.getQuery('state', POST_STATE.PUBLIC)}
+        return <TabsFilter tabs={TABS} tabSelected={this.queryManager.getQuery('state', POST_STATE.PUBLIC)}
                            onChange={this.handleChangeTab}>
             <li className="pull-right">
                 <Link to="/posts/create"><i className="icon-plus"/> New post</Link>
@@ -122,9 +123,9 @@ export default class PostListsManager extends Component {
     renderSearchFilterPagination() {
         return <SearchFilterPagination
             onSearch={this.handleSearch}
-            paginationProps={{...this.props.pagination, page: this.query_manager.getQuery('page', 1), onChange: this.handleChangePage}}
-            searchProps={{defaultValue: this.query_manager.getQuery('keyword','')}}
-            filterOpen={this.query_manager.getQuery('tags',false)}
+            paginationProps={{...this.props.pagination, page: this.queryManager.getQuery('page', 1), onChange: this.handleChangePage}}
+            searchProps={{defaultValue: this.queryManager.getQuery('keyword','')}}
+            filterOpen={this.queryManager.getQuery('tags',false)}
             isSearch
             isFilter
         >
@@ -145,7 +146,7 @@ export default class PostListsManager extends Component {
             checkedData: this.state.postsChecked,
             onChange: this.handleChangeChecked
         };
-        const state = this.query_manager.getQuery('state', POST_STATE.PUBLIC);
+        const state = this.queryManager.getQuery('state', POST_STATE.PUBLIC);
         const totalChecked = this.state.postsChecked.length;
         const buttonActions = getOptionsCheckedListsFromState(state, totalChecked, {
             onRevert: () => {

@@ -42,7 +42,7 @@ export function getTags(){
         type: GET_TAGS,
         AWAIT_MARKER,
         payload: {
-            getTags: DefaultApi.getTags()
+            getTagsDefault: DefaultApi.getTagsWithoutPagination()
         }
     }
 }

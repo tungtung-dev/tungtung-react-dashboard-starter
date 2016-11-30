@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Breadcrumb} from '../../../components/layouts/index';
+import {Breadcrumb} from 'components/layouts';
 
 export default class PostWrapper extends Component {
     render() {

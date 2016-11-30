@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
 import {autobind} from 'core-decorators';
-import {Breadcrumb, Toaster} from '../../../components/layouts/index';
-import {getPost, updateCurrentPost, clearPost} from '../../../redux/actions/postAction';
-import {connect} from '../../../utils/reduxAwait';
-import {toShortString} from '../../../utils';
-import {PostApi} from '../../../api';
+import {Breadcrumb, Toaster} from 'components/layouts';
+import {getPost, updateCurrentPost, clearPost} from 'redux/actions/postAction';
+import {connect} from 'utils/reduxAwait';
+import {toShortString} from 'utils';
+import {PostApi} from 'api';
 import PostForm from '../post-form';
 
 const mapStateToProps = (state, ownProps) => {

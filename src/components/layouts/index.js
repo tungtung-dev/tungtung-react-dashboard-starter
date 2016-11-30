@@ -1,3 +1,4 @@
+import {Row, Col} from 'reactstrap';
 import AppWrapper from './AppWrapper';
 import CenterPaddingBox from './center-padding-box';
 import Header from './header';
@@ -17,11 +18,13 @@ import Toaster from './toaster';
 export {
     AppWrapper, CenterPaddingBox, Header, Sidebar, Box,
     Title, Icon, TitleFlex, Flex, Breadcrumb, Pagination,
-    TabsFilter, Tabs, SpinnerOverlay, Toaster
+    TabsFilter, Tabs, SpinnerOverlay, Toaster,
+    Row, Col
 }
 
 export default {
     AppWrapper, CenterPaddingBox, Header, Sidebar, Box,
     Title, Icon, TitleFlex, Flex, Breadcrumb, Pagination,
-    TabsFilter, Tabs, SpinnerOverlay, Toaster
+    TabsFilter, Tabs, SpinnerOverlay, Toaster,
+    Row, Col
 }

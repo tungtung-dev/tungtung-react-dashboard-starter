@@ -1,5 +1,6 @@
 import React, {PureComponent, PropTypes} from 'react';
 import classnames from 'classnames';
+import {getStyleFromProps} from 'utils';
 import "./style.scss";
 
 export default class Box extends PureComponent{
@@ -10,16 +11,7 @@ export default class Box extends PureComponent{
             {[`tt-bg-color-${this.props.backgroundStyle}`]: this.props.backgroundStyle},
             {'sm': this.props.sm}
         )
-        let style = {
-            ...this.props.style,
-            boxShadow: this.props.shadowStyle,
-        };
-        if(this.props.customBorderColor){
-            style.borderColor = this.props.customBorderColor;
-        }
-        if(this.props.customBackgroundColor){
-            style.backgroundColor = this.props.customBackgroundColor;
-        }
+        let style = getStyleFromProps(['boxShadow', 'borderColor', 'backgroundClor', 'marginTop', 'marginBottom'], this.props);
         return <div className={className} style={style}>
             {this.props.children}
         </div>
@@ -35,8 +27,10 @@ Box.defaultProps = {
 Box.propTypes = {
     borderStyle: PropTypes.oneOf(['blue','black','red','orange','yellow']),
     backgroundStyle: PropTypes.oneOf(['white', 'gray']),
-    customBorderColor: PropTypes.string,
-    customBackgroundColor: PropTypes.string,
-    shadowStyle: PropTypes.string,
+    borderColor: PropTypes.string,
+    backgroundColor: PropTypes.string,
+    boxShadow: PropTypes.string,
+    marginTop: PropTypes.number,
+    marginBottom: PropTypes.number,
     sm: PropTypes.bool
 }

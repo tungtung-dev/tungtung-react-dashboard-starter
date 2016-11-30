@@ -70,7 +70,7 @@ function removeBreadcrumb(state, breadcrumbId){
 function getTags(state, action){
     return update(state, {
         tags: {
-            $set: action.payload.getTags
+            $set: action.payload.getTagsDefault
         }
     });
 }
