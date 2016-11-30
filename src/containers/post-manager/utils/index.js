@@ -1,4 +1,5 @@
 import swal from 'sweetalert2';
+import {convertData} from 'common-helper';
 import {POST_STATE} from '../../../constants/postType';
 
 /**
@@ -133,14 +134,22 @@ export function getOptionsCheckedListsFromState(state, totalSelected, {onRevert,
  * @returns {{title: *, description: *, contentType: *, content: *, featuredImage: *, secondaryFeaturedImage: *, tags: *, state: string}}
  */
 export function getDataPost(postFormValues, currentPost : PostType){
-    const {
-        title, description, contentType, content,
-        featuredImage, secondaryFeaturedImage, tags,
-        isPublic
-    } = postFormValues;
-    return {
-        title, description, contentType, content,
-        featuredImage, secondaryFeaturedImage, tags,
-        state: currentPost.state === POST_STATE.TRASH ? POST_STATE.TRASH : (isPublic ? POST_STATE.PUBLIC : POST_STATE.DRAFT)
-    }
+    // get data from postFormValues
+    const dataPost = convertData(postFormValues, {
+        title: {$get: true},
+        description: {$get: true},
+        contentType: {$get: true},
+        content: {$get: true},
+        featuredImage: {$get: true, $default: {}},
+        secondaryFeaturedImage: {$get: true, $default: {}},
+        tags: {$get: true, $default: []},
+        state: {
+            $update: () => {
+                if(currentPost.state  === POST_STATE.TRASH) return POST_STATE.TRASH;
+                return postFormValues.isPublic ? POST_STATE.PUBLIC : POST_STATE.DRAFT;
+            }
+        },
+        customField: {$get: true}
+    });
+    return dataPost;
 }

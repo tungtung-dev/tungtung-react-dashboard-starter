@@ -64,6 +64,7 @@
     "bootstrap-sass": "^3.3.7",
     "classnames": "^2.2.5",
     "clipboard": "^1.5.15",
+    "common-helper": "^1.0.4",
     "core-decorators": "^0.12.3",
     "draft-js": "^0.9.1",
     "draft-js-alignment-plugin": "^2.0.0-beta1",

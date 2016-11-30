@@ -152,6 +152,13 @@ export default class DraftjsEditor extends React.Component {
         return EditorState.createWithContent(newContentState, this.getDecorator());
     }
 
+    componentDidUpdate(prevProps ){
+        let editorState = this.getEditorState();
+        if(!prevProps.value && this.props.value && this.state.editorState !== editorState){
+            this._onChange(editorState);
+        }
+    }
+
     getDecorator() {
         const strategies = this.getEditMode() ? strategiesCustom.Edit : strategiesCustom.Read
         return new CompositeDecorator(strategies);

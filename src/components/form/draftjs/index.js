@@ -1,4 +1,4 @@
-import React, {PureComponent, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import classnames from 'classnames';
 import {autobind} from 'core-decorators';
 import Editor from './editor/index';
@@ -9,7 +9,7 @@ import {draftjsPropType} from './proptypes';
 
 import "./style.scss";
 
-export default class EditorFull extends PureComponent {
+export default class EditorFull extends Component {
     state = {
         haveRead: false,
         isFocus: false,
@@ -116,6 +116,7 @@ export default class EditorFull extends PureComponent {
         const {readOnly} = this.props;
         const isShowRead = this.props.readOnly || this.state.haveRead;
         const className = classnames('tt-draftjs-editor-full',{'have-read':isShowRead, 'read-only': readOnly});
+        console.log(this.props);
         return (
             <div className={className}>
                 {this.renderToolbar()}

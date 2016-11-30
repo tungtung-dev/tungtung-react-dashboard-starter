@@ -32,11 +32,14 @@ const DRAFTJS_CONTENT_TYPE = 'CONTENT-TYPE/draftjs';
 const MARKDOWN_CONTENT_TYPE = 'CONTENT-TYPE/markdown';
 
 const TABS_CONTENT_TYPE = [
-    {text: 'Markdown', value: MARKDOWN_CONTENT_TYPE},
     {text: 'Draftjs', value: DRAFTJS_CONTENT_TYPE},
+    {text: 'Markdown', value: MARKDOWN_CONTENT_TYPE},
 ]
 
-const fields = ['title', 'description', 'tags', 'contentType', 'content', 'featuredImage', 'secondaryFeaturedImage', 'isPublic']
+const fields = [
+    'title', 'description', 'tags', 'content', 'featuredImage', 'secondaryFeaturedImage', 'isPublic',
+    'customField.contentType'
+]
 const validate = (values) => {
     const errors = {};
     if (!values.title) errors.title = "Please fill title";
@@ -131,22 +134,26 @@ export default class PostForm extends Component {
     }
 
     renderContentType() {
-        const {fields: {contentType, content}} = this.props;
+        const {fields: {customField: {contentType}, content}} = this.props;
+        const markdownEditor = <MDEditor {...content}/>;
+        console.log('first');
+        console.log(content.initialValue);
+        const draftJsEditor = <DraftjsEditor isBorder title="Content" {...content} value={content.value ? content.value : content.initialValue}/>;
         switch (contentType.value) {
             case MARKDOWN_CONTENT_TYPE:
-                return <MDEditor {...content}/>;
+                return markdownEditor;
             case DRAFTJS_CONTENT_TYPE:
-                return <DraftjsEditor isBorder title="Content" {...content}/>;
+                return draftJsEditor;
             default:
-                return <MDEditor {...content}/>;
+                return draftJsEditor;
         }
     }
 
-    renderTabContent() {
-        const {fields: {contentType}} = this.props;
+    renderTabContent(){
+        const {fields: {customField:{contentType}}} = this.props;
         return <div>
             <TabsFilter tabs={TABS_CONTENT_TYPE}
-                        tabSelected={contentType.value ? contentType.value : MARKDOWN_CONTENT_TYPE}
+                        tabSelected={contentType.value ? contentType.value : DRAFTJS_CONTENT_TYPE}
                         onChange={contentType.onChange}/>
             {this.renderContentType()}
         </div>
