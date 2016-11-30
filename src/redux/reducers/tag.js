@@ -1,4 +1,4 @@
-import {GET_TAGS, CREATE_TAG, UPDATE_TAG} from '../actions/tagAction';
+import {GET_TAGS} from '../actions/tagAction';
 import update from 'react-addons-update';
 
 const initialState : TagReducerState = {

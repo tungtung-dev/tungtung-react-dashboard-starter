@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {Breadcrumb} from 'components/layouts';
 
 export default class TagManager extends Component {

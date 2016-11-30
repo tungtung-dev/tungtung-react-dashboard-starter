@@ -51,7 +51,7 @@ export default class Header extends PureComponent {
         return (
             <Navbar className="header tt-header" color="faded" light>
                 <Link to="/" className="navbar-brand">
-                    <img src="/assets/images/logo-blue.png" />
+                    <img src="/assets/images/logo-blue.png" role="presentation"/>
                 </Link>
                 <div className="pull-left tt-breadcrumb-bar-wrap">
                     <BreadcrumbBar/>

@@ -177,10 +177,10 @@ export default class PostListsManager extends Component {
     }
 
     renderColumnActions() {
-        const context = this;
+        //const context = this;
 
         const getActions = (post) => {
-            const {slug} = post;
+            //const {slug} = post;
             return {
                 onRevert: () => {
                     swalRevert();

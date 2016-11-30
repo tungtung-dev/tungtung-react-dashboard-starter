@@ -11,7 +11,6 @@ import {Button, Link, ButtonGroupDropdown} from 'components/form';
 import TagAction from 'redux/actions/tagAction';
 import {getTags as getTagsDefault} from 'redux/actions/defaultLoadAction';
 
-import TagModal from '../tag-modal';
 import TagForm from '../tag-form';
 
 @connect((state) => {
@@ -118,8 +117,51 @@ export default class TagListsManager extends Component {
         })
     }
 
-    render() {
+    renderTable() {
         const {data, pagination} = this.props;
+        return <div>
+            <Pagination {...pagination} onChange={this.handleChangePage}/>
+            <Table data={data}>
+                <Column
+                    header={() => 'Name'}
+                    cell={(tag) => tag.name}
+                />
+                <Column
+                    header={() => 'Slug'}
+                    cell={(tag) => tag.slug}
+                />
+                <Column
+                    header={() => 'Posts'}
+                    cell={(tag) => <Link to={`/posts?tags=${tag.name}`}>Posts</Link>}
+                />
+                <Column
+                    header={() => 'Actions'}
+                    cell={(tag) =><div>
+                                    <ButtonGroupDropdown
+                                        className="btn-default"
+                                        options={[{text: 'Delete', onClick: () => this.handleTrash(tag.id, tag.name)}]}
+                                        onClick={() => this.toggleEdit(tag)}
+                                        >
+                                        Edit
+                                    </ButtonGroupDropdown>
+                                </div>
+                            }
+                />
+            </Table>
+        </div>
+    }
+
+    renderForm(){
+        const {isEdit} = this.state;
+        return <div>
+            <Title marginBottom={10} element="h3"
+                   styleColor="primary">{isEdit ? 'Edit tag' : 'Create tag'}</Title>
+            <TagForm onSubmitTag={isEdit ? this.handleSubmitEdit : this.handleSubmitCreate}
+                     initialValues={this.state.currentTag} editable={isEdit}/>
+        </div>
+    }
+
+    render() {
         return <CenterPaddingBox>
             <Flex alignItems="center" justifyContent="space-between">
                 <Title element="h2" styleColor="black-white">
@@ -132,40 +174,8 @@ export default class TagListsManager extends Component {
             <Box marginTop={10}>
                 <Row>
                     <Flex alignItems="center">
-                        <Col md={4}>
-                            <Title marginBottom={10} element="h3" styleColor="primary">{this.state.isEdit ? 'Edit tag' : 'Create tag'}</Title>
-                            <TagForm onSubmitTag={this.state.isEdit ? this.handleSubmitEdit : this.handleSubmitCreate} initialValues={this.state.currentTag} editable={this.state.isEdit}/>
-                        </Col>
-                        <Col md={8}>
-                            <Pagination {...pagination} onChange={this.handleChangePage}/>
-                            <Table data={data}>
-                                <Column
-                                    header={() => 'Name'}
-                                    cell={(tag) => tag.name}
-                                />
-                                <Column
-                                    header={() => 'Slug'}
-                                    cell={(tag) => tag.slug}
-                                />
-                                <Column
-                                    header={() => 'Posts'}
-                                    cell={(tag) => <Link to={`/posts?tags=${tag.name}`}>Posts</Link>}
-                                />
-                                <Column
-                                    header={() => 'Actions'}
-                                    cell={(tag) =><div>
-                                    <ButtonGroupDropdown
-                                        className="btn-default"
-                                        options={[{text: 'Delete', onClick: () => this.handleTrash(tag.id, tag.name)}]}
-                                        onClick={() => this.toggleEdit(tag)}
-                                        >
-                                        Edit
-                                    </ButtonGroupDropdown>
-                                </div>
-                            }
-                                />
-                            </Table>
-                        </Col>
+                        <Col md={4}>{this.renderForm()}</Col>
+                        <Col md={8}>{this.renderTable()}</Col>
                     </Flex>
                 </Row>
             </Box>
