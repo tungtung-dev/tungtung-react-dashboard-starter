@@ -48,6 +48,7 @@ export default class PostEdit extends Component {
                 if (postRes.slug) {
                     this.setState({isUpdating: false});
                     dispatch(updateCurrentPost(postRes));
+                    Toaster.show({message:'Update post successfully', intent: 1});
                     resolve();
                 }
                 else {

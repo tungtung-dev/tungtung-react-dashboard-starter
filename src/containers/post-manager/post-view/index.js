@@ -8,6 +8,7 @@ import  DraftjsView from 'components/form/draftjs/editor-view';
 import {getPost, clearPost} from 'redux/actions/postAction';
 import {connect} from 'utils/reduxAwait';
 import {toShortString} from 'utils';
+import {DRAFTJS_CONTENT_TYPE, MARKDOWN_CONTENT_TYPE} from '../post-form';
 
 import "./style.scss";
 
@@ -42,7 +43,7 @@ export default class PostView extends Component {
     }
 
     render() {
-        const {currentPost: {title, slug, content}, awaitStatuses} = this.props;
+        const {currentPost: {title, slug, content, customField: {contentType, markdownContent}}, awaitStatuses} = this.props;
         return <CenterPaddingBox paddingTop={30}>
             <Breadcrumb id="post_view_title" name={toShortString(title, 10, 20)}/>
             {awaitStatuses.getPost === 'pending' && <SpinnerOverlay backgroundColor="rgba(255,255,255,.7)" fixed/>}
@@ -55,20 +56,14 @@ export default class PostView extends Component {
                 </Link>
             </Flex>
             <Box sm>
-                <Tabs>
-                    <TabList>
-                        <Tab>By markdown</Tab>
-                        <Tab>By draftjs</Tab>
-                    </TabList>
-                    <TabPanel>
-                        {content && typeof content === 'string' &&
-                        <div className="tt-post-view" dangerouslySetInnerHTML={{__html: marked(content)}}/>}
-                        {content && typeof content === 'object' && <DraftjsView value={content}/>}
-                    </TabPanel>
-                    <TabPanel>
-                        <h4>No content</h4>
-                    </TabPanel>
-                </Tabs>
+                <div className="tt-post-view">
+                    {contentType === MARKDOWN_CONTENT_TYPE &&
+                        <div dangerouslySetInnerHTML={{__html: marked(markdownContent)}}/>
+                    }
+                    {contentType === DRAFTJS_CONTENT_TYPE && typeof content === 'object' &&
+                        <DraftjsView value={content}/>
+                    }
+                </div>
             </Box>
         </CenterPaddingBox>
     }
