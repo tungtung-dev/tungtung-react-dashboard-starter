@@ -27,9 +27,9 @@ export default class PostEdit extends Component {
 
     componentDidMount() {
         const {params: {postSlug}, currentPost} = this.props;
-        if (currentPost.slug !== postSlug) {
+        // if (currentPost.slug !== postSlug) {
             this.props.getPost(postSlug);
-        }
+        //}
     }
 
     componentDidUpdate(){

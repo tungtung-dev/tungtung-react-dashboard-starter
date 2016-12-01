@@ -8,7 +8,8 @@ import  DraftjsView from 'components/form/draftjs/editor-view';
 import {getPost, clearPost} from 'redux/actions/postAction';
 import {connect} from 'utils/reduxAwait';
 import {toShortString} from 'utils';
-import {DRAFTJS_CONTENT_TYPE, MARKDOWN_CONTENT_TYPE} from '../post-form';
+
+import {DRAFTJS_CONTENT_TYPE, MARKDOWN_CONTENT_TYPE} from '../constants';
 
 import "./style.scss";
 
@@ -47,17 +48,17 @@ export default class PostView extends Component {
         return <CenterPaddingBox paddingTop={30}>
             <Breadcrumb id="post_view_title" name={toShortString(title, 10, 20)}/>
             {awaitStatuses.getPost === 'pending' && <SpinnerOverlay backgroundColor="rgba(255,255,255,.7)" fixed/>}
-            <Flex marginBottom={10} alignItems="center" justifyContent="space-between">
-                <Title styleColor="black-white" element="h2">
-                    {title}
-                </Title>
-                <Link to={`/posts/edit/${slug}`} className="btn btn-default">
-                    Edit
-                </Link>
-            </Flex>
-            <Box sm>
+            <Box>
+                <Flex marginBottom={10} alignItems="center" justifyContent="space-between">
+                    <Title element="h1">
+                        {title}
+                    </Title>
+                    <Link to={`/posts/edit/${slug}`} className="btn btn-default">
+                        Edit
+                    </Link>
+                </Flex>
                 <div className="tt-post-view">
-                    {contentType === MARKDOWN_CONTENT_TYPE &&
+                    {contentType === MARKDOWN_CONTENT_TYPE && markdownContent &&
                         <div dangerouslySetInnerHTML={{__html: marked(markdownContent)}}/>
                     }
                     {contentType === DRAFTJS_CONTENT_TYPE && typeof content === 'object' &&

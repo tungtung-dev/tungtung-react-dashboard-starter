@@ -4,13 +4,19 @@ import {
 } from '../actions/postAction';
 import update from 'react-addons-update';
 
+const initialCurrentPost : PostType = {
+    title: '',
+    content: '',
+    customField: {}
+}
+
 const initialState : PostReducerState = {
     lists: {
         data: [],
         pagination: {},
         filter: ''
     },
-    currentPost: {}
+    currentPost: initialCurrentPost
 }
 
 export default function createReducer(state : PostReducerState = initialState, action) {
@@ -56,10 +62,23 @@ function getPostsByFilter(state: PostReducerState, action){
     return updatePosts(state,data,pagination)
 }
 
+/**
+ * Update current post, merge default value
+ * @param state
+ * @param currentPost
+ * @returns {{currentPost: *}}
+ */
+function mergeCurrentPostWithIntitial(state : PostReducerState, currentPost){
+    return {
+        ...state.currentPost,
+        ...currentPost
+    }
+}
+
 function getPost(state: PostReducerState, action){
     return update(state, {
         currentPost: {
-            $set: action.payload.getPost
+            $set: mergeCurrentPostWithIntitial(state, action.payload.getPost)
         }
     })
 }
@@ -67,7 +86,7 @@ function getPost(state: PostReducerState, action){
 function createPost(state: PostReducerState, action){
     return update(state, {
         currentPost: {
-            $set: action.payload.createPost
+            $set: mergeCurrentPostWithIntitial(state, action.payload.createPost)
         }
     })
 }
@@ -75,7 +94,7 @@ function createPost(state: PostReducerState, action){
 function updatePost(state: PostReducerState, action){
     return update(state, {
         currentPost: {
-            $set: action.payload.updatePost
+            $set: mergeCurrentPostWithIntitial(state, action.payload.updatePost)
         }
     })
 }
@@ -83,7 +102,7 @@ function updatePost(state: PostReducerState, action){
 function updateCurrentPost(state: PostReducerState, action){
     return update(state, {
         currentPost: {
-            $set: action.dataPost
+            $set: mergeCurrentPostWithIntitial(state, action.dataPost)
         }
     })
 }
@@ -92,7 +111,7 @@ function updateCurrentPost(state: PostReducerState, action){
 function clearPost(state: PostReducerState){
     return update(state, {
         currentPost: {
-            $set: {}
+            $set: initialCurrentPost
         }
     })
 }

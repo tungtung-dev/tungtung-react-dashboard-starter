@@ -20,8 +20,7 @@ import {
     getOptionsButtonFromState, getDataPost
 } from '../utils';
 
-export const DRAFTJS_CONTENT_TYPE = 'CONTENT-TYPE/draftjs';
-export const MARKDOWN_CONTENT_TYPE = 'CONTENT-TYPE/markdown';
+import {DRAFTJS_CONTENT_TYPE, MARKDOWN_CONTENT_TYPE} from '../constants';
 
 const TABS_CONTENT_TYPE = [
     {text: 'Draftjs', value: DRAFTJS_CONTENT_TYPE},

@@ -1,6 +1,7 @@
 import swal from 'sweetalert2';
 import {convertData} from 'common-helper';
 import {POST_STATE} from 'constants/postType';
+import {DRAFTJS_CONTENT_TYPE} from '../constants';
 
 /**
  * Alert reverted post
@@ -149,7 +150,10 @@ export function getDataPost(postFormValues, currentPost : PostType){
                 return postFormValues.isPublic ? POST_STATE.PUBLIC : POST_STATE.DRAFT;
             }
         },
-        customField: {$get: true}
+        customField: {$get: true, $default: {
+            contentType: DRAFTJS_CONTENT_TYPE,
+            markdownContent : ''
+        }}
     });
     return dataPost;
 }
