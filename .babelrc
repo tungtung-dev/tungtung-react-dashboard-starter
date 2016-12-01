@@ -1,21 +1,45 @@
 {
-  "presets": ["react-app","stage-1"],
+  "presets": [
+    "react-app",
+    "stage-1"
+  ],
   "env": {
-      "development": {
-          "plugins": ["transform-runtime",  "transform-decorators-legacy","transform-class-properties",["react-transform", {
-             "transforms": [{
-               "transform": "react-transform-hmr",
-               // if you use React Native, pass "react-native" instead:
-               "imports": ["react"],
-               // this is important for Webpack HMR:
-               "locals": ["module"]
-             }]
-             // note: you can put more transforms into array
-             // this is just one of them!
-           }]]
-      },
-      "production": {
-            "plugins": ["transform-runtime","transform-flow-strip-types","transform-decorators-legacy","transform-class-properties"]
-      }
+    "development": {
+      "plugins": [
+        "transform-runtime",
+        "transform-async-to-generator",
+        "transform-decorators-legacy",
+        "transform-class-properties",
+        [
+          "react-transform",
+          {
+            "transforms": [
+              {
+                "transform": "react-transform-hmr",
+                // if you use React Native, pass "react-native" instead:
+                "imports": [
+                  "react"
+                ],
+                // this is important for Webpack HMR:
+                "locals": [
+                  "module"
+                ]
+              }
+            ]
+            // note: you can put more transforms into array
+            // this is just one of them!
+          }
+        ]
+      ]
+    },
+    "production": {
+      "plugins": [
+        "transform-runtime",
+        "transform-async-to-generator",
+        "transform-flow-strip-types",
+        "transform-decorators-legacy",
+        "transform-class-properties"
+      ]
+    }
   }
 }
