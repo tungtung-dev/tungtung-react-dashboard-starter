@@ -20,7 +20,7 @@ const blockPlugins = {
     codeEditor: 'liveCodeEditorEdit',
 }
 
-export default class DraftjsEditor extends React.Component {
+export default class DraftjsEditor extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -49,7 +49,7 @@ export default class DraftjsEditor extends React.Component {
         );
     }
 
-    changeBlockTypeSelection(editorState){
+    changeBlockTypeSelection(editorState) {
         const selection = editorState.getSelection();
         const blockType = editorState
             .getCurrentContent()
@@ -80,17 +80,23 @@ export default class DraftjsEditor extends React.Component {
     }
 
     @autobind
-    _onChange(editorState) {
+    _onChange(editorState, change = true) {
         this.setState({editorState});
         let contentState = editorState.getCurrentContent();
         if (contentState.getPlainText()) {
             if (this.getEditMode()) {
                 this.changeBlockTypeSelection(editorState);
-                this.props.onChange(convertToRaw(contentState));
+                if (change) {
+                    this.props.onChange(convertToRaw(contentState));
+                }
             }
         }
         else {
-            if (this.getEditMode()) this.props.onChange(null);
+            if (this.getEditMode()) {
+                if (change) {
+                    this.props.onChange(null);
+                }
+            }
         }
     }
 
@@ -152,10 +158,10 @@ export default class DraftjsEditor extends React.Component {
         return EditorState.createWithContent(newContentState, this.getDecorator());
     }
 
-    componentDidUpdate(prevProps ){
+    componentDidUpdate(prevProps) {
         let editorState = this.getEditorState();
-        if(!prevProps.value && this.props.value && this.state.editorState !== editorState){
-            this._onChange(editorState);
+        if (!prevProps.value && this.props.value && this.state.editorState !== editorState) {
+            this._onChange(editorState, false);
         }
     }
 
@@ -191,9 +197,12 @@ export default class DraftjsEditor extends React.Component {
     }
 
     render() {
+        console.log('update it')
+
         return (
             <div className="tt-draftjs-editor-root">
-                <div className="tt-draftjs-editor" id={this.props.id} onClick={this._focus} onFocus={this._focus} onBlur={this._blur}>
+                <div className="tt-draftjs-editor" id={this.props.id} onClick={this._focus} onFocus={this._focus}
+                     onBlur={this._blur}>
                     <Editor
                         editorState={this.state.editorState}
                         handleKeyCommand={this._handleKeyCommand}

@@ -9,8 +9,10 @@ import {autobind} from 'core-decorators';
 import {POST_STATE} from 'constants/postType';
 import {
     InputText, MDEditor, Button, ButtonGroupDropdown, Textarea,
-    SelectTag, SelectImage, SelectImagePopover, DraftjsEditor, Switch
+    SelectTag, SelectImage, SelectImagePopover, Switch,
+    MediumEditor
 } from 'components/form';
+import SelectCategory from 'containers/category-manager/select-category';
 import {Box, Flex, Title, Icon, CenterPaddingBox, TabsFilter, SpinnerOverlay} from 'components/layouts';
 import {getDeepObject} from 'utils';
 import {Spinner, Position} from '@blueprintjs/core';
@@ -29,11 +31,12 @@ const TABS_CONTENT_TYPE = [
 
 const fields = [
     'title', 'description', 'tags', 'content', 'featuredImage', 'secondaryFeaturedImage', 'isPublic',
-    'customField.contentType', 'customField.markdownContent'
+    'customField.contentType', 'customField.markdownContent', 'categoryId'
 ]
 const validate = (values) => {
     const errors = {};
     if (!values.title) errors.title = "Please fill title";
+    if (!values.categoryId) errors.categoryId = "Please choose category";
     return errors;
 }
 
@@ -126,8 +129,11 @@ export default class PostForm extends Component {
 
     renderContentType() {
         const {fields: {customField: {contentType, markdownContent}, content}} = this.props;
-        const markdownEditor = <MDEditor {...markdownContent} value={markdownContent.value ? markdownContent.value : markdownContent.initialValue}/>;
-        const draftJsEditor = <DraftjsEditor isBorder title="Content" {...content} value={content.value ? content.value : content.initialValue}/>;
+        const markdownEditor = <MDEditor {...markdownContent}
+            value={markdownContent.value ? markdownContent.value : markdownContent.initialValue}/>;
+        // const draftJsEditor = <DraftjsEditor isBorder title="Content" {...content} value={content.value ? content.value : content.initialValue}/>;
+        const draftJsEditor = <MediumEditor isBorder title="Content" {...content}
+                                            defaultValue={content.value ? content.value : content.initialValue}/>;
         switch (contentType.value) {
             case MARKDOWN_CONTENT_TYPE:
                 return markdownEditor;
@@ -138,7 +144,7 @@ export default class PostForm extends Component {
         }
     }
 
-    renderTabContent(){
+    renderTabContent() {
         const {fields: {customField:{contentType}}} = this.props;
         return <div>
             <TabsFilter tabs={TABS_CONTENT_TYPE}
@@ -149,7 +155,7 @@ export default class PostForm extends Component {
     }
 
     renderMainContent() {
-        const {fields: {title, description, tags}} = this.props;
+        const {fields: {title, description, tags, categoryId}} = this.props;
         return <div>
             <InputText title="Title" {...title}/>
             <SelectTag
@@ -159,6 +165,7 @@ export default class PostForm extends Component {
                 defaultTags={getDeepObject(tags, [], 'value')}
                 createable
             />
+            <SelectCategory title="Category" {...categoryId} showNoParent={false}/>
             <Textarea title="Description" {...description}/>
             {this.renderTabContent()}
         </div>
@@ -210,8 +217,9 @@ export default class PostForm extends Component {
                     </Flex>
                 </Flex>
                 <Box>
-                    {isLoading && <SpinnerOverlay/>}
-                    {!isLoading &&
+                    <CenterPaddingBox paddingLeft={10} paddingTop={0}>
+                        {isLoading && <SpinnerOverlay/>}
+                        {!isLoading &&
                         <Row>
                             <Col md={9}>
                                 {this.renderMainContent()}
@@ -220,7 +228,8 @@ export default class PostForm extends Component {
                                 {this.renderOptions()}
                             </Col>
                         </Row>
-                    }
+                        }
+                    </CenterPaddingBox>
                 </Box>
             </CenterPaddingBox>
         )

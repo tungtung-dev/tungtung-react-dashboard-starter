@@ -32,5 +32,7 @@ Box.propTypes = {
     boxShadow: PropTypes.string,
     marginTop: PropTypes.number,
     marginBottom: PropTypes.number,
+    paddingLeft: PropTypes.number,
+    paddingTop: PropTypes.number,
     sm: PropTypes.bool
 }

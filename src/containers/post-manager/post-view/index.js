@@ -2,9 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import marked from 'marked';
 import {Link} from 'react-router';
-import {Tab, TabList, TabPanel} from '@blueprintjs/core';
-import {CenterPaddingBox, Tabs, Box, Flex, Title, SpinnerOverlay, Breadcrumb} from 'components/layouts';
-import  DraftjsView from 'components/form/draftjs/editor-view';
+import {CenterPaddingBox, Box, Flex, Title, SpinnerOverlay, Breadcrumb, Col, Row} from 'components/layouts';
+import  MediumEditor from 'components/form/medium-editor';
 import {getPost, clearPost} from 'redux/actions/postAction';
 import {connect} from 'utils/reduxAwait';
 import {toShortString} from 'utils';
@@ -43,28 +42,38 @@ export default class PostView extends Component {
         }
     }
 
+    componentWillUnmount() {
+        this.props.clearPost();
+    }
+
     render() {
         const {currentPost: {title, slug, content, customField: {contentType, markdownContent}}, awaitStatuses} = this.props;
         return <CenterPaddingBox paddingTop={30}>
             <Breadcrumb id="post_view_title" name={toShortString(title, 10, 20)}/>
             {awaitStatuses.getPost === 'pending' && <SpinnerOverlay backgroundColor="rgba(255,255,255,.7)" fixed/>}
             <Box>
-                <Flex marginBottom={10} alignItems="center" justifyContent="space-between">
-                    <Title element="h1">
-                        {title}
-                    </Title>
+                <Flex alignItems="center" justifyContent="flex-end">
                     <Link to={`/posts/edit/${slug}`} className="btn btn-default">
                         Edit
                     </Link>
                 </Flex>
-                <div className="tt-post-view">
-                    {contentType === MARKDOWN_CONTENT_TYPE && markdownContent &&
-                        <div dangerouslySetInnerHTML={{__html: marked(markdownContent)}}/>
-                    }
-                    {contentType === DRAFTJS_CONTENT_TYPE && typeof content === 'object' &&
-                        <DraftjsView value={content}/>
-                    }
-                </div>
+                <Row>
+                    <Col md={{size: 8, offset: 2}}>
+                        <Flex marginBottom={10} alignItems="center" justifyContent="space-between">
+                            <Title element="h1">
+                                {title}
+                            </Title>
+                        </Flex>
+                        <div className="tt-post-view">
+                            {contentType === MARKDOWN_CONTENT_TYPE && markdownContent &&
+                            <div dangerouslySetInnerHTML={{__html: marked(markdownContent)}}/>
+                            }
+                            {contentType === DRAFTJS_CONTENT_TYPE && typeof content === 'object' &&
+                            <MediumEditor onChange={() => {}} defaultValue={content} readOnly/>
+                            }
+                        </div>
+                    </Col>
+                </Row>
             </Box>
         </CenterPaddingBox>
     }

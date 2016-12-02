@@ -27,15 +27,15 @@ export default class PostEdit extends Component {
 
     componentDidMount() {
         const {params: {postSlug}, currentPost} = this.props;
-        // if (currentPost.slug !== postSlug) {
+        if (currentPost.slug !== postSlug) {
             this.props.getPost(postSlug);
-        //}
+        }
     }
 
-    componentDidUpdate(){
-        if(this.props.currentPost.success === false){
+    componentDidUpdate() {
+        if (this.props.currentPost.success === false) {
             this.props.push('/posts');
-            Toaster.show({message:'Your post haven\'t exists', intent: 2});
+            Toaster.show({message: 'Your post haven\'t exists', intent: 2});
         }
     }
 
@@ -48,7 +48,7 @@ export default class PostEdit extends Component {
                 if (postRes.slug) {
                     this.setState({isUpdating: false});
                     dispatch(updateCurrentPost(postRes));
-                    Toaster.show({message:'Update post successfully', intent: 1});
+                    Toaster.show({message: 'Update post successfully', intent: 1});
                     resolve();
                 }
                 else {
@@ -59,7 +59,7 @@ export default class PostEdit extends Component {
     }
 
     @autobind
-    handleDelete(){
+    handleDelete() {
         const {params: {postSlug}} = this.props;
         return PostApi.deletePost(postSlug);
     }

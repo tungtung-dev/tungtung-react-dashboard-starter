@@ -1,0 +1,19 @@
+.tt-medium-editor {
+  .md-RichEditor-root{
+    padding: 0px;
+  }
+  //&.tt-medium-editor-readonly {
+  //
+  //}
+  .md-block-image-inner-container{
+    text-align: center;
+  }
+  .md-sb-button {
+    font-size: 14px;
+    width: auto;
+    height: auto;
+    .fa-lg {
+      font-size: 20px;
+    }
+  }
+}

@@ -16,7 +16,7 @@ export function swalPublish(onCallback = () => {}){
 };
 
 export function swalDraft(onCallback = () => {}){
-    swal('Trashed', 'Your post moved to draft','success').then(onCallback);
+    swal('Drafted', 'Your post moved to draft','success').then(onCallback);
 }
 
 /**
@@ -103,7 +103,6 @@ export function getOptionsCheckedListsFromState(state, totalSelected, {onRevert,
     const getTextAction = (action) => {
         return `${action} ${totalSelected} ${totalSelected > 1 ? 'posts' : 'post'}`;
     }
-    console.log(state);
     switch (state) {
         case POST_STATE.TRASH:
             options = [
@@ -144,6 +143,7 @@ export function getDataPost(postFormValues, currentPost : PostType){
         featuredImage: {$get: true, $default: {}},
         secondaryFeaturedImage: {$get: true, $default: {}},
         tags: {$get: true, $default: []},
+        categoryId: {$get: true},
         state: {
             $update: () => {
                 if(currentPost.state  === POST_STATE.TRASH) return POST_STATE.TRASH;

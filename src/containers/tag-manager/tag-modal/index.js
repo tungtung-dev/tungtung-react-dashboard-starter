@@ -5,7 +5,6 @@ import TagForm from '../tag-form';
 
 export default class TagModal extends Component {
     render() {
-        console.log(this.props.editable);
         return <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
             <ModalBody>
                 <TagForm onSubmitTag={this.props.onSubmit} editable={this.props.editable} {...this.props}/>

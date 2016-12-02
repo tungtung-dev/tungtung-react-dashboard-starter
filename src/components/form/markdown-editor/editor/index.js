@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import {autobind} from 'core-decorators';
 import ReactDOM from 'react-dom';
 import marked from 'marked';
@@ -14,7 +14,7 @@ import 'codemirror/addon/edit/continuelist';
 
 import {getCursorState} from '../format.js';
 
-export default class MarkdownEditor extends Component {
+export default class MarkdownEditor extends PureComponent {
     constructor() {
         super(...arguments);
         this.state = {
@@ -87,7 +87,6 @@ export default class MarkdownEditor extends Component {
 
     @autobind
     togglePreview() {
-        console.log('preview');
         this.setState({preview: !this.state.preview});
     }
 

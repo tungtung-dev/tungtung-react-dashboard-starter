@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "autoprefixer": "6.4.1",
-    "babel-core": "6.17.0",
+    "babel-core": "^6.18.2",
     "babel-eslint": "6.1.2",
     "babel-jest": "15.0.0",
     "babel-loader": "6.2.5",
@@ -85,6 +85,7 @@
     "font-awesome": "^4.6.3",
     "formidable": "^1.0.17",
     "fuse.js": "^2.5.0",
+    "hint.css": "^2.4.1",
     "immutable": "^3.8.1",
     "jquery": "^3.1.1",
     "katex": "^0.6.0",
@@ -131,6 +132,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
+    "start-server": "NODE_ENV=production nodemon --exec babel-node server.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "flow": "flow; test $? -eq 0 -o $? -eq 2"

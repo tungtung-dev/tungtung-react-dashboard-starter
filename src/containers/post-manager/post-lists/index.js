@@ -47,8 +47,37 @@ export default class PostListsManager extends Component {
             state: POST_STATE.PUBLIC,
             tags: this.queryManager.getQuery('tags', '').split(','),
             keyword: '',
+            isUpdating: false,
             postsChecked: []
         }
+    }
+
+    componentDidMount() {
+        this.getPosts();
+    }
+
+    componentWillUnmount() {
+        this.props.clearPost();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!Equal(prevProps.location.query, this.props.location.query)) {
+            this.getPosts();
+        }
+    }
+
+    resetPostsChecked(){
+        this.setState({postsChecked: []})
+    }
+
+    getPosts(resetChecked = false) {
+        const query = this.queryManager.getQueryObject({
+            state: POST_STATE.PUBLIC,
+            page: 1,
+            itemPerPage: 10,
+        });
+        this.props.getPosts(query);
+        if(resetChecked) this.resetPostsChecked();
     }
 
     updateLocationPage(queryKey, queryValue) {
@@ -87,28 +116,93 @@ export default class PostListsManager extends Component {
         this.updateLocationPage('tags', tagsString)
     }
 
-    getPosts(resetChecked = false) {
-        const query = this.queryManager.getQueryObject({
-            state: POST_STATE.PUBLIC,
-            page: 1,
-            itemPerPage: 10,
+    @autobind
+    async handleUpdateStateMultiple(postState, resetChecked = true){
+        this.setState({isUpdating: true});
+        await postAction.updateStateMultiplePosts(this.state.postsChecked, postState);
+        this.setState({isUpdating: false});
+        this.getPosts(resetChecked)
+        return ;
+    }
+
+    @autobind
+    async handleUpdateState(postKey, postState){
+        this.setState({isUpdating: true});
+        await postAction.updatePostState(postKey, postState);
+        this.setState({isUpdating: false});
+        this.getPosts(false);
+        return ;
+    }
+
+    @autobind
+    async handleTrashMultiple(){
+        await this.handleUpdateStateMultiple(POST_STATE.TRASH, false);
+        swalConfirmTrash(async () => {
+            this.setState({isUpdating: true});
+            await postAction.deleteMultiplePosts(this.state.postsChecked);
+            this.setState({isUpdating: false});
+            this.getPosts(true);
         });
-        this.props.getPosts(query);
-        if(resetChecked) this.resetPostsChecked();
     }
 
-    componentDidMount() {
-        this.getPosts();
+    @autobind
+    async handleRevertMultiple(){
+        await this.handleUpdateStateMultiple(POST_STATE.DRAFT);
+        swalRevert();
     }
 
-    componentWillUnmount() {
-        this.props.clearPost();
+    @autobind
+    async handleDraftMultiple(){
+        await this.handleUpdateStateMultiple(POST_STATE.DRAFT);
+        swalDraft();
     }
 
-    componentDidUpdate(prevProps) {
-        if (!Equal(prevProps.location.query, this.props.location.query)) {
+    @autobind
+    async handlePublicMultiple(){
+        await this.handleUpdateStateMultiple(POST_STATE.PUBLIC);
+        swalPublish();
+    }
+
+    @autobind
+    async handleDeleteMultiple(){
+        swalConfirmDelete(async () => {
+            this.setState({isUpdating: true});
+            await postAction.deleteMultiplePosts(this.state.postsChecked);
+            this.setState({isUpdating: false});
+            this.getPosts(true);
+        });
+    }
+
+    @autobind
+    async handleTrash(postKey){
+        await this.handleUpdateState(postKey, POST_STATE.TRASH);
+        swalConfirmTrash(async () => {
+            await postAction.deletePost(postKey);
+        })
+    }
+
+    async handleRevert(postKey){
+        await this.handleUpdateState(postKey, POST_STATE.DRAFT);
+        swalRevert();
+    }
+
+    async handlePublic(postKey){
+        await this.handleUpdateState(postKey, POST_STATE.PUBLIC);
+        swalPublish();
+    }
+
+    async handleDraft(postKey){
+        await this.handleUpdateState(postKey, POST_STATE.DRAFT);
+        swalDraft();
+    }
+
+    async handleDelete(postKey){
+        swalConfirmDelete(async () => {
+            this.setState({isUpdating: true});
+            await postAction.deletePost(postKey);
+            this.setState({isUpdating: false});
             this.getPosts();
-        }
+        })
     }
 
     renderTabs() {
@@ -136,9 +230,6 @@ export default class PostListsManager extends Component {
         </SearchFilterPagination>
     }
 
-    resetPostsChecked(){
-        this.setState({postsChecked: []})
-    }
 
     renderColumnCheckbox() {
         const checkboxProps = {
@@ -149,21 +240,11 @@ export default class PostListsManager extends Component {
         const state = this.queryManager.getQuery('state', POST_STATE.PUBLIC);
         const totalChecked = this.state.postsChecked.length;
         const buttonActions = getOptionsCheckedListsFromState(state, totalChecked, {
-            onRevert: () => {
-                swalRevert(this.getPosts.bind(this, true));
-            },
-            onTrash: () => {
-                swalConfirmTrash(() => {}, this.getPosts.bind(this, true));
-            },
-            onDelete: () => {
-                swalConfirmDelete(() => {}, this.getPosts.bind(this, true));
-            },
-            onPublish: () => {
-                swalPublish(this.getPosts.bind(this, true));
-            },
-            onDraft: () => {
-                swalDraft(this.getPosts.bind(this, true));
-            }
+            onRevert: this.handleRevertMultiple,
+            onTrash: this.handleTrashMultiple,
+            onDelete: this.handleDeleteMultiple,
+            onPublish: this.handlePublicMultiple,
+            onDraft: this.handleDraftMultiple
         });
         const buttonDropDown = <ButtonDropdown
             className="btn-black btn-super-sm"
@@ -177,26 +258,14 @@ export default class PostListsManager extends Component {
     }
 
     renderColumnActions() {
-        //const context = this;
-
         const getActions = (post) => {
-            //const {slug} = post;
+            const {slug} = post;
             return {
-                onRevert: () => {
-                    swalRevert();
-                },
-                onTrash: () => {
-                    swalConfirmTrash(() => {}, this.getPosts.bind(this))
-                },
-                onDelete: () => {
-                    swalConfirmDelete(() => {}, this.getPosts.bind(this))
-                },
-                onPublish: () => {
-                    swalPublish(this.getPosts.bind(this));
-                },
-                onDraft: () => {
-                    swalDraft(this.getPosts.bind(this));
-                }
+                onRevert:() => this.handleRevert(slug),
+                onTrash: () => this.handleTrash(slug),
+                onDelete: () => this.handleDelete(slug),
+                onPublish: () => this.handlePublic(slug),
+                onDraft: () => this.handleDraft(slug)
             }
         }
 

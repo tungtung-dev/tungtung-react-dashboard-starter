@@ -8,9 +8,8 @@ export const UPDATE_CURRENT_POST = 'POST/update-current-post';
 export const GET_POSTS_FILTER = 'POST/get-posts';
 export const GET_POST = 'POST/get-post';
 export const CLEAR_POST = 'POST/clear-post';
-export const DELETE_POST = 'POST/delete-post';
 
-export function getPosts(...args){
+export function getPosts(...args) {
     return {
         type: GET_POSTS,
         AWAIT_MARKER,
@@ -20,7 +19,7 @@ export function getPosts(...args){
     }
 }
 
-export function getPostsByFilter(filter = '', page = 1, itemPerPage = 10){
+export function getPostsByFilter(filter = '', page = 1, itemPerPage = 10) {
     return {
         type: GET_POSTS_FILTER,
         AWAIT_MARKER,
@@ -30,7 +29,7 @@ export function getPostsByFilter(filter = '', page = 1, itemPerPage = 10){
     }
 }
 
-export function getPost(id){
+export function getPost(id) {
     return {
         type: GET_POST,
         AWAIT_MARKER,
@@ -40,14 +39,14 @@ export function getPost(id){
     }
 }
 
-export function updateCurrentPost(dataPost){
+export function updateCurrentPost(dataPost) {
     return {
         type: UPDATE_CURRENT_POST,
         dataPost
     }
 }
 
-export function createPost(dataPost){
+export function createPost(dataPost) {
     return {
         type: CREATE_POST,
         AWAIT_MARKER,
@@ -57,35 +56,52 @@ export function createPost(dataPost){
     }
 }
 
-export function updatePost(postSlug, dataPost){
+export function updatePost(postKey, dataPost) {
     return {
         type: UPDATE_POST,
         AWAIT_MARKER,
         payload: {
-            updatePost: PostApi.updatePost(postSlug, dataPost)
+            updatePost: PostApi.updatePost(postKey, dataPost)
         }
     }
 }
 
-export function clearPost(){
+export function updatePostState(postKey, state){
+    return PostApi.updatePost(postKey, {state});
+}
+
+export function clearPost() {
     return {
         type: CLEAR_POST
     }
 }
 
-export function deletePost(id){
-    PostApi.deletePost(id)
-    return {
-        type: DELETE_POST
-    }
+export function deletePost(id) {
+    return PostApi.deletePost(id)
 }
 
-export function deleteMultiplePosts(){
+export async function updateStateMultiplePosts(postsKey, state) {
+    const promises = postsKey.map(async postKey => {
+        return updatePostState(postKey, state);
+    });
+    for (const promise of promises) {
+        await promise;
+    }
+    return true;
+}
 
+export async function deleteMultiplePosts(postsKey) {
+    const promises = postsKey.map(async postKey => {
+        return deletePost(postKey);
+    });
+    for (const promise of promises) {
+        await promise;
+    }
+    return true;
 }
 
 export default {
-    getPosts, getPostsByFilter, getPost,
-    createPost, updatePost, clearPost, deletePost,
-    updateCurrentPost
+    getPosts, getPostsByFilter, getPost, createPost,
+    updatePost, clearPost, deletePost, deleteMultiplePosts,
+    updateCurrentPost, updatePostState, updateStateMultiplePosts
 }

@@ -9,6 +9,7 @@ import defaultLoad from './defaultLoad';
 import media from './media';
 import post from './post';
 import tag from './tag';
+import category from './category';
 
 export default combineReducers({
     form: formReducer,
@@ -20,5 +21,6 @@ export default combineReducers({
     defaultLoad,
     alert,
     post,
-    tag
+    tag,
+    category
 })

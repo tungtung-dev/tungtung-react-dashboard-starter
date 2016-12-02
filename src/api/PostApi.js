@@ -12,12 +12,12 @@ export function createPost(data) {
     return postFetch(getPostApi(), data);
 }
 
-export function updatePost(postSlug, data) {
-    return putFetch(getPostApi(postSlug), data);
+export function updatePost(postKey, data) {
+    return putFetch(getPostApi(postKey), data);
 }
 
-export function getPost(postId) {
-    return getFetch(getPostApi(postId));
+export function getPost(postKey) {
+    return getFetch(getPostApi(postKey));
 }
 
 export function getPostsByFilter(filter = '', page = 1, itemPerPage = 10) {
@@ -26,8 +26,8 @@ export function getPostsByFilter(filter = '', page = 1, itemPerPage = 10) {
     });
 }
 
-export function deletePost(postSlug) {
-    return deleteFetch(getPostApi(postSlug))
+export function deletePost(postKey) {
+    return deleteFetch(getPostApi(postKey))
 }
 export default {
     getPosts,

@@ -125,10 +125,10 @@ export default class TagListsManager extends Component {
     @autobind
     async handleDeleteMultipleChecked() {
         const totalChecked = this.state.tagsChecked.length;
-        swalConfirmDelete(async () => {
-            if (totalChecked === 0){
+        swalConfirmDelete(async() => {
+            if (totalChecked === 0) {
                 Toaster.show({message: `Please select tag`, intent: 0});
-                return ;
+                return;
             }
             // Parallel with async await
             const promises = this.state.tagsChecked.map(async tagId => {
@@ -140,7 +140,7 @@ export default class TagListsManager extends Component {
             Toaster.show({message: `Delete ${totalChecked > 1 ? 'tags' : 'tag'} successfully`, intent: 1});
             this.resetChecked();
             this.getTags();
-        },{
+        }, {
             title: `Are you sure delete ${totalChecked} ${totalChecked > 1 ? 'tags' : 'tag'} ?`
         })
     }
@@ -153,7 +153,10 @@ export default class TagListsManager extends Component {
         };
         const totalChecked = this.state.tagsChecked.length;
         const buttonActions = [
-            {text: `Delete ${totalChecked} ${totalChecked > 1 ? 'tags' : 'tag'}`, onClick: this.handleDeleteMultipleChecked}
+            {
+                text: `Delete ${totalChecked} ${totalChecked > 1 ? 'tags' : 'tag'}`,
+                onClick: this.handleDeleteMultipleChecked
+            }
         ]
         const buttonDropDown = <ButtonDropdown
             className="btn-black btn-super-sm"
@@ -203,7 +206,7 @@ export default class TagListsManager extends Component {
 
     renderForm() {
         const {isEdit} = this.state;
-        return <div>
+        return <div className="margin-top-15">
             <Title marginBottom={10} element="h3"
                    styleColor="primary">{isEdit ? 'Edit tag' : 'Create tag'}</Title>
             <TagForm ref="tagForm" onSubmitTag={isEdit ? this.handleSubmitEdit : this.handleSubmitCreate}
@@ -223,10 +226,8 @@ export default class TagListsManager extends Component {
             </Flex>
             <Box marginTop={10}>
                 <Row>
-                    <Flex alignItems="center">
-                        <Col md={4}>{this.renderForm()}</Col>
-                        <Col md={8}>{this.renderTable()}</Col>
-                    </Flex>
+                    <Col md={4}>{this.renderForm()}</Col>
+                    <Col md={8}>{this.renderTable()}</Col>
                 </Row>
             </Box>
         </CenterPaddingBox>

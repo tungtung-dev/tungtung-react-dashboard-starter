@@ -1,7 +1,7 @@
 /* eslint-disable */
 import {
     ADD_BREADCRUMB, REMOVE_BREADCRUMB, RESET_BREADCRUMB, UPDATE_BREADCRUMB,
-    GET_TAGS
+    GET_TAGS, GET_CATEGORIES
 } from '../actions/defaultLoadAction';
 import update from 'react-addons-update';
 
@@ -13,7 +13,8 @@ type DefaultLoadType = {
 function getInitialState() {
     return {
         breadcrumbs: [],
-        tags: []
+        tags: [],
+        categories: []
     }
 }
 
@@ -30,7 +31,9 @@ export default function createReducer(state : DefaultLoadType = getInitialState(
                 breadcrumbs: []
             });
         case GET_TAGS:
-            return getTags(state, action)
+            return getTags(state, action);
+        case GET_CATEGORIES:
+            return getCategories(state, action);
         default:
             return state;
     }
@@ -71,6 +74,14 @@ function getTags(state, action){
     return update(state, {
         tags: {
             $set: action.payload.getTagsDefault
+        }
+    });
+}
+
+function getCategories(state, action){
+    return update(state, {
+        categories: {
+            $set: action.payload.getCategoriesDefault
         }
     });
 }

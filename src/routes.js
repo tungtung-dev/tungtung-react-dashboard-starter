@@ -3,7 +3,10 @@ import React from 'react';
 import {Route, IndexRoute} from 'react-router';
 
 // Import components
-import {AppContainer, AuthContainer, UserManager, Layout, PostManager, TagManager, Examples} from './containers/index';
+import {
+    AppContainer, AuthContainer, UserManager, Layout, PostManager,
+    TagManager, CategoryManager, Examples
+} from './containers/index';
 import MediaManager from './components/media-manager/index'
 import {AuthenticatedComponent as requireAuth} from './containers/libs/index';
 
@@ -20,6 +23,9 @@ export default () => {
                 </Route>
                 <Route path="/tags" component={TagManager.Wrapper}>
                     <IndexRoute components={TagManager.Lists}/>
+                </Route>
+                <Route path="/categories" component={CategoryManager.Wrapper}>
+                    <IndexRoute components={CategoryManager.Lists}/>
                 </Route>
                 <Route path="/users" component={UserManager.Wrapper}>
                     <IndexRoute component={UserManager.Lists}/>

@@ -21,6 +21,7 @@ import SelectMultipleMedia from './select-multiple-image';
 import MDEditor from './markdown-editor';
 import CodeEditor from './code-editor';
 import DraftjsEditor from './draftjs';
+import MediumEditor from './medium-editor';
 
 
 import ValidateWrapControl from './validate-wrap-control';
@@ -36,7 +37,7 @@ export {
     InputText, InputTextGroup, Textarea, Switch, Checkbox, RadioGroup,
     Button, ButtonDropdown, ButtonGroupDropdown, Link, Span,
     Select, SelectDropdown, SelectTag, SelectImage, SelectImagePopover, SelectMultipleMedia,
-    MDEditor, CodeEditor, DraftjsEditor,
+    MDEditor, CodeEditor, DraftjsEditor, MediumEditor,
     ValidateWrapControl, TooltipWrapper, DialogConfirm, PopoverConfirm,
     MarkdownDisplay, EmojioneDisplay,
     Loader
@@ -45,7 +46,7 @@ export default {
     InputText, InputTextGroup, Textarea, Switch, Checkbox, RadioGroup,
     Button, ButtonDropdown, ButtonGroupDropdown, Link, Span,
     Select, SelectDropdown, SelectTag, SelectImage, SelectImagePopover, SelectMultipleMedia,
-    MDEditor, CodeEditor, DraftjsEditor,
+    MDEditor, CodeEditor, DraftjsEditor, MediumEditor,
     ValidateWrapControl, TooltipWrapper, DialogConfirm, PopoverConfirm,
     MarkdownDisplay, EmojioneDisplay,
     Loader
