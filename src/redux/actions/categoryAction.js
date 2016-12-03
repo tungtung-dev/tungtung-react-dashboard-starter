@@ -25,9 +25,20 @@ export function deleteCategory(categoryKey){
     return DefaultApi.deleteCategory(categoryKey);
 }
 
+export async function deleteMultipleCategory(categoriesKey) {
+    const promises = categoriesKey.map(async categoryKey => {
+        return deleteCategory(categoryKey);
+    });
+    for (const promise of promises) {
+        await promise;
+    }
+    return true;
+}
+
 export default {
     getCategories,
     createCategory,
     updateCategory,
-    deleteCategory
+    deleteCategory,
+    deleteMultipleCategory
 }

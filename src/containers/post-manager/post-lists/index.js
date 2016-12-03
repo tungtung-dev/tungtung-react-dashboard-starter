@@ -66,7 +66,7 @@ export default class PostListsManager extends Component {
         }
     }
 
-    resetPostsChecked(){
+    resetPostsChecked() {
         this.setState({postsChecked: []})
     }
 
@@ -77,7 +77,7 @@ export default class PostListsManager extends Component {
             itemPerPage: 10,
         });
         this.props.getPosts(query);
-        if(resetChecked) this.resetPostsChecked();
+        if (resetChecked) this.resetPostsChecked();
     }
 
     updateLocationPage(queryKey, queryValue) {
@@ -117,27 +117,27 @@ export default class PostListsManager extends Component {
     }
 
     @autobind
-    async handleUpdateStateMultiple(postState, resetChecked = true){
+    async handleUpdateStateMultiple(postState, resetChecked = true) {
         this.setState({isUpdating: true});
         await postAction.updateStateMultiplePosts(this.state.postsChecked, postState);
         this.setState({isUpdating: false});
         this.getPosts(resetChecked)
-        return ;
+        return;
     }
 
     @autobind
-    async handleUpdateState(postKey, postState){
+    async handleUpdateState(postKey, postState) {
         this.setState({isUpdating: true});
         await postAction.updatePostState(postKey, postState);
         this.setState({isUpdating: false});
         this.getPosts(false);
-        return ;
+        return;
     }
 
     @autobind
-    async handleTrashMultiple(){
+    async handleTrashMultiple() {
         await this.handleUpdateStateMultiple(POST_STATE.TRASH, false);
-        swalConfirmTrash(async () => {
+        swalConfirmTrash(async() => {
             this.setState({isUpdating: true});
             await postAction.deleteMultiplePosts(this.state.postsChecked);
             this.setState({isUpdating: false});
@@ -146,26 +146,26 @@ export default class PostListsManager extends Component {
     }
 
     @autobind
-    async handleRevertMultiple(){
+    async handleRevertMultiple() {
         await this.handleUpdateStateMultiple(POST_STATE.DRAFT);
         swalRevert();
     }
 
     @autobind
-    async handleDraftMultiple(){
+    async handleDraftMultiple() {
         await this.handleUpdateStateMultiple(POST_STATE.DRAFT);
         swalDraft();
     }
 
     @autobind
-    async handlePublicMultiple(){
+    async handlePublicMultiple() {
         await this.handleUpdateStateMultiple(POST_STATE.PUBLIC);
         swalPublish();
     }
 
     @autobind
-    async handleDeleteMultiple(){
-        swalConfirmDelete(async () => {
+    async handleDeleteMultiple() {
+        swalConfirmDelete(async() => {
             this.setState({isUpdating: true});
             await postAction.deleteMultiplePosts(this.state.postsChecked);
             this.setState({isUpdating: false});
@@ -174,30 +174,30 @@ export default class PostListsManager extends Component {
     }
 
     @autobind
-    async handleTrash(postKey){
+    async handleTrash(postKey) {
         await this.handleUpdateState(postKey, POST_STATE.TRASH);
-        swalConfirmTrash(async () => {
+        swalConfirmTrash(async() => {
             await postAction.deletePost(postKey);
         })
     }
 
-    async handleRevert(postKey){
+    async handleRevert(postKey) {
         await this.handleUpdateState(postKey, POST_STATE.DRAFT);
         swalRevert();
     }
 
-    async handlePublic(postKey){
+    async handlePublic(postKey) {
         await this.handleUpdateState(postKey, POST_STATE.PUBLIC);
         swalPublish();
     }
 
-    async handleDraft(postKey){
+    async handleDraft(postKey) {
         await this.handleUpdateState(postKey, POST_STATE.DRAFT);
         swalDraft();
     }
 
-    async handleDelete(postKey){
-        swalConfirmDelete(async () => {
+    async handleDelete(postKey) {
+        swalConfirmDelete(async() => {
             this.setState({isUpdating: true});
             await postAction.deletePost(postKey);
             this.setState({isUpdating: false});
@@ -215,17 +215,26 @@ export default class PostListsManager extends Component {
     }
 
     renderSearchFilterPagination() {
+        const searchProps = {
+            defaultValue: this.queryManager.getQuery('keyword', '')
+        }
+        const isFilterOpen = this.queryManager.getQuery('tags', false) ? true : false;
+        const paginationProps = {
+            ...this.props.pagination,
+            page: this.queryManager.getQuery('page', 1),
+            onChange: this.handleChangePage
+        };
+
         return <SearchFilterPagination
             onSearch={this.handleSearch}
-            paginationProps={{...this.props.pagination, page: this.queryManager.getQuery('page', 1), onChange: this.handleChangePage}}
-            searchProps={{defaultValue: this.queryManager.getQuery('keyword','')}}
-            filterOpen={this.queryManager.getQuery('tags',false)}
+            paginationProps={paginationProps}
+            searchProps={searchProps}
+            filterOpen={isFilterOpen}
             isSearch
             isFilter
         >
             <Title element="h4" marginTop={10}>Tags filter</Title>
-            <SelectTag marginTop={15} defaultTags={['technology']} value={this.state.tags}
-                       onChange={this.handleChangeFilterTags}/>
+            <SelectTag marginTop={15} value={this.state.tags} onChange={this.handleChangeFilterTags}/>
             <Button className="btn-default fill" onClick={this.handleSubmitFilter}>Submit</Button>
         </SearchFilterPagination>
     }
@@ -261,7 +270,7 @@ export default class PostListsManager extends Component {
         const getActions = (post) => {
             const {slug} = post;
             return {
-                onRevert:() => this.handleRevert(slug),
+                onRevert: () => this.handleRevert(slug),
                 onTrash: () => this.handleTrash(slug),
                 onDelete: () => this.handleDelete(slug),
                 onPublish: () => this.handlePublic(slug),
@@ -285,10 +294,10 @@ export default class PostListsManager extends Component {
 
     renderTable() {
         const {awaitStatuses} = this.props;
-
+        const tableIsLoading = awaitStatuses.getPosts === 'pending' || this.state.isUpdating;
         return <Table
             data={this.props.data}
-            isLoading={awaitStatuses.getPosts === 'pending'}
+            isLoading={tableIsLoading}
             showLoading
         >
             {this.renderColumnCheckbox()}
@@ -301,7 +310,7 @@ export default class PostListsManager extends Component {
                 header={() => {}}
                 cell={(post) => {
                     if(post.featuredImage){
-                            return <img src={post.featuredImage.thumbnailUrl} style={{width: 40}} alt=""/>
+                        return <img src={post.featuredImage.thumbnailUrl} style={{width: 40}} alt=""/>
                     }
                     else return 'No image'
                 }}
@@ -320,11 +329,6 @@ export default class PostListsManager extends Component {
             />
             {this.renderColumnActions()}
         </Table>
-    }
-
-    @autobind
-    handleClick() {
-        alert('clciked');
     }
 
     render() {

@@ -26,9 +26,9 @@ export default class PostEdit extends Component {
     }
 
     componentDidMount() {
-        const {params: {postSlug}, currentPost} = this.props;
-        if (currentPost.slug !== postSlug) {
-            this.props.getPost(postSlug);
+        const {params: {postKey}, currentPost} = this.props;
+        if (currentPost.slug !== postKey) {
+            this.props.getPost(postKey);
         }
     }
 
@@ -52,7 +52,8 @@ export default class PostEdit extends Component {
                     resolve();
                 }
                 else {
-                    reject({title: 'Can\'t update post'});
+                    this.setState({isUpdating: false});
+                    reject({title: postRes.message});
                 }
             });
         });
@@ -60,8 +61,8 @@ export default class PostEdit extends Component {
 
     @autobind
     handleDelete() {
-        const {params: {postSlug}} = this.props;
-        return PostApi.deletePost(postSlug);
+        const {params: {postKey}} = this.props;
+        return PostApi.deletePost(postKey);
     }
 
     render() {

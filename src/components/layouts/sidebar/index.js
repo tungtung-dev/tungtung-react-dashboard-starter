@@ -9,11 +9,15 @@ export default class Sidebar extends PureComponent {
         return (
             <div className={classnames('wrapper-sidebar',{'show-sidebar': this.props.showSidebar})}>
                 <MenuOption currentPath={this.props.currentPath} name="Posts">
-                    <MenuItem path='/posts' activePath={['/posts','/posts/edit/**']} icon="icon-notebook" text="Posts Manager"/>
-                    <MenuItem path='/posts/create' activePath={['/posts/create']} icon="icon-plus" text="New post"/>
+                    <MenuItem path='/posts' activePath={['/posts','/posts/edit/**']} icon="icon-notebook"
+                              text="Posts Manager"/>
+                    <MenuItem path='/posts/create' activePath={['/posts/create']} icon="icon-plus"
+                              text="New post"/>
                     <MenuItem path='/tags' activePath={['/tags']} icon="icon-tag" text="Tags"/>
-                    <MenuItem path='/categories' activePath={['/categories']} icon="icon-tag" text="Categories"/>
-                    <MenuItem path='/examples/page-tabs' activePath={['/examples/page-tabs']} icon="icon-tag" text="Example page"/>
+                    <MenuItem path='/categories' activePath={['/categories']} icon="icon-tag"
+                              text="Categories"/>
+                    <MenuItem path='/examples/page-tabs' activePath={['/examples/page-tabs']} icon="icon-tag"
+                              text="Example page"/>
                 </MenuOption>
                 <MenuOption currentPath={this.props.currentPath} name="Manager">
                     <MenuItem path="/users" icon="icon-user" text="Users"/>

@@ -26,6 +26,16 @@ export function deleteTag(tagId){
     return DefaultApi.deleteTag(tagId);
 }
 
+export async function deleteMultipleTag(itemsKey) {
+    const promises = itemsKey.map(async itemKey => {
+        return deleteTag(itemKey);
+    });
+    for (const promise of promises) {
+        await promise;
+    }
+    return true;
+}
+
 export default {
-    getTags, deleteTag, createTag, updateTag
+    getTags, deleteTag, createTag, updateTag, deleteMultipleTag
 }

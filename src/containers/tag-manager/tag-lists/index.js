@@ -31,8 +31,9 @@ export default class TagListsManager extends Component {
     state = {
         isCreate: false,
         isEdit: false,
-        tagsChecked: [],
-        currentTag: {}
+        isUpdating: false,
+        itemsChecked: [],
+        currentItem: {}
     }
 
     constructor() {
@@ -40,45 +41,6 @@ export default class TagListsManager extends Component {
         this.queryManager = new QueryManager({
             page: []
         });
-    }
-
-    getTags() {
-        const queryObject = this.queryManager.getQueryObject({
-            page: 1,
-            itemPerPage: 6
-        });
-        this.props.getTags(queryObject);
-        this.props.getTagsDefault();
-    }
-
-    updateLocationPage(queryKey, queryValue) {
-        const queriesString = this.queryManager.updateQuery(queryKey, queryValue);
-        this.props.push(`/tags?${queriesString}`);
-    }
-
-    @autobind
-    toggleCreate() {
-        this.setState({isCreate: true, isEdit: false, currentTag: {}});
-    }
-
-    @autobind
-    toggleEdit(currentTag = {}) {
-        this.setState({isEdit: true, isCreate: false, currentTag});
-    }
-
-    @autobind
-    handleChangePage(page) {
-        this.updateLocationPage('page', page)
-    }
-
-    @autobind
-    handleDelete(tagId, tagName) {
-        swalConfirmDelete(() => {
-            TagAction.deleteTag(tagId).then(() => {
-                this.getTags();
-            })
-            Toaster.show({message: `Delete tag ${tagName} successfully`, intent: 1});
-        })
     }
 
     componentDidMount() {
@@ -91,55 +53,97 @@ export default class TagListsManager extends Component {
         }
     }
 
-    @autobind
-    handleSubmitCreate(values, dispatch, resetForm) {
-        TagAction.createTag(values.name).then((tagRes) => {
-            if (tagRes.success !== false) {
-                this.toggleCreate();
-                this.getTags();
-                Toaster.show({message: 'Created tag successfully', intent: 1});
-                resetForm();
-            }
-        })
-    }
-
-    @autobind
-    handleSubmitEdit(values) {
-        TagAction.updateTag(this.state.currentTag.id, values.name).then((tagRes) => {
-            if (tagRes.success !== false) {
-                this.getTags();
-                Toaster.show({message: 'Update tag successfully', intent: 1})
-            }
-        })
-    }
-
-    @autobind
-    handleChangeChecked(tagsChecked = []) {
-        this.setState({tagsChecked});
+    getTags(resetChecked) {
+        const queryObject = this.queryManager.getQueryObject({
+            page: 1,
+            itemPerPage: 6
+        });
+        this.props.getTags(queryObject);
+        this.props.getTagsDefault();
+        if (resetChecked) this.resetChecked();
     }
 
     resetChecked() {
         this.handleChangeChecked([]);
     }
 
+    updateLocationPage(queryKey, queryValue) {
+        const queriesString = this.queryManager.updateQuery(queryKey, queryValue);
+        this.props.push(`/tags?${queriesString}`);
+    }
+
+    toggleUpdating(isUpdating) {
+        this.setState({isUpdating: (isUpdating !== null && isUpdating !== undefined) ? isUpdating : !this.state.isUpdating});
+    }
+
+    @autobind
+    toggleCreate() {
+        this.setState({isCreate: true, isEdit: false, currentItem: {}});
+    }
+
+    @autobind
+    toggleEdit(currentItem = {}) {
+        this.setState({isEdit: true, isCreate: false, currentItem});
+    }
+
+    @autobind
+    handleChangePage(page) {
+        this.updateLocationPage('page', page)
+    }
+
+    @autobind
+    async handleDelete(tagId, tagName) {
+        swalConfirmDelete(async() => {
+            this.toggleUpdating(true);
+            await TagAction.deleteTag(tagId);
+            this.toggleUpdating(false);
+            this.getTags();
+            Toaster.show({message: `Delete tag ${tagName} successfully`, intent: 1});
+        })
+    }
+
+    @autobind
+    async handleSubmitCreate(values, dispatch, resetForm) {
+        this.toggleUpdating(true);
+        const tagRes = await TagAction.createTag(values.name);
+        this.toggleUpdating(false);
+        if (tagRes.success !== false) {
+            this.toggleCreate();
+            this.getTags();
+            Toaster.show({message: 'Created tag successfully', intent: 1});
+            resetForm();
+        }
+    }
+
+    @autobind
+    async handleSubmitEdit(values) {
+        this.toggleUpdating(true);
+        const tagRes = await TagAction.updateTag(this.state.currentItem.id, values.name);
+        this.toggleUpdating(false);
+        if (tagRes.success !== false) {
+            this.getTags();
+            Toaster.show({message: 'Update tag successfully', intent: 1})
+        }
+    }
+
+    @autobind
+    handleChangeChecked(itemsChecked = []) {
+        this.setState({itemsChecked});
+    }
+
     @autobind
     async handleDeleteMultipleChecked() {
-        const totalChecked = this.state.tagsChecked.length;
+        const totalChecked = this.state.itemsChecked.length;
         swalConfirmDelete(async() => {
             if (totalChecked === 0) {
                 Toaster.show({message: `Please select tag`, intent: 0});
                 return;
             }
-            // Parallel with async await
-            const promises = this.state.tagsChecked.map(async tagId => {
-                return TagAction.deleteTag(tagId);
-            });
-            for (const promise of promises) {
-                await promise;
-            }
-            Toaster.show({message: `Delete ${totalChecked > 1 ? 'tags' : 'tag'} successfully`, intent: 1});
-            this.resetChecked();
-            this.getTags();
+            this.toggleUpdating(true);
+            await TagAction.deleteMultipleTag(this.state.itemsChecked);
+            this.toggleUpdating(false);
+            this.getTags(true);
+            Toaster.show({message: 'Delete tag success', intent: 1});
         }, {
             title: `Are you sure delete ${totalChecked} ${totalChecked > 1 ? 'tags' : 'tag'} ?`
         })
@@ -147,11 +151,11 @@ export default class TagListsManager extends Component {
 
     renderColumnCheckbox() {
         const checkboxProps = {
-            keyData: 'id',
-            checkedData: this.state.tagsChecked,
+            keyData: '_id',
+            checkedData: this.state.itemsChecked,
             onChange: this.handleChangeChecked
         };
-        const totalChecked = this.state.tagsChecked.length;
+        const totalChecked = this.state.itemsChecked.length;
         const buttonActions = [
             {
                 text: `Delete ${totalChecked} ${totalChecked > 1 ? 'tags' : 'tag'}`,
@@ -169,11 +173,29 @@ export default class TagListsManager extends Component {
         return <Column header={() => buttonDropDown} checkboxProps={checkboxProps} showCheckbox/>
     }
 
+    renderColumnAction() {
+        const buttonGroupDropdownProps = (tag) => ({
+            options: [
+                {text: 'Delete', onClick: () => this.handleDelete(tag._id, tag.name)}
+            ],
+            onClick: () => this.toggleEdit(tag)
+        });
+        return <Column
+            header={() => 'Actions'}
+            cell={ (tag) =>
+                <ButtonGroupDropdown className="btn-default"{...buttonGroupDropdownProps(tag)} >
+                    Edit
+                </ButtonGroupDropdown>
+            }
+        />
+    }
+
     renderTable() {
-        const {data, pagination} = this.props;
+        const {data, pagination, awaitStatuses} = this.props;
+        const isTableLoading = awaitStatuses.getTags === 'pending' || this.state.isUpdating;
         return <div>
             <Pagination {...pagination} onChange={this.handleChangePage}/>
-            <Table data={data}>
+            <Table isLoading={isTableLoading} data={data}>
                 {this.renderColumnCheckbox()}
                 <Column
                     header={() => 'Name'}
@@ -185,21 +207,9 @@ export default class TagListsManager extends Component {
                 />
                 <Column
                     header={() => 'Posts'}
-                    cell={(tag) => <Link to={`/posts?tags=${tag.name}`}>Posts</Link>}
+                    cell={(tag) => <Link to={`/posts?tags=${tag.name}`}>{tag.totalPost} {tag.totalPost > 1 ? 'posts' : 'post'}</Link>}
                 />
-                <Column
-                    header={() => 'Actions'}
-                    cell={(tag) =><div>
-                                    <ButtonGroupDropdown
-                                        className="btn-default"
-                                        options={[{text: 'Delete', onClick: () => this.handleDelete(tag.id, tag.name)}]}
-                                        onClick={() => this.toggleEdit(tag)}
-                                        >
-                                        Edit
-                                    </ButtonGroupDropdown>
-                                </div>
-                            }
-                />
+                {this.renderColumnAction()}
             </Table>
         </div>
     }
@@ -210,7 +220,7 @@ export default class TagListsManager extends Component {
             <Title marginBottom={10} element="h3"
                    styleColor="primary">{isEdit ? 'Edit tag' : 'Create tag'}</Title>
             <TagForm ref="tagForm" onSubmitTag={isEdit ? this.handleSubmitEdit : this.handleSubmitCreate}
-                     initialValues={this.state.currentTag} editable={isEdit}/>
+                     initialValues={this.state.currentItem} editable={isEdit}/>
         </div>
     }
 

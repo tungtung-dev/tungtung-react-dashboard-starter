@@ -12,21 +12,22 @@ export default class PostCreate extends Component {
     }
 
     @autobind
-    handleSubmit(dataPost, dispatch){
+    handleSubmit(dataPost, dispatch) {
         this.setState({isUpdating: true});
 
         return new Promise((resolve, reject) => {
             this.setState({isUpdating: true});
             PostApi.createPost(dataPost).then(postRes => {
-                if(postRes.slug){
+                if (postRes.slug) {
                     this.setState({isUpdating: false});
                     dispatch(updateCurrentPost(postRes));
                     dispatch(push(`/posts/edit/${postRes.slug}`));
                     Toaster.show({message: 'Created post success', intent: 1})
                     resolve();
                 }
-                else{
-                    reject({title: 'Can\'t create post'});
+                else {
+                    this.setState({isUpdating: false});
+                    reject({title: postRes.message});
                 }
             })
         });

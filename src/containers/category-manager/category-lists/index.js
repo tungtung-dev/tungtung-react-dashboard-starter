@@ -136,19 +136,15 @@ export default class CategoryListsManager extends Component {
     async handleDeleteMultipleChecked() {
         const totalChecked = this.state.itemsChecked.length;
         if (totalChecked === 0) {
-            Toaster.show({message: `Please select tag`, intent: 0});
+            Toaster.show({message: `Please select category`, intent: 0});
             return;
         }
-        // Parallel with async await
-        const promises = this.state.itemsChecked.map(async itemId => {
-            return CategoryAction.deleteTag(itemId);
-        });
-        for (const promise of promises) {
-            await promise;
-        }
-        Toaster.show({message: `Delete ${totalChecked > 1 ? 'items' : 'item'} successfully`, intent: 1});
-        this.resetChecked();
-        this.getCategories();
+        swalConfirmDelete(async () => {
+            await CategoryAction.deleteCategory(this.state.itemsChecked);
+            Toaster.show({message: `Delete ${totalChecked > 1 ? 'items' : 'item'} successfully`, intent: 1});
+            this.resetChecked();
+            this.getCategories();
+        })
     }
 
     renderColumnCheckbox() {
@@ -209,7 +205,7 @@ export default class CategoryListsManager extends Component {
     renderForm() {
         const {isEdit} = this.state;
         return <div>
-            <Title marginBottom={10} element="h3"
+            <Title marginTop={20} marginBottom={10} element="h3"
                    styleColor="primary">{isEdit ? 'Edit category' : 'Create category'}</Title>
             <CategoryForm
                 onSubmitCategory={isEdit ? this.handleSubmitEdit : this.handleSubmitCreate}
@@ -232,10 +228,8 @@ export default class CategoryListsManager extends Component {
             </Flex>
             <Box marginTop={10}>
                 <Row>
-                    <Flex alignItems="center">
-                        <Col md={4}>{this.renderForm()}</Col>
-                        <Col md={8}>{this.renderTable()}</Col>
-                    </Flex>
+                    <Col md={4}>{this.renderForm()}</Col>
+                    <Col md={8}>{this.renderTable()}</Col>
                 </Row>
             </Box>
         </CenterPaddingBox>

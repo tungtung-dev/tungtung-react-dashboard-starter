@@ -36,9 +36,9 @@ export default class PostView extends Component {
     }
 
     componentDidMount() {
-        const {params:{postSlug}, currentPost} = this.props;
-        if (currentPost.slug !== postSlug) {
-            this.props.getPost(postSlug);
+        const {params:{postKey}, currentPost} = this.props;
+        if (currentPost.slug !== postKey) {
+            this.props.getPost(postKey);
         }
     }
 
