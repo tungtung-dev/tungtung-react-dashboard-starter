@@ -3,17 +3,15 @@ import {
 } from '../actions/userAction';
 import update from 'react-addons-update';
 
-const getInitialState = () => {
-    return {
-        lists: {
-            data: [],
-            pagination: {},
-            filter: ''
-        }
-    };
+const initialState = {
+    lists: {
+        data: [],
+        pagination: {},
+        filter: ''
+    }
 }
 
-export default function createReducer (state = getInitialState(), action) {
+export default function createReducer (state = initialState, action) {
     switch (action.type){
         case GET_USERS:
             return getUsers(state, action);
@@ -27,10 +25,10 @@ export default function createReducer (state = getInitialState(), action) {
 }
 
 export function getUsers(state, action){
-    const {users, pagination} = action.payload.getUsers;
+    const {data, pagination} = action.payload.getUsers;
     return update(state, {
         lists: {
-            data: {$set: users},
+            data: {$set: data},
             pagination:{$set: pagination}
         }
     })

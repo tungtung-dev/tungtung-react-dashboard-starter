@@ -5,11 +5,13 @@ import {ToastsContainer} from './libs/index';
 
 import {getCurrenUser} from '../redux/actions/authAction';
 import {autoLoadData} from '../redux/actions/defaultLoadAction';
+import {getSettings} from '../redux/actions/settingAction';
 
 class AppContainer extends Component {
     componentDidMount() {
         this.props.getCurrenUser();
         this.props.autoLoadData();
+        this.props.getSettings();
     }
 
     render() {
@@ -30,7 +32,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dipsatch) => {
-    return bindActionCreators({getCurrenUser, autoLoadData}, dipsatch);
+    return bindActionCreators({getCurrenUser, autoLoadData, getSettings}, dipsatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

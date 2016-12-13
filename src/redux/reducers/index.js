@@ -10,6 +10,7 @@ import media from './media';
 import post from './post';
 import tag from './tag';
 import category from './category';
+import setting from './setting';
 
 export default combineReducers({
     form: formReducer,
@@ -22,5 +23,6 @@ export default combineReducers({
     alert,
     post,
     tag,
-    category
+    category,
+    setting
 })

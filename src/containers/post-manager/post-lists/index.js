@@ -1,14 +1,11 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
 import {autobind} from 'core-decorators';
-import Equal from 'deep-equal';
-
 import {POST_STATE} from 'constants/postType'
 import postAction from 'redux/actions/postAction';
 import {toShortString} from 'utils';
 import {connect} from 'utils/reduxAwait';
-import QueryManager from 'utils/location_queries';
 import {Link, Button, ButtonDropdown, ButtonGroupDropdown, SelectTag} from 'components/form';
 import {CenterPaddingBox, Box, Icon, Title, TabsFilter} from 'components/layouts';
 import {Table, Column, SearchFilterPagination} from 'components/manager';
@@ -18,6 +15,7 @@ import {
     swalConfirmDelete, swalConfirmTrash, swalRevert, swalPublish, swalDraft,
     getOptionsButtonFromState, getOptionsCheckedListsFromState
 } from '../utils';
+import {ManagerLists} from '../../libs'
 
 const TABS = [
     {value: POST_STATE.PUBLIC, text: "Publish"},
@@ -29,65 +27,39 @@ const TABS = [
     data: state.post.lists.data,
     pagination: state.post.lists.pagination
 }), (dispatch) => bindActionCreators({...postAction, push}, dispatch))
-export default class PostListsManager extends Component {
+export default class PostListsManager extends ManagerLists {
     static propTypes = {
         data: PropTypes.array,
         pagination: PropTypes.object
     }
 
-    constructor() {
-        super(...arguments);
-        this.queryManager = new QueryManager({
-            page: ['keyword', 'state', 'tags'],
-            tags: ['keyword', 'state'],
-            keyword: ['state'],
-            state: []
-        });
-        this.state = {
-            state: POST_STATE.PUBLIC,
-            tags: this.queryManager.getQuery('tags', '').split(','),
-            keyword: '',
-            isUpdating: false,
-            postsChecked: []
+    getManagerConfig() {
+        return {
+            routePath: '/posts',
+            queryLevel: {
+                page: ['keyword', 'state', 'tags'],
+                tags: ['keyword', 'state'],
+                keyword: ['state'],
+                state: []
+            },
+            defaultQueryObject: {
+                state: POST_STATE.PUBLIC,
+                page: 1,
+                itemPerPage: 10,
+            },
+            actionGetData: 'getPosts'
         }
-    }
+    };
 
-    componentDidMount() {
-        this.getPosts();
-    }
+    getStateConfig() {
+        return {
+            tags: this.queryManager.getQuery('tags', '').split(','),
+            itemsChecked: []
+        }
+    };
 
     componentWillUnmount() {
         this.props.clearPost();
-    }
-
-    componentDidUpdate(prevProps) {
-        if (!Equal(prevProps.location.query, this.props.location.query)) {
-            this.getPosts();
-        }
-    }
-
-    resetPostsChecked() {
-        this.setState({postsChecked: []})
-    }
-
-    getPosts(resetChecked = false) {
-        const query = this.queryManager.getQueryObject({
-            state: POST_STATE.PUBLIC,
-            page: 1,
-            itemPerPage: 10,
-        });
-        this.props.getPosts(query);
-        if (resetChecked) this.resetPostsChecked();
-    }
-
-    updateLocationPage(queryKey, queryValue) {
-        const queriesString = this.queryManager.updateQuery(queryKey, queryValue);
-        this.props.push(`/posts?${queriesString}`);
-    }
-
-    @autobind
-    handleChangeChecked(postsChecked = []) {
-        this.setState({postsChecked})
     }
 
     @autobind
@@ -98,11 +70,6 @@ export default class PostListsManager extends Component {
     @autobind
     handleChangeTab(state) {
         this.updateLocationPage('state', state);
-    }
-
-    @autobind
-    handleChangePage(page) {
-        this.updateLocationPage('page', page);
     }
 
     @autobind
@@ -118,19 +85,19 @@ export default class PostListsManager extends Component {
 
     @autobind
     async handleUpdateStateMultiple(postState, resetChecked = true) {
-        this.setState({isUpdating: true});
-        await postAction.updateStateMultiplePosts(this.state.postsChecked, postState);
-        this.setState({isUpdating: false});
-        this.getPosts(resetChecked)
+        this.toggleUpdating(true)
+        await postAction.updateStateMultiplePosts(this.state.itemsChecked, postState);
+        this.toggleUpdating(false)
+        this.getData(resetChecked)
         return;
     }
 
     @autobind
     async handleUpdateState(postKey, postState) {
-        this.setState({isUpdating: true});
+        this.toggleUpdating(true)
         await postAction.updatePostState(postKey, postState);
-        this.setState({isUpdating: false});
-        this.getPosts(false);
+        this.toggleUpdating(false)
+        this.getData(false);
         return;
     }
 
@@ -138,10 +105,10 @@ export default class PostListsManager extends Component {
     async handleTrashMultiple() {
         await this.handleUpdateStateMultiple(POST_STATE.TRASH, false);
         swalConfirmTrash(async() => {
-            this.setState({isUpdating: true});
-            await postAction.deleteMultiplePosts(this.state.postsChecked);
-            this.setState({isUpdating: false});
-            this.getPosts(true);
+            this.toggleUpdating(true)
+            await postAction.deleteMultiplePosts(this.state.itemsChecked);
+            this.toggleUpdating(false)
+            this.getData(true);
         });
     }
 
@@ -166,10 +133,10 @@ export default class PostListsManager extends Component {
     @autobind
     async handleDeleteMultiple() {
         swalConfirmDelete(async() => {
-            this.setState({isUpdating: true});
-            await postAction.deleteMultiplePosts(this.state.postsChecked);
-            this.setState({isUpdating: false});
-            this.getPosts(true);
+            this.toggleUpdating(true)
+            await postAction.deleteMultiplePosts(this.state.itemsChecked);
+            this.toggleUpdating(false)
+            this.getData(true);
         });
     }
 
@@ -198,10 +165,10 @@ export default class PostListsManager extends Component {
 
     async handleDelete(postKey) {
         swalConfirmDelete(async() => {
-            this.setState({isUpdating: true});
+            this.toggleUpdating(true)
             await postAction.deletePost(postKey);
-            this.setState({isUpdating: false});
-            this.getPosts();
+            this.toggleUpdating(false)
+            this.getData();
         })
     }
 
@@ -222,7 +189,7 @@ export default class PostListsManager extends Component {
         const paginationProps = {
             ...this.props.pagination,
             page: this.queryManager.getQuery('page', 1),
-            onChange: this.handleChangePage
+            onChange: this._handleChangePage
         };
 
         return <SearchFilterPagination
@@ -243,11 +210,11 @@ export default class PostListsManager extends Component {
     renderColumnCheckbox() {
         const checkboxProps = {
             keyData: 'slug',
-            checkedData: this.state.postsChecked,
-            onChange: this.handleChangeChecked
+            checkedData: this.state.itemsChecked,
+            onChange: this._handleItemsChecked
         };
         const state = this.queryManager.getQuery('state', POST_STATE.PUBLIC);
-        const totalChecked = this.state.postsChecked.length;
+        const totalChecked = this.state.itemsChecked.length;
         const buttonActions = getOptionsCheckedListsFromState(state, totalChecked, {
             onRevert: this.handleRevertMultiple,
             onTrash: this.handleTrashMultiple,
@@ -294,7 +261,7 @@ export default class PostListsManager extends Component {
 
     renderTable() {
         const {awaitStatuses} = this.props;
-        const tableIsLoading = awaitStatuses.getPosts === 'pending' || this.state.isUpdating;
+        const tableIsLoading = awaitStatuses.getData === 'pending' || this.state.isUpdating;
         return <Table
             data={this.props.data}
             isLoading={tableIsLoading}

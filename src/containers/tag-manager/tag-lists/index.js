@@ -1,15 +1,14 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
 import {autobind} from 'core-decorators';
 import {connect} from 'utils/reduxAwait';
-import QueryManager from 'utils/location_queries';
 import {CenterPaddingBox, Title, Flex, Pagination, Toaster, Row, Col, Box, Icon} from 'components/layouts';
 import {Table, Column} from 'components/manager';
 import {Button, Link, ButtonGroupDropdown, ButtonDropdown} from 'components/form';
 import TagAction from 'redux/actions/tagAction';
 import {getTags as getTagsDefault} from 'redux/actions/defaultLoadAction';
-
+import {ManagerLists} from '../../libs';
 import {Position} from '@blueprintjs/core';
 
 import TagForm from '../tag-form';
@@ -22,73 +21,28 @@ import {swalConfirmDelete} from '../utils';
         pagination
     }
 }, dispatch => bindActionCreators({...TagAction, push, getTagsDefault}, dispatch))
-export default class TagListsManager extends Component {
+export default class TagListsManager extends ManagerLists {
     static propTypes = {
         data: PropTypes.array,
         pagination: PropTypes.object
     }
 
-    state = {
-        isCreate: false,
-        isEdit: false,
-        isUpdating: false,
-        itemsChecked: [],
-        currentItem: {}
-    }
-
-    constructor() {
-        super(...arguments);
-        this.queryManager = new QueryManager({
-            page: []
-        });
-    }
-
-    componentDidMount() {
-        this.getTags();
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.location.query !== this.props.location.query) {
-            this.getTags();
+    getManagerConfig(){
+        return {
+            routePath : '/tags',
+            queryLevel: {
+                page: []
+            },
+            defaultQueryObject: {
+                page: 1,
+                itemPerPage: 10
+            },
+            actionGetData: 'getTags',
         }
     }
 
-    getTags(resetChecked) {
-        const queryObject = this.queryManager.getQueryObject({
-            page: 1,
-            itemPerPage: 6
-        });
-        this.props.getTags(queryObject);
+    superGetData(){
         this.props.getTagsDefault();
-        if (resetChecked) this.resetChecked();
-    }
-
-    resetChecked() {
-        this.handleChangeChecked([]);
-    }
-
-    updateLocationPage(queryKey, queryValue) {
-        const queriesString = this.queryManager.updateQuery(queryKey, queryValue);
-        this.props.push(`/tags?${queriesString}`);
-    }
-
-    toggleUpdating(isUpdating) {
-        this.setState({isUpdating: (isUpdating !== null && isUpdating !== undefined) ? isUpdating : !this.state.isUpdating});
-    }
-
-    @autobind
-    toggleCreate() {
-        this.setState({isCreate: true, isEdit: false, currentItem: {}});
-    }
-
-    @autobind
-    toggleEdit(currentItem = {}) {
-        this.setState({isEdit: true, isCreate: false, currentItem});
-    }
-
-    @autobind
-    handleChangePage(page) {
-        this.updateLocationPage('page', page)
     }
 
     @autobind
@@ -97,7 +51,7 @@ export default class TagListsManager extends Component {
             this.toggleUpdating(true);
             await TagAction.deleteTag(tagId);
             this.toggleUpdating(false);
-            this.getTags();
+            this.getData();
             Toaster.show({message: `Delete tag ${tagName} successfully`, intent: 1});
         })
     }
@@ -109,7 +63,7 @@ export default class TagListsManager extends Component {
         this.toggleUpdating(false);
         if (tagRes.success !== false) {
             this.toggleCreate();
-            this.getTags();
+            this.getData();
             Toaster.show({message: 'Created tag successfully', intent: 1});
             resetForm();
         }
@@ -118,19 +72,14 @@ export default class TagListsManager extends Component {
     @autobind
     async handleSubmitEdit(values) {
         this.toggleUpdating(true);
-        const tagRes = await TagAction.updateTag(this.state.currentItem.id, values.name);
+        const tagRes = await TagAction.updateTag(this.state.currentItem._id, values.name);
         this.toggleUpdating(false);
         if (tagRes.success !== false) {
-            this.getTags();
+            this.getData();
             Toaster.show({message: 'Update tag successfully', intent: 1})
         }
     }
-
-    @autobind
-    handleChangeChecked(itemsChecked = []) {
-        this.setState({itemsChecked});
-    }
-
+    
     @autobind
     async handleDeleteMultipleChecked() {
         const totalChecked = this.state.itemsChecked.length;
@@ -142,7 +91,7 @@ export default class TagListsManager extends Component {
             this.toggleUpdating(true);
             await TagAction.deleteMultipleTag(this.state.itemsChecked);
             this.toggleUpdating(false);
-            this.getTags(true);
+            this.getData(true);
             Toaster.show({message: 'Delete tag success', intent: 1});
         }, {
             title: `Are you sure delete ${totalChecked} ${totalChecked > 1 ? 'tags' : 'tag'} ?`
@@ -153,7 +102,7 @@ export default class TagListsManager extends Component {
         const checkboxProps = {
             keyData: '_id',
             checkedData: this.state.itemsChecked,
-            onChange: this.handleChangeChecked
+            onChange: this._handleItemsChecked
         };
         const totalChecked = this.state.itemsChecked.length;
         const buttonActions = [
@@ -194,7 +143,7 @@ export default class TagListsManager extends Component {
         const {data, pagination, awaitStatuses} = this.props;
         const isTableLoading = awaitStatuses.getTags === 'pending' || this.state.isUpdating;
         return <div>
-            <Pagination {...pagination} onChange={this.handleChangePage}/>
+            <Pagination {...pagination} onChange={this._handleChangePage}/>
             <Table isLoading={isTableLoading} data={data}>
                 {this.renderColumnCheckbox()}
                 <Column

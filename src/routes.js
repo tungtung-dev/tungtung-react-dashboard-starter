@@ -5,7 +5,7 @@ import {Route, IndexRoute} from 'react-router';
 // Import components
 import {
     AppContainer, AuthContainer, UserManager, Layout, PostManager,
-    TagManager, CategoryManager, Examples
+    TagManager, CategoryManager, MenuManager, SettingManager, Examples
 } from './containers/index';
 import MediaManager from './components/media-manager/index'
 import {AuthenticatedComponent as requireAuth} from './containers/libs/index';
@@ -30,7 +30,13 @@ export default () => {
                 <Route path="/users" component={UserManager.Wrapper}>
                     <IndexRoute component={UserManager.Lists}/>
                 </Route>
-                <Route path="/media" component={MediaManager}></Route>
+                <Route path="/menus" component={MenuManager.Wrapper}>
+                    <IndexRoute component={MenuManager.Lists}/>
+                </Route>
+                <Route path="/settings" component={SettingManager.Wrapper}>
+                    <IndexRoute component={SettingManager.Tabs}/>
+                </Route>
+                <Route path="/media" component={MediaManager}/>
                 <Route path="/examples/page-tabs" components={Examples.PageTabs}/>
             </Route>
             <Route path="/auth">

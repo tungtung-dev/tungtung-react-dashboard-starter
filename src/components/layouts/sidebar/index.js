@@ -14,8 +14,10 @@ export default class Sidebar extends PureComponent {
                     <MenuItem path='/posts/create' activePath={['/posts/create']} icon="icon-plus"
                               text="New post"/>
                     <MenuItem path='/tags' activePath={['/tags']} icon="icon-tag" text="Tags"/>
-                    <MenuItem path='/categories' activePath={['/categories']} icon="icon-tag"
+                    <MenuItem path='/categories' activePath={['/categories']} icon="icon-directions"
                               text="Categories"/>
+                    <MenuItem path='/menus' activePath={['/examples/page-tabs']} icon="icon-menu"
+                              text="Menus"/>
                     <MenuItem path='/examples/page-tabs' activePath={['/examples/page-tabs']} icon="icon-tag"
                               text="Example page"/>
                 </MenuOption>
@@ -27,7 +29,7 @@ export default class Sidebar extends PureComponent {
                     <MenuItem path="/examples/page-tabs" icon="icon-screen-tablet" text="Page tabs"/>
                 </MenuOption>
                 <MenuOption currentPath={this.props.currentPath} name="Options">
-                    <MenuItem path="/setting" activePath={['/setting']} icon="icon-settings" text="Setting"/>
+                    <MenuItem path="/settings" activePath={['/settings']} icon="icon-settings" text="Settings"/>
                 </MenuOption>
             </div>
         )

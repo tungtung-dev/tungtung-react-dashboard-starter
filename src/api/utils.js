@@ -6,11 +6,15 @@ export function getAuthApi(urlQuery){
 }
 
 export function getUserApi(urlQuery){
-    return api.default + path.join('/users', urlQuery);
+    return api.default + path.join('/admin/users', urlQuery);
 }
 
 export function getPostApi(urlQuery = ''){
     return api.default + path.join('/admin/posts', urlQuery);
+}
+
+export function getSettingApi(urlQuery = ''){
+    return api.default + path.join('/admin/settings', urlQuery);
 }
 
 export function getMediaApi(urlQuery){
@@ -36,6 +40,7 @@ export default {
     getAuthApi,
     getUserApi,
     getPostApi,
+    getSettingApi,
     getMediaApi,
     getDefaultApi
 }

@@ -8,7 +8,9 @@ import {restructureCategories} from '../utils';
 const convertCategoriesToOptions = (categories = [], exceptValues = [], showNoParent = true) => {
     let defaultOptions = showNoParent ? [{value: 0, label: 'No parent'}] : '';
     let customCategories = restructureCategories(categories)
-        .filter(category => exceptValues.indexOf(category.id) === -1)
+        .filter(category => {
+            return exceptValues.indexOf(category.parentRootId) === -1
+        })
         .map((category) => ({
             value: category.id,
             label: category.nameWithLine
@@ -25,7 +27,7 @@ const convertCategoriesToOptions = (categories = [], exceptValues = [], showNoPa
         options: convertCategoriesToOptions(state.defaultLoad.categories, ownProps.exceptValues, ownProps.showNoParent)
     }
 })
-export default class CategorySelect extends Component {
+export default class SelectCategory extends Component {
     static propTypes = {
         value: PropTypes.string,
         onChange: PropTypes.func
@@ -43,4 +45,4 @@ export default class CategorySelect extends Component {
         </ValidateWrapControl>
     }
 }
-CategorySelect.propTypes = {}
+SelectCategory.propTypes = {}

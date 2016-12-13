@@ -23,7 +23,7 @@ import CodeEditor from './code-editor';
 import DraftjsEditor from './draftjs';
 import MediumEditor from './medium-editor';
 
-
+import CardDragSortable from './card-drag-sortable';
 import ValidateWrapControl from './validate-wrap-control';
 import TooltipWrapper from './tooltip-wrapper';
 import DialogConfirm from './dialog-confirm';
@@ -38,7 +38,7 @@ export {
     Button, ButtonDropdown, ButtonGroupDropdown, Link, Span,
     Select, SelectDropdown, SelectTag, SelectImage, SelectImagePopover, SelectMultipleMedia,
     MDEditor, CodeEditor, DraftjsEditor, MediumEditor,
-    ValidateWrapControl, TooltipWrapper, DialogConfirm, PopoverConfirm,
+    CardDragSortable, ValidateWrapControl, TooltipWrapper, DialogConfirm, PopoverConfirm,
     MarkdownDisplay, EmojioneDisplay,
     Loader
 }
@@ -47,7 +47,7 @@ export default {
     Button, ButtonDropdown, ButtonGroupDropdown, Link, Span,
     Select, SelectDropdown, SelectTag, SelectImage, SelectImagePopover, SelectMultipleMedia,
     MDEditor, CodeEditor, DraftjsEditor, MediumEditor,
-    ValidateWrapControl, TooltipWrapper, DialogConfirm, PopoverConfirm,
+    CardDragSortable, ValidateWrapControl, TooltipWrapper, DialogConfirm, PopoverConfirm,
     MarkdownDisplay, EmojioneDisplay,
     Loader
 }

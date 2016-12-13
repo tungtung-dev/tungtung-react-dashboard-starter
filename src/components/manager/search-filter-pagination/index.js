@@ -42,7 +42,11 @@ export default class SearchFilterPagination extends PureComponent {
     renderSearch(){
         return <InputTextGroup
             leftIconName="search"
-            rightElement={<Button onClick={this.toggleFilters} className="pt-minimal pt-intent-primary pt-icon-filter" bluePrint/>}
+            rightElement={
+                this.props.isFilter ?
+                <Button onClick={this.toggleFilters} className="pt-minimal pt-intent-primary pt-icon-filter" bluePrint/>
+                : null
+            }
             placeholder="search ..."
             onChange={this.handleChangeSearch}
             onKeyDown={this.handleKeyDownSearch}

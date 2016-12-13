@@ -71,6 +71,19 @@ export function createTag(tagName){
     )
 }
 
+export function getSettings(){
+    return getFetch(
+        getDefaultApi(`/admin/settings`)
+    )
+}
+
+export function updateSettings(dataValues){
+    return postFetch(
+        getDefaultApi(`/admin/settings`),
+        dataValues
+    )
+}
+
 export default {
     getCategories,
     getCategoriesWithoutPagination,
@@ -81,6 +94,8 @@ export default {
     getTags,
     updateTag,
     createTag,
-    deleteTag
+    deleteTag,
+    getSettings,
+    updateSettings
 }
 

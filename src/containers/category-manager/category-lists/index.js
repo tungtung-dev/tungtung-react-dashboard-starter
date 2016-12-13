@@ -1,12 +1,11 @@
 // Taxonomy Name: Category, Taxonomy Lists: Categories
 // NameAction CategoryAction, getLists: getCategories, create: $ACTION_CREATE, update: updateCategory ,delete: deleteCategory
 
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
 import {autobind} from 'core-decorators';
 import {connect} from 'utils/reduxAwait';
-import QueryManager from 'utils/location_queries';
 import {CenterPaddingBox, Title, Flex, Pagination, Toaster, Row, Col, Box, Icon} from 'components/layouts';
 import {Table, Column} from 'components/manager';
 import {Button, ButtonGroupDropdown, ButtonDropdown} from 'components/form';
@@ -15,6 +14,7 @@ import {getCategories as getCategoriesDefault} from 'redux/actions/defaultLoadAc
 import {convertData} from 'common-helper';
 
 import {Position} from '@blueprintjs/core';
+import {ManagerLists} from '../../libs';
 
 import CategoryForm from '../category-form';
 import {swalConfirmDelete, restructureCategories} from '../utils';
@@ -26,68 +26,28 @@ import {swalConfirmDelete, restructureCategories} from '../utils';
         pagination
     }
 }, dispatch => bindActionCreators({...CategoryAction, getCategoriesDefault, push}, dispatch))
-export default class CategoryListsManager extends Component {
+export default class CategoryListsManager extends ManagerLists {
     static propTypes = {
         data: PropTypes.array,
         pagination: PropTypes.object
     }
 
-    state = {
-        isCreate: false,
-        isEdit: false,
-        isUpdating: false,
-        itemsChecked: [],
-        currentItem: {}
-    }
-
-    constructor() {
-        super(...arguments);
-        this.queryManager = new QueryManager({
-            page: []
-        });
-    }
-
-    componentDidMount() {
-        this.getCategories();
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.location.query !== this.props.location.query) {
-            this.getCategories();
+    getManagerConfig() {
+        return {
+            routePath: '/categories',
+            queryLevel: {
+                page: []
+            },
+            defaultQueryObject: {
+                page: 1,
+                itemPerPage: 10
+            },
+            actionGetData: 'getCategories'
         }
     }
 
-    getCategories() {
-        const queryObject = this.queryManager.getQueryObject({
-            page: 1,
-            itemPerPage: 10
-        });
-        this.props.getCategories(queryObject);
+    supperGetData() {
         this.props.getCategoriesDefault();
-    }
-
-    updateLocationPage(queryKey, queryValue) {
-        const queriesString = this.queryManager.updateQuery(queryKey, queryValue);
-        this.props.push(`/categories?${queriesString}`);
-    }
-
-    toggleUpdating(isUpdating) {
-        this.setState({isUpdating: (isUpdating !== null && isUpdating !== undefined) ? isUpdating : !this.state.isUpdating});
-    }
-
-    @autobind
-    toggleCreate() {
-        this.setState({isCreate: true, isEdit: false, currentItem: {}});
-    }
-
-    @autobind
-    toggleEdit(currentItem = {}) {
-        this.setState({isEdit: true, isCreate: false, currentItem});
-    }
-
-    @autobind
-    handleChangePage(page) {
-        this.updateLocationPage('page', page)
     }
 
     @autobind
@@ -96,7 +56,7 @@ export default class CategoryListsManager extends Component {
             this.toggleUpdating(true);
             await CategoryAction.deleteCategory(itemId);
             this.toggleUpdating(true);
-            this.getCategories();
+            this.getData();
             Toaster.show({message: `Delete category ${itemName} successfully`, intent: 1});
         })
     }
@@ -112,7 +72,7 @@ export default class CategoryListsManager extends Component {
         this.toggleUpdating(false);
         if (categoryRes.success !== false) {
             this.toggleCreate();
-            this.getCategories();
+            this.getData();
             Toaster.show({message: 'Create category successfully', intent: 1});
             resetForm();
         }
@@ -128,18 +88,9 @@ export default class CategoryListsManager extends Component {
         const categoryRes = await CategoryAction.updateCategory(this.state.currentItem.id, dataCategory);
         this.toggleUpdating(false);
         if (categoryRes.success !== false) {
-            this.getCategories();
+            this.getData();
             Toaster.show({message: 'Update category successfully', intent: 1});
         }
-    }
-
-    @autobind
-    handleChangeChecked(itemsChecked = []) {
-        this.setState({itemsChecked});
-    }
-
-    resetChecked() {
-        this.handleChangeChecked([]);
     }
 
     @autobind
@@ -149,13 +100,12 @@ export default class CategoryListsManager extends Component {
             Toaster.show({message: `Please select category`, intent: 0});
             return;
         }
-        swalConfirmDelete(async () => {
+        swalConfirmDelete(async() => {
             this.toggleUpdating(true);
             await CategoryAction.deleteMultipleCategory(this.state.itemsChecked);
             this.toggleUpdating(false);
             Toaster.show({message: `Delete ${totalChecked > 1 ? 'items' : 'item'} successfully`, intent: 1});
-            this.resetChecked();
-            this.getCategories();
+            this.getData(true);
         })
     }
 
@@ -163,7 +113,7 @@ export default class CategoryListsManager extends Component {
         const checkboxProps = {
             keyData: 'id',
             checkedData: this.state.itemsChecked,
-            onChange: this.handleChangeChecked
+            onChange: this._handleItemsChecked
         };
         const totalChecked = this.state.itemsChecked.length;
         const buttonActions = [
@@ -183,7 +133,7 @@ export default class CategoryListsManager extends Component {
         return <Column header={() => buttonDropDown} checkboxProps={checkboxProps} showCheckbox/>
     }
 
-    renderColumnAction(){
+    renderColumnAction() {
         const buttonGroupDropdownProps = (item) => ({
             options: [
                 {text: 'Delete', onClick: () => this.handleDelete(item._id, item.name)}
@@ -204,7 +154,7 @@ export default class CategoryListsManager extends Component {
         const {data, pagination, awaitStatuses} = this.props;
         const isTableLoading = awaitStatuses.getCategories === 'pending' || this.state.isUpdating;
         return <div>
-            <Pagination {...pagination} onChange={this.handleChangePage}/>
+            <Pagination {...pagination} onChange={this._handleChangePage}/>
             <Table isLoadng={isTableLoading} data={data}>
                 {this.renderColumnCheckbox()}
                 <Column

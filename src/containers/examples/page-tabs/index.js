@@ -1,9 +1,10 @@
+/* eslint-disable */
 import React, {Component} from 'react';
 import {CenterPaddingBox, Tabs, Box, Flex, Title} from '../../../components/layouts';
 import {Button, MediumEditor} from '../../../components/form';
-import MediumEditor2 from '../../../components/form/medium-editor/index2';
-import MediumEditor3 from '../../../components/form/medium-editor-base/example2';
-import MediumEditor4 from '../../../components/form/medium-editor-base/example';
+// import MediumEditor2 from '../../../components/form/medium-editor/index2';
+// import MediumEditor3 from '../../../components/form/medium-editor-base/example2';
+// import MediumEditor4 from '../../../components/form/medium-editor-base/example';
 import {ChooseImagePopoverWrap} from '../../../components/media-manager';
 import {Tab, TabList, TabPanel} from '@blueprintjs/core';
 
