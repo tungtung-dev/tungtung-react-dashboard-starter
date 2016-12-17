@@ -1,6 +1,6 @@
 import {connect as reduxConnect} from 'react-redux';
 
-export function connect(mapStateToProps, mapDispatchToProps, ...args) {
+function connect(mapStateToProps, mapDispatchToProps, ...args) {
     return reduxConnect((state, ownProps) => {
         const props = mapStateToProps(state, ownProps);
         let awaitStatuses = (state.await.statuses instanceof Array) ? {} : state.await.statuses;
@@ -8,3 +8,6 @@ export function connect(mapStateToProps, mapDispatchToProps, ...args) {
         return {...props, awaitStatuses, awaitErrors};
     }, mapDispatchToProps, ...args)
 }
+
+export {connect}
+export default connect;

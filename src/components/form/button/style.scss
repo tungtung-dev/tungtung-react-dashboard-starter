@@ -140,6 +140,11 @@ button:focus {
   }
 }
 
+.btn.btn-lg{
+  padding: .6rem 1.5rem;
+  font-size: 1rem;
+}
+
 .btn-super-sm {
   padding: 0px 1px !important;
 }
@@ -148,6 +153,7 @@ button:focus {
   border: 0px;
   &:hover, &:focus, &:active {
     background: transparent;
+    color: inherit
   }
 }
 

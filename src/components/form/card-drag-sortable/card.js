@@ -25,6 +25,7 @@ const cardTarget = {
         // Determine rectangle on screen
         const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
 
+
         // Get vertical middle
         const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
@@ -33,6 +34,13 @@ const cardTarget = {
 
         // Get pixels to the top
         const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+        const instanceXElement = clientOffset.x - hoverBoundingRect.left;
+
+        console.log(instanceXElement);
+        if(instanceXElement > 120){
+            console.log('children');
+        }
 
         // Only perform the move when the mouse has crossed half of the items height
         // When dragging downwards, only move when the cursor is below 50%

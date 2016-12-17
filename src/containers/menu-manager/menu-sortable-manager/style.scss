@@ -1,0 +1,46 @@
+.tt-menu-lists {
+  .tt-menu-card {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    .tt-card-collapse, .tt-card-expand {
+      position: absolute;
+      left: -30px;
+      top: 32%;
+      width: 15px;
+      height: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0px !important;
+      border-radius: 10px;
+      background: #eeeeee;
+      color: #333333;
+      border: 0px;
+    }
+    .tt-menu-card-container {
+      background: #fafafa;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+      border-left: 4px solid #eee;
+      display: flex;
+      align-items: center;
+      height: 35px;
+      .tt-btn-drag {
+        height: 100%;
+      }
+      .tt-menu-detail {
+      }
+    }
+  }
+  .rst__lineFullVertical:after, .rst__lineHalfHorizontalRight:before, .rst__lineHalfVerticalBottom:after, .rst__lineHalfVerticalTop:after {
+    background: #eeeeee;
+  }
+  .ReactVirtualized__Grid.ReactVirtualized__List.rst__virtualScrollOverride {
+    outline: none !important;
+  }
+}
+
+.tt-menu-popover {
+  width: 300px;
+}

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import {DOMAIN_PUBLIC} from '../config/index';
-import * as reduxAwait from './reduxAwait';
+import reduxAwait from './reduxAwait';
 
 export function getColorFromText(text, charCodeAt = 1) {
     var colors = [

@@ -3,6 +3,11 @@ import classnames from 'classnames';
 import {getStyleFromProps} from 'utils';
 import "./style.scss";
 
+const propsStyle = [
+    'boxShadow', 'borderColor', 'backgroundClor', 'marginTop', 'marginBottom',
+    'paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom'
+];
+
 export default class Box extends PureComponent{
     render(){
         let className = classnames(
@@ -11,7 +16,7 @@ export default class Box extends PureComponent{
             {[`tt-bg-color-${this.props.backgroundStyle}`]: this.props.backgroundStyle},
             {'sm': this.props.sm}
         )
-        let style = getStyleFromProps(['boxShadow', 'borderColor', 'backgroundClor', 'marginTop', 'marginBottom'], this.props);
+        let style = getStyleFromProps(propsStyle, this.props);
         return <div className={className} style={style}>
             {this.props.children}
         </div>

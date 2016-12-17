@@ -12,6 +12,7 @@ const convertCategoriesToOptions = (categories = [], exceptValues = [], showNoPa
             return exceptValues.indexOf(category.parentRootId) === -1
         })
         .map((category) => ({
+            ...category,
             value: category.id,
             label: category.nameWithLine
         }));

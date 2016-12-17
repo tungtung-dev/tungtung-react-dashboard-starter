@@ -31,11 +31,11 @@ export default class Container extends PureComponent {
                 {cards.map((card, i) => {
                     return (
                         <Card {...card}
-                              key={card.id}
-                              index={i}
-                              cardComponent={cardComponent}
-                              cardProps={cardProps}
-                              moveCard={this.moveCard} />
+                            key={card.id}
+                            index={i}
+                            cardComponent={cardComponent}
+                            cardProps={cardProps}
+                            moveCard={this.moveCard} />
                     );
                 })}
             </div>

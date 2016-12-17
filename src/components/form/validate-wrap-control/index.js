@@ -38,7 +38,7 @@ export default class ValidateWrapControl extends PureComponent {
             }
         )
 
-        let style = getStyleFromProps(['marginTop','marginBottom'], this.props);
+        let style = getStyleFromProps(['marginTop','marginBottom','marginLeft','marginRight'], this.props);
         if(this.props.noBottom){
             style = {
                 ...style,

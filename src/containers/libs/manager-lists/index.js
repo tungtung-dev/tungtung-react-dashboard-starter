@@ -58,6 +58,7 @@ export default class ManagerLists extends Component {
      */
     getData(resetChecked = false){
         const query = this.queryManager.getQueryObject(this.managerConfig.defaultQueryObject);
+        console.log(this.managerConfig.actionGetData);
         this.props[this.managerConfig.actionGetData](query);
         this.superGetData(query);
         if(resetChecked) this._resetItemChecked();

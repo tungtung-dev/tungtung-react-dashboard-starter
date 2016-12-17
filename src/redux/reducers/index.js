@@ -4,6 +4,7 @@ import {routerReducer} from 'react-router-redux';
 import awaitReducer from './await';
 import auth from './auth';
 import user from './user';
+import menu from './menu';
 import alert from './alert';
 import defaultLoad from './defaultLoad';
 import media from './media';
@@ -24,5 +25,6 @@ export default combineReducers({
     post,
     tag,
     category,
-    setting
+    setting,
+    menu
 })

@@ -32,6 +32,8 @@ export default () => {
                 </Route>
                 <Route path="/menus" component={MenuManager.Wrapper}>
                     <IndexRoute component={MenuManager.Lists}/>
+                    <Route path="create" component={MenuManager.Create}/>
+                    <Route path="edit/:menuId" component={MenuManager.Edit}/>
                 </Route>
                 <Route path="/settings" component={SettingManager.Wrapper}>
                     <IndexRoute component={SettingManager.Tabs}/>

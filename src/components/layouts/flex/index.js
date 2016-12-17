@@ -2,15 +2,18 @@ import React, {PureComponent, PropTypes} from 'react';
 import {getStyleFromProps} from '../../../utils/index';
 import {cleanProps} from '../../../utils/index';
 
-const props_clean = ['alignItems','justifyContent','flex','flexDirection','flexWrap','marginBottom','marginTop'];
+const propsStyle = [
+    'alignItems','justifyContent','flex','flexDirection','flexWrap','marginBottom','marginTop','width','height',
+    'paddingLeft', 'paddingRight'
+];
 
 export default class Flex extends PureComponent {
     render() {
         const style = {
-            ...getStyleFromProps(['alignItems','justifyContent','flex','flexDirection','flexWrap','marginBottom','marginTop','width','height'], this.props),
+            ...getStyleFromProps(propsStyle, this.props),
             display: 'flex'
         }
-        return <div {...cleanProps(props_clean, this.props)} style={style}>
+        return <div {...cleanProps(propsStyle, this.props)} style={style}>
             {this.props.children}
         </div>
     }
