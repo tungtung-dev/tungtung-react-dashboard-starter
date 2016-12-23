@@ -6,13 +6,11 @@ const initialState = {
         data: [],
         pagination: {}
     },
-    currentMenu: {
-
-    }
+    currentMenu: {}
 }
 
-export default function createReducer(state = initialState, action){
-    switch (action.type){
+export default function createReducer(state = initialState, action) {
+    switch (action.type) {
         case GET_MENUS:
             return getMenus(state, action);
         case GET_MENU:
@@ -22,7 +20,7 @@ export default function createReducer(state = initialState, action){
     }
 }
 
-export function getMenus(state, action){
+export function getMenus(state, action) {
     return update(state, {
         lists: {
             data: {
@@ -35,10 +33,18 @@ export function getMenus(state, action){
     })
 }
 
-export function getMenu(state, action){
+export function updateDeepMenuExpands(menuData) {
+    const menuDataString = JSON.stringify(menuData);
+    const newMenuDataString = menuDataString
+        .replace(/"expanded":"true"/g,`"expanded":true`)
+        .replace(/"expanded":"false"/g,`"expanded":false`);
+    return JSON.parse(newMenuDataString);
+}
+
+export function getMenu(state, action) {
     return update(state, {
         currentMenu: {
-            $set: action.payload.getMenu
+            $set: updateDeepMenuExpands(action.payload.getMenu)
         }
     })
 }
