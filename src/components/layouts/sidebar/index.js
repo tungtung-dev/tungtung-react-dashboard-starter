@@ -16,7 +16,7 @@ export default class Sidebar extends PureComponent {
                     <MenuItem path='/tags' activePath={['/tags']} icon="icon-tag" text="Tags"/>
                     <MenuItem path='/categories' activePath={['/categories']} icon="icon-directions"
                               text="Categories"/>
-                    <MenuItem path='/menus' activePath={['/examples/page-tabs']} icon="icon-menu"
+                    <MenuItem path='/menus' activePath={['/menus','/menus/edit/**','/menus/create']} icon="icon-menu"
                               text="Menus"/>
                     <MenuItem path='/examples/page-tabs' activePath={['/examples/page-tabs']} icon="icon-tag"
                               text="Example page"/>

@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import {WIDGET_CUSTOM_LINK} from '../constants';
 import {InputText} from 'components/form';
 import {autobind} from 'core-decorators';

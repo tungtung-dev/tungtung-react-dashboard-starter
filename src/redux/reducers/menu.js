@@ -36,11 +36,9 @@ export function getMenus(state, action){
 }
 
 export function getMenu(state, action){
-    const menu = state.lists.data.find(m => m.id === action.menuId);
-    if(!menu) return state;
     return update(state, {
         currentMenu: {
-            $set: menu
+            $set: action.payload.getMenu
         }
     })
 }

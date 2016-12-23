@@ -106,7 +106,7 @@ export function cleanPropsReduxForm(props) {
         [
             'initialValue', 'autofill', 'onUpdate', 'valid', 'invalid', 'dirty',
             'pristine', 'error', 'active', 'touched', 'visited', 'autofilled',
-            'noBottom', 'styleColor'
+            'noBottom', 'styleColor', 'marginRight', 'marginLeft', 'fontSize'
         ], props);
 }
 

@@ -1,7 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import {WIDGET_CATEGORY} from '../constants';
-import {Box, Title} from 'components/layouts';
-import {InputText, Button} from 'components/form';
 import {autobind} from 'core-decorators';
 import SelectCategory from '../../../category-manager/select-category';
 import Widget from '../widget';

@@ -1,19 +1,22 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {autobind} from 'core-decorators';
 import {push} from 'react-router-redux';
-import {Toaster} from 'components/layouts';
+import {Toaster, Breadcrumb} from 'components/layouts';
 import MenuSortableManager from '../menu-sortable-manager';
+import {createMenu} from 'redux/actions/menuAction';
 
 export default class MenuCreate extends Component {
     @autobind
     handleSave(menuData, dispatch){
-        console.log(menuData);
+        createMenu(menuData).then(menuRes => {
+            dispatch(push(`/menus/edit/${menuRes._id}`));
+        });
         Toaster.show({message: 'Created menu successfuly'});
     }
 
     render() {
         return <div>
-            <h4>Add menu</h4>
+            <Breadcrumb id="createMenu" name="Create Menu"/>
             <MenuSortableManager
                 onSave={this.handleSave}
             />

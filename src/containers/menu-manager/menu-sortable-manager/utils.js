@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {getDeepObject} from 'utils';
 import update from 'react/lib/update';
 

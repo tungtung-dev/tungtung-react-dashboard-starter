@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import {isDescendant} from 'react-sortable-tree';
 
-export default class NodeRendererDefault extends React.PureComponent{
+export default class MenuCard extends React.PureComponent{
     renderButtonDrag(){
         const {node, connectDragSource} = this.props;
         if (typeof node.children === 'function' && node.expanded) {
@@ -44,7 +44,7 @@ export default class NodeRendererDefault extends React.PureComponent{
     }
 
     componentDidMount(){
-        const {node, path, treeIndex} = this.props;
+        //const {node, path, treeIndex} = this.props;
         //this.props.toggleChildrenVisibility({node, path, treeIndex});
     }
 
@@ -73,7 +73,7 @@ export default class NodeRendererDefault extends React.PureComponent{
     }
 }
 
-NodeRendererDefault.propTypes = {
+MenuCard.propTypes = {
     node:          PropTypes.object.isRequired,
     path:          PropTypes.arrayOf(PropTypes.oneOfType([ PropTypes.string, PropTypes.number ])).isRequired,
     treeIndex:     PropTypes.number.isRequired,

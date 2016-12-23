@@ -45,11 +45,13 @@ export default class SettingTabs extends Component {
     render() {
         const {handleSubmit} = this.props;
         return <CenterPaddingBox>
+            <Flex alignItems="center" justifyContent="space-between" marginBottom={10}>
+                <Title element="h2" styleColor="black-white" fontWeight={600}>
+                    Setting
+                </Title>
+                <Button className="btn-default" onClick={handleSubmit(this.onSubmit)}>Cập nhật</Button>
+            </Flex>
             <Box>
-                <Flex alignItems="center" justifyContent="space-between">
-                    <Title>Setting</Title>
-                    <Button className="btn-default" onClick={handleSubmit(this.onSubmit)}>Cập nhật</Button>
-                </Flex>
                 <Tabs>
                     <TabList>
                         <Tab>General</Tab>

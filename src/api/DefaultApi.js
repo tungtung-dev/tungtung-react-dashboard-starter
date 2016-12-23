@@ -1,6 +1,5 @@
 import {getFetch, putFetch, postFetch, deleteFetch} from '../utils/fetch';
 import {getDefaultApi, convertObjectToQueryString} from './utils';
-import fakeDataMenu from '../containers/menu-manager/menu-sortable-manager/fakeData.js';
 
 export function getCategories({page = 1, itemPerPage = 10}) {
     const query = convertObjectToQueryString({
@@ -86,44 +85,35 @@ export function updateSettings(dataValues) {
 }
 
 export function getMenus({page = 1}) {
-    return new Promise((resolve, reject) => {
-        resolve({
-            data: [
-                {
-                    _id: '1',
-                    id: '1',
-                    name: 'Menu header',
-                    key: 'headerMenu',
-                    description: 'adada',
-                    data: fakeDataMenu
-                },
-                {
-                    _id: '2',
-                    id: '2',
-                    name: 'Menu footer',
-                    key: 'menu footer',
-                    data: fakeDataMenu
-                }
-            ],
-            pagination: {
-                page: page,
-                itemPerPage: 1,
-                totalItem: 20
-            }
-        })
-    });
+    return getFetch(
+        getDefaultApi('/admin/menu')
+    )
+}
+
+export function getMenu(menuId){
+    return getFetch(
+        getDefaultApi(`/admin/menu/${menuId}`)
+    )
+}
+
+export function deleteMenu(menuId){
+    return deleteFetch(
+        getDefaultApi(`/admin/menu/${menuId}`)
+    )
 }
 
 export function createMenu(menuData){
-    return new Promise((resolve, reject) => {
-        resolve(menuData);
-    })
+    return postFetch(
+        getDefaultApi('/admin/menu'),
+        menuData
+    )
 }
 
 export function updateMenu(menuId, menuData){
-    return new Promise((resolve, reject) => {
-        resolve(menuData);
-    })
+    return putFetch(
+        getDefaultApi(`/admin/menu/${menuId}`),
+        menuData
+    )
 }
 
 
@@ -142,6 +132,8 @@ export default {
     updateSettings,
     getMenus,
     createMenu,
-    updateMenu
+    getMenu,
+    updateMenu,
+    deleteMenu
 }
 

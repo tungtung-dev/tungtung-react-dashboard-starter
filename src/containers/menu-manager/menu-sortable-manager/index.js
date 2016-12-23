@@ -3,12 +3,12 @@ import {autobind} from 'core-decorators';
 import {reduxForm} from 'redux-form';
 import update from 'react/lib/update';
 import {convertData} from 'common-helper';
-import {CenterPaddingBox, Flex, Box, Row, Col, Title, Icon} from 'components/layouts';
+import {CenterPaddingBox, Flex, Box, Row, Col} from 'components/layouts';
 import {InputText, Button} from 'components/form';
 import {getDeepObject} from 'utils';
 import MenuDragSortable from './menu-drag-sortable';
 import MenuWidget from '../menu-widget';
-import fakeData from './fakeData';
+
 import "./style.scss";
 
 const fields = ['name', 'key', 'description', 'data'];
@@ -43,9 +43,11 @@ export default class MenuSortableManager extends Component {
     renderFormDescription() {
         const {fields: {name, key, description}, handleSubmit} = this.props;
         return <Flex alignItems="center" justifyContent="space-between">
-            <InputText marginRight={10} title="Name" size="lg" placeholder="Name your menu" {...name}/>
-            <InputText marginRight={10} title="Key" size="lg" placeholder="Key unique" {...key}/>
-            <InputText marginRight={10} title="Desciption" size="lg" placeholder="Description" {...description}/>
+            <Flex alignItems="center" justifyContent="space-between">
+                <InputText marginRight={10} title="Name" size="lg" placeholder="Name your menu" {...name}/>
+                <InputText marginRight={10} title="Key" size="lg" placeholder="Key unique" {...key}/>
+                <InputText marginRight={10} title="Desciption" size="lg" placeholder="Description" {...description}/>
+            </Flex>
             <div>
                 <Button onClick={handleSubmit(this.onSubmit)} className="btn-default btn-lg">Save</Button>
             </div>

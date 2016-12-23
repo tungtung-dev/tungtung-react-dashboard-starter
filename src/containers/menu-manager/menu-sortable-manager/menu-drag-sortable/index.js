@@ -1,8 +1,9 @@
+/* eslint-disable */
 import React, {PureComponent, PropTypes} from 'react';
 import {autobind} from 'core-decorators';
 import MenuCard from '../menu-card';
 import SortableTree from 'react-sortable-tree';
-import {Button, Link} from 'components/form';
+import {Button} from 'components/form';
 import {Flex, Title, Icon} from 'components/layouts';
 import {Popover, PopoverContent} from 'reactstrap';
 import {getWidgetComponent} from '../../menu-widget/utils';
@@ -118,6 +119,6 @@ export default class MenuDragSortable extends PureComponent {
 }
 
 MenuDragSortable.propTypes = {
-    treeData: PropTypes.array,
+    treeData: PropTypes.any,
     onChange: PropTypes.func
 }

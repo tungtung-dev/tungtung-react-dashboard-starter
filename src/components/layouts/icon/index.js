@@ -19,7 +19,7 @@ Icon.defaultProps = {
 Icon.propTypes = {
     name: PropTypes.string,
     styleColor: PropTypes.string,
-    fontSize: PropTypes.string,
+    fontSize: PropTypes.number,
     fontAwesome: PropTypes.bool,
     simepleLineIcon: PropTypes.bool,
     bluePrintIcon: PropTypes.bool

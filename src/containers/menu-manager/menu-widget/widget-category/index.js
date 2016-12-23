@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import {WIDGET_CATEGORY} from '../constants';
 import {autobind} from 'core-decorators';
 import SelectCategory from '../../../category-manager/select-category';
