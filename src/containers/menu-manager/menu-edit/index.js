@@ -6,8 +6,6 @@ import {Toaster, Breadcrumb} from 'components/layouts';
 import {getMenu, updateMenu} from 'redux/actions/menuAction';
 import MenuSortableManager from '../menu-sortable-manager';
 
-import fakeData from '../menu-sortable-manager/fakeData';
-
 @reduxAwait((state) => ({
     menu: state.menu.currentMenu
 }), dispatch => bindActionCreators({getMenu, updateMenu}, dispatch))
